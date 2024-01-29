@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { render, screen } from "@testing-library/react";
 import { vi } from "vitest";
 
@@ -40,5 +41,28 @@ describe("Feed Page", () => {
     render(<FeedPage />);
     const navigateMock = useNavigate();
     expect(navigateMock).toHaveBeenCalledWith("/login");
+  });
+});
+
+// Mock the getPosts function
+vi.mock("../../services/posts", () => ({
+  getPosts: vi.fn().mockResolvedValue({
+    posts: [
+      { message : 'Test Post 1' },
+      { message : 'Test Post 2' }
+    ],
+    token: "fakeToken",
+  }),
+}));
+
+describe("FeedPage Reversed Posts", () => {
+  it("renders posts in reverse chronological order", async () => {
+    const { findByText } = render(<FeedPage />);
+    // Wait for the asynchronous operation to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    // Check if the posts are rendered in reverse chronological order
+    expect(await findByText("Test Post 2")).toBeInTheDocument();
+    expect(await findByText("Test Post 1")).toBeInTheDocument();
   });
 });

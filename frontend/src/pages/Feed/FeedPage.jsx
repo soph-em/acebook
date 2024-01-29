@@ -13,7 +13,7 @@ export const FeedPage = () => {
     if (token) {
       getPosts(token)
         .then((data) => {
-          setPosts(data.posts);
+          setPosts(data.posts.reverse());
           setToken(data.token);
           window.localStorage.setItem("token", data.token);
         })
