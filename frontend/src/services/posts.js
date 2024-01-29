@@ -1,12 +1,9 @@
 // docs: https://vitejs.dev/guide/env-and-mode.html
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-export const getPosts = async (token) => {
+export const getPosts = async () => {
   const requestOptions = {
     method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
   };
 
   const response = await fetch(`${BACKEND_URL}/posts`, requestOptions);
