@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { getPosts } from "../../services/posts";
 import Post from "../../components/Post/Post";
@@ -7,10 +6,9 @@ import Post from "../../components/Post/Post";
 export const FeedPage = () => {
   const [posts, setPosts] = useState([]);
   const [token, setToken] = useState(window.localStorage.getItem("token"));
-  const navigate = useNavigate();
 
   useEffect(() => {
-    if (token) {
+    
       getPosts(token)
         .then((data) => {
           setPosts(data.posts.reverse());
@@ -20,14 +18,8 @@ export const FeedPage = () => {
         .catch((err) => {
           console.err(err);
         });
-    } else {
-      navigate("/login");
-    }
-  });
-
-  if (!token) {
-    return;
-  }
+    } 
+  );
 
   return (
     <>
