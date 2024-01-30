@@ -20,7 +20,7 @@ export const SignupPage = () => {
       if (err.message.includes("Email already exists")) {
         setErrorMessage("Email already exists. Please use a different email.");
       } else {
-        setErrorMessage("An error occurred during signup.");
+        setErrorMessage("An error occurred during signup. Must be a valid email and password must be at least 8 characters long.");
       }
     }
   };
