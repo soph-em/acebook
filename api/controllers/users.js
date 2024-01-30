@@ -10,6 +10,11 @@ const create = async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
+    if (!email || !password) {
+      console.log("Auth Error: Email and password are required");
+      return res.status(400).json({ message: "Email and password are required" });
+    }
+
     const isEmailUnique = await checkEmailUniqueness(email);
     if (!isEmailUnique) {
       console.log("Auth Error: Email already exists");
