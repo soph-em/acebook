@@ -6,6 +6,7 @@ import { signup } from "../../services/authentication";
 export const SignupPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -16,16 +17,23 @@ export const SignupPage = () => {
       navigate("/login");
     } catch (err) {
       console.error(err);
-      navigate("/signup");
+      if (err.message.includes("Email already exists")) {
+        setErrorMessage("Email already exists. Please use a different email.");
+      } else {
+        setErrorMessage("An error occurred during signup. Must be a valid email and password must be at least 8 characters long.");
+      }
     }
   };
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
+    // reset the error message when user type again
+    setErrorMessage("");
   };
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
+    setErrorMessage("");
   };
 
   return (
@@ -48,6 +56,7 @@ export const SignupPage = () => {
           onChange={handlePasswordChange}
         />
         <input role="submit-button" id="submit" type="submit" value="Submit" />
+        {errorMessage && <p>{errorMessage}</p>}
       </form>
     </>
   );
