@@ -27,6 +27,7 @@ const NewPost = ({ onNewPost }) => {
         onChange={(message) => setPostMessage(message.target.value)} // Update state on user input
         placeholder="Enter text here..."
       ></textarea>
+      <br />
       <button type="submit">Post</button>
     </form>
   );
