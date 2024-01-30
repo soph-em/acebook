@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 import { getPosts } from "../../services/posts";
 import Post from "../../components/Post/Post";
+import Logout from "../../components/Logout/Logout";
+
 
 export const FeedPage = () => {
   const [posts, setPosts] = useState([]);
@@ -37,6 +39,7 @@ export const FeedPage = () => {
           <Post post={post} key={post._id} />
         ))}
       </div>
+      <Logout/>
     </>
   );
 };
