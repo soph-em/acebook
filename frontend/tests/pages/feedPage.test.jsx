@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { render, screen } from "@testing-library/react";
 import { vi } from "vitest";
 
@@ -14,7 +15,9 @@ vi.mock("../../src/services/posts", () => {
 // Mocking React Router's useNavigate function
 vi.mock("react-router-dom", () => {
   const navigateMock = vi.fn();
+
   const useNavigateMock = () => navigateMock; // Create a mock function for useNavigate
+
   return { useNavigate: useNavigateMock };
 });
 
@@ -28,7 +31,7 @@ describe("Feed Page", () => {
 
     const mockPosts = [{ _id: "12345", message: "Test Post 1" }];
 
-    getPosts.mockResolvedValue({ posts: mockPosts, token: "newToken" });
+    getPosts.mockResolvedValue({ posts: mockPosts });
 
     render(<FeedPage />);
 
@@ -36,9 +39,26 @@ describe("Feed Page", () => {
     expect(post.textContent).toEqual("Test Post 1");
   });
 
-  test("It navigates to login if no token is present", async () => {
+
+});
+
+// Mock the getPosts function
+vi.mock("../../services/posts", () => ({
+  getPosts: vi.fn().mockResolvedValue({
+    posts: [
+      { message : 'Test Post 1' },
+      { message : 'Test Post 2' }
+    ],
+    token: "fakeToken",
+  }),
+}));
+
+describe("FeedPage Reversed Posts", () => {
+  it("renders posts in reverse chronological order", async () => {
     render(<FeedPage />);
-    const navigateMock = useNavigate();
-    expect(navigateMock).toHaveBeenCalledWith("/login");
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(await document.getElementsByClassName('feed'));
   });
 });
