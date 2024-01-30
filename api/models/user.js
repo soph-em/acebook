@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema({
     unique: true,
     required: true,
     trim: true, // Removes leading/trailing whitespace
-    lowercase: true, // Converts email to lowercase
+    lowercase: true, 
     match: [
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/, // Basic email format validation
       "Please enter a valid email address",
