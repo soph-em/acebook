@@ -1,18 +1,11 @@
 const Post = require('../models/post');
 const { generateToken } = require('../lib/token');
 
-const jwt = require('jsonwebtoken');
-
 const getAllPosts = async (req, res) => {
-  if (!req.user_id) {
-    return res.status(401).json({ posts: null });
-  }
-
   const posts = await Post.find();
-  const newToken = jwt.sign({ user_id: req.user_id }, process.env.JWT_SECRET);
-
-  res.status(200).json({ posts, token: newToken });
+  res.status(200).json({ posts });
 };
+
 const createPost = async (req, res) => {
   try {
     // Ensure 'message' field is present
