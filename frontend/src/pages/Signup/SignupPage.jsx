@@ -6,22 +6,26 @@ import { signup } from "../../services/authentication";
 export const SignupPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await signup(email, password);
+      await signup(username, email, password);
       console.log("redirecting...:");
       navigate("/login");
     } catch (err) {
       console.error(err);
-      if (err.message.includes("Email already exists")) {
-        setErrorMessage("Email already exists. Please use a different email.");
-      } else {
-        setErrorMessage("An error occurred during signup. Must be a valid email and password must be at least 8 characters long.");
-      }
+        if (err.message.includes("Email already exists")) {
+          setErrorMessage("Email already exists. Please use a different email.");
+        } else if (err.message.includes("Username already exists")){
+          setErrorMessage("Username already exists. Please use a different username.")
+        }
+        else {
+          setErrorMessage("An error occurred during signup. Must be a valid email and password must be at least 8 characters long.");
+        }
     }
   };
 
@@ -36,14 +40,21 @@ export const SignupPage = () => {
     setErrorMessage("");
   };
 
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
+    setErrorMessage("");
+  }
+
   return (
     <>
       <h2>Signup</h2>
       <form onSubmit={handleSubmit}>
+      <label htmlFor="username">Username:</label>
+        <input id="username" type="text" value={username} onChange={handleUsernameChange}></input>
         <label htmlFor="email">Email:</label>
         <input
           id="email"
-          type="text"
+          type="email"
           value={email}
           onChange={handleEmailChange}
         />
