@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    unique: true,
+    required: true,
+  },
   email: {
     type: String,
     unique: true,
@@ -17,6 +22,10 @@ const UserSchema = new mongoose.Schema({
     required: true,
     minlength: [8, "Password must be at least 8 characters long"],
   },
+  posts: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Post'
+  }]
 });
 
 
