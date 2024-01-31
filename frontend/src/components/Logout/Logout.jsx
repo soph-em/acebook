@@ -1,7 +1,7 @@
 
 const Logout = () => {
     const logoutHandle = () => {
-        localStorage.removeItem('jwtToken');
+        localStorage.removeItem('Token');
         window.location.href = '/login'; //Returns HREF of Current Page.
     }
   return (
