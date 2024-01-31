@@ -28,9 +28,15 @@ const createPost = async (req, res) => {
     });
     await newPost.save();
 
+    // Populate 'createdBy' before sending the response
+    const populatedPost = await Post.findById(newPost._id).populate(
+      "createdBy",
+      "username"
+    );
+
     // Generate a new token
     const newToken = generateToken(req.user_id);
-    res.status(201).json({ post: newPost, token: newToken }); // Return the post object
+    res.status(201).json({ post: populatedPost, token: newToken });
   } catch (error) {
     // Handle any errors
     res.status(500).json({ error: error.message });
