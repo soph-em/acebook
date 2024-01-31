@@ -47,9 +47,12 @@ export const signup = async (email, password) => {
   // docs: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/201
   if (response.status === 201) {
     return;
+  } else if (response.status === 409) {
+    throw new Error(`Email already exists. Please use a different email.`);
   } else {
     throw new Error(
-      `Received status ${response.status} when signing up. Expected 201`
+      `Received status ${response.status} when signing up. Expected 201 or 409`
     );
   }
 };
+

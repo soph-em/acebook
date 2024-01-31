@@ -50,14 +50,14 @@ describe("authentication service", () => {
       const testPassword = "12345678";
 
       fetch.mockResponseOnce(JSON.stringify({ message: "Wrong Password" }), {
-        status: 403,
+        status: 400,
       });
 
       try {
         await login(testEmail, testPassword);
       } catch (err) {
         expect(err.message).toEqual(
-          "Received status 403 when logging in. Expected 201"
+          "Received status 400 when logging in. Expected 201"
         );
       }
     });
@@ -114,7 +114,7 @@ describe("authentication service", () => {
         await signup(testEmail, testPassword);
       } catch (err) {
         expect(err.message).toEqual(
-          "Received status 400 when signing up. Expected 201"
+          "Received status 400 when signing up. Expected 201 or 409"
         );
       }
     });

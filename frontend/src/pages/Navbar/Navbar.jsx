@@ -1,9 +1,7 @@
 import "./navbar.css"
-// import {generateToken} from"api/lib/token.js"
-
+import Logout from "../../components/Logout/Logout";
 import { useState } from "react";
 
-// const newToken = generateToken(user_id)
 
 
 const Navbar = () => {
@@ -23,7 +21,7 @@ const Navbar = () => {
                     <a href="/profile">My Profile</a>
                 </li>
                 <li>
-                    <button onClick={() => setLoggedIn(false)}>Logout</button>
+                    <Logout />
                 </li>
             </>
         );
