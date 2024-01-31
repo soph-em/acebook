@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import "./navbar.css"
 import Logout from "../../components/Logout/Logout";
 import { useState } from "react";
@@ -8,14 +9,16 @@ const Navbar = () => {
     const [isLoggedIn, setLoggedIn] = useState(window.localStorage.getItem("token") !== null)
 
     let content
-    // (console.log(isLoggedIn))
 
     if (isLoggedIn) {
         // If user is logged in, show these buttons
         content = (
             <>
                 <li>
-                    <a href="/dashboard">Feed</a>
+                    <a href="/">Feed</a>
+                </li>
+                <li>
+                    <a href="/friends">Friends</a>
                 </li>
                 <li>
                     <a href="/profile">My Profile</a>
@@ -43,15 +46,6 @@ const Navbar = () => {
     return (
         <nav className="nav">
             <ul className="navLinks">
-                {/* <li>
-                    <a href="/">Home</a>
-                </li>
-                <li>
-                    <a href="/posts">Posts</a>
-                </li>
-                <li>
-                <a href="/posts">Profile</a>
-                </li> */}
                 {content}
             </ul>
         </nav>
