@@ -1,15 +1,30 @@
 // docs: https://vitejs.dev/guide/env-and-mode.html
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-export const getPosts = async () => {
+export const getUser = async () => {
   const requestOptions = {
-    method: 'GET',
+    method: "GET",
   };
 
   const response = await fetch(`${BACKEND_URL}/`, requestOptions);
 
   if (response.status !== 200) {
-    throw new Error('Unable to fetch posts');
+    throw new Error("Unable to fetch user");
+  }
+
+  const data = await response.json();
+  return data;
+};
+
+export const getPosts = async () => {
+  const requestOptions = {
+    method: "GET",
+  };
+
+  const response = await fetch(`${BACKEND_URL}/`, requestOptions);
+
+  if (response.status !== 200) {
+    throw new Error("Unable to fetch posts");
   }
 
   const data = await response.json();
@@ -18,9 +33,9 @@ export const getPosts = async () => {
 
 export const createPost = async (message, token) => {
   const requestOptions = {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ message }),
@@ -29,7 +44,7 @@ export const createPost = async (message, token) => {
   const response = await fetch(`${BACKEND_URL}`, requestOptions);
 
   if (!response.ok) {
-    throw new Error('Unable to create post');
+    throw new Error("Unable to create post");
   }
 
   const data = await response.json();

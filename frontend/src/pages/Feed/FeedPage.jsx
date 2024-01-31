@@ -1,14 +1,12 @@
-/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 
 import { getPosts, createPost } from '../../services/posts';
 import Post from '../../components/Post/Post';
 import NewPost from '../../components/Post/NewPost';
-import Navbar from '../Navbar/Navbar';
+import '../.././styles.css';
 
 export const FeedPage = () => {
   const [posts, setPosts] = useState([]);
-  // eslint-disable-next-line no-unused-vars
   const [token, setToken] = useState(window.localStorage.getItem('token'));
 
   useEffect(() => {
@@ -38,7 +36,6 @@ export const FeedPage = () => {
 
   return (
     <>
-    {/* <Navbar /> */}
       <h2>Posts</h2>
       {/* Only render the new post component if there is a token present */}
       {token && <NewPost onNewPost={handleNewPost} />}
