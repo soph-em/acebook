@@ -12,9 +12,9 @@ const checkUsernameUniqueness = async (username) => {
 
 const create = async (req, res) => {
   try {
+    const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
-    const username = req.body.username;
 
     if (!email || !password || !username) {
       console.log("Auth Error: Email and password are required");
@@ -23,7 +23,7 @@ const create = async (req, res) => {
 
     const isUsernameUnique = await checkUsernameUniqueness(username);
     if (!isUsernameUnique) {
-      console.log("Auth Eror: Username already exists");
+      console.log("Auth Error: Username already exists");
       return res.status(409).json({message: "Username already exists"})
     }
 
@@ -33,7 +33,7 @@ const create = async (req, res) => {
       return res.status(409).json({ message: "Email already exists" });
     }
 
-    const user = new User({ email, password, username });
+    const user = new User({ username, email, password });
     await user.save();
 
     console.log("User created, id:", user._id.toString());

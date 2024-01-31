@@ -2,9 +2,10 @@ const Post = require('../models/post');
 const { generateToken } = require('../lib/token');
 
 const getAllPosts = async (req, res) => {
-  const posts = await Post.find();
+  const posts = await Post.find()
   res.status(200).json({ posts });
 };
+
 
 const createPost = async (req, res) => {
   try {
@@ -19,7 +20,7 @@ const createPost = async (req, res) => {
 
     const newPost = new Post({
       message: req.body.message,
-      createdBy: req.user._id,
+      createdBy: req.user_id,
     });
     await newPost.save();
 
