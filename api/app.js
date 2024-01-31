@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const upload = require('./middleware/multerConfig');
 
 const usersRouter = require('./routes/users');
 const postsRouter = require('./routes/posts');
@@ -19,6 +20,13 @@ app.use(bodyParser.json());
 
 // API Routes
 app.use('/users', usersRouter);
+
+// Use Multer middleware for the '/upload' route
+app.post('/upload', upload.single('image'), (req, res) => {
+  // 'image' should match the field name in your form for file upload
+  res.status(200).json({ message: 'File uploaded successfully' });
+});
+
 app.use('/', postsRouter);
 app.use('/tokens', authenticationRouter);
 
