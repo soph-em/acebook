@@ -1,14 +1,17 @@
 const mongoose = require('mongoose');
+const { Schema, Types } = mongoose;
+
 
 // A Schema defines the "shape" of entries in a collection. This is similar to
 // defining the columns of an SQL Database.
 const PostSchema = new mongoose.Schema(
   {
     message: String,
+    createdBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   },
   {
     timestamps: true, // Enable automatic timestamp handling
-  }
+  },
 );
 
 // We use the Schema to create the Post model. Models are classes which we can
