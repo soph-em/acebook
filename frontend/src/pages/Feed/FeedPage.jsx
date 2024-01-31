@@ -36,13 +36,13 @@ export const FeedPage = () => {
   return (
     <>
       <h2>Posts</h2>
+      {/* Only render the new post component if there is a token present */}
+      {token && <NewPost onNewPost={handleNewPost} />}
+
       <div className="feed" role="feed">
         {posts &&
           posts.map((post) => post && <Post post={post} key={post._id} />)}
       </div>
-
-      {/* Only render the new post component if there is a token present */}
-      {token && <NewPost onNewPost={handleNewPost} />}
     </>
   );
 };
