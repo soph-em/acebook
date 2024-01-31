@@ -13,6 +13,7 @@ export const LoginPage = () => {
     try {
       const token = await login(email, password);
       window.localStorage.setItem("token", token);
+
       navigate("/");
     } catch (err) {
       console.error(err);
