@@ -21,7 +21,7 @@ const NewPost = ({ onNewPost }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} data-testid="new-post-form">
       <textarea
         value={postMessage} // linked to postMessage state
         onChange={(message) => setPostMessage(message.target.value)} // Update state on user input
