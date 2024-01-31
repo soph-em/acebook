@@ -5,6 +5,7 @@ import { login, signup } from "../../src/services/authentication";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
+
 // Mock fetch function
 createFetchMock(vi).enableMocks();
 
