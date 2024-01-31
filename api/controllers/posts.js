@@ -1,17 +1,21 @@
-const Post = require('../models/post');
-const { generateToken } = require('../lib/token');
+const Post = require("../models/post");
+const { generateToken } = require("../lib/token");
 
 const getAllPosts = async (req, res) => {
-  const posts = await Post.find()
-  res.status(200).json({ posts });
+  try {
+    // Populate 'createdBy' with user details, specifically 'username'
+    const posts = await Post.find().populate("createdBy", "username");
+    res.status(200).json({ posts });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
-
 
 const createPost = async (req, res) => {
   try {
     // Ensure 'message' field is present
     if (!req.body.message) {
-      return res.status(400).json({ error: 'Message is required' });
+      return res.status(400).json({ error: "Message is required" });
     }
 
     // // Create and save the post
