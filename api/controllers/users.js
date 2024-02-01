@@ -46,10 +46,6 @@ const create = async (req, res) => {
   }
 };
 
-// create a get user by id function
- const getUserById = async (req, res) => {
-  
-
 const UsersController = {
   create: create,
 };
