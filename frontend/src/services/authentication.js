@@ -20,7 +20,14 @@ export const login = async (email, password) => {
   if (response.status === 201) {
     let data = await response.json();
     return data.token;
-  } else {
+  } else if (response.status === 401) {
+    let errorData = await response.json()
+    if (errorData.message === 'Password incorrect') {
+      throw new Error('Password is incorrect.')
+    } else if (errorData.message === 'User not found'){
+      throw new Error('User not found')
+    }
+  }else {
     throw new Error(
       `Received status ${response.status} when logging in. Expected 201`
     );
