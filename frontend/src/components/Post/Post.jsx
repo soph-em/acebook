@@ -9,8 +9,10 @@ const Post = (props) => {
   return (
     <article key={props.post._id}>
       <p>{props.post.message}</p>
-      <p>Posted by: {username}</p>
-      <p>Posted on: {formattedDate}</p>
+      <p style={{ fontSize: "small", color: "grey" }}>Posted by: {username}</p>
+      <p style={{ fontSize: "x-small", color: "grey" }}>
+        Posted on: {formattedDate}
+      </p>
       <Comments
         postId={props.post._id}
         token={token}

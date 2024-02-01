@@ -47,6 +47,10 @@ const Comments = ({ postId, token, allowComments }) => {
 
   return (
     <div>
+      {comments.map((comment) => (
+        <div key={comment._id}>{comment.message}</div>
+      ))}{" "}
+      <br />
       {allowComments && (
         <form onSubmit={handleCommentSubmit}>
           <input
@@ -58,9 +62,6 @@ const Comments = ({ postId, token, allowComments }) => {
           <button type="submit">Add Comment</button>
         </form>
       )}
-      {comments.map((comment) => (
-        <div key={comment._id}>{comment.message}</div>
-      ))}
     </div>
   );
 };

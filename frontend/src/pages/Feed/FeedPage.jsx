@@ -53,7 +53,8 @@ export const FeedPage = () => {
                   key={post._id}
                   token={token}
                   // if token is null, undefined, or an empty string (meaning the
-                  // user is not authenticated or the token is not present), !!token evaluates to false.
+                  // user is not authenticated or the token is not present),
+                  // !!token evaluates to false and comments are not rendered
                   allowComments={!!token}
                 />
               )
