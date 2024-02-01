@@ -7,12 +7,13 @@ const Post = (props) => {
   const allowComments = props.allowComments;
 
   return (
-    <article key={props.post._id}>
-      <p>{props.post.message}</p>
-      <p style={{ fontSize: "small", color: "grey" }}>Posted by: {username}</p>
-      <p style={{ fontSize: "x-small", color: "grey" }}>
-        Posted on: {formattedDate}
-      </p>
+    <article
+      key={props.post._id}
+      className="bg-white shadow-lg rounded-lg p-4 my-4"
+    >
+      <p className="text-blue-800 text-lg">{props.post.message}</p>
+      <p className="text-sm text-gray-500">Posted by: {username}</p>
+      <p className="text-xs text-gray-400">Posted on: {formattedDate}</p>
       <Comments
         postId={props.post._id}
         token={token}
