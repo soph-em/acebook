@@ -11,29 +11,19 @@ const checkUsernameUniqueness = async (username) => {
 };
 
 const getUser = async (req, res) => {
+  console.log(req.user_id);
   try {
-    console.log(req.body);
-    // console.log("test1");
-    userId = 123;
-    // const userId = req.user.id;
-    if (!userId) {
-      console.log("Log in required");
-      return res
-        .status(400)
-        .json({ message: "You need to be logged in to view this page" });
-    }
+    const user = await User.findById(req.user_id);
 
-    let user = await User.findById(mongoose.Types.ObjectId(userId));
     if (!user) {
-      console.log("User not found");
       return res.status(404).json({ message: "User not found" });
     }
 
-    const username = user.username;
-    res.status(200).json({ username });
+    // Send back the user profile information you wish to expose
+    res.status(200).json({ username: user.username, email: user.email });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Something went wrong" });
+    res.status(500).json({ message: error.message });
   }
 };
 
