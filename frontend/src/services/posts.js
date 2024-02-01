@@ -16,15 +16,16 @@ export const getPosts = async () => {
   return data;
 };
 
-export const createPost = async (message, token) => {
+export const createPost = async (message, imageUrl, token) => {
   const requestOptions = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ message }),
+    body: JSON.stringify({ message, imageUrl }),
   };
+  try{
 
   const response = await fetch(`${BACKEND_URL}`, requestOptions);
 
@@ -34,4 +35,8 @@ export const createPost = async (message, token) => {
 
   const data = await response.json();
   return data;
+} catch (error) {
+  console.error('Error creating post:', error.message);
+  throw error; // rethrow the error for higher-level handling
+}
 };
