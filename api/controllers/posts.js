@@ -1,7 +1,6 @@
 const Post = require("../models/post");
 const { generateToken } = require("../lib/token");
-// npm install multer in api
-const multer = require('multer');
+const cloudinary = require('cloudinary').v2;
 
 const getAllPosts = async (req, res) => {
   try {
@@ -21,15 +20,17 @@ const createPost = async (req, res) => {
     }
 
     // Check if an image file was uploaded in the incoming request using Multier
-    let image = null;
-    if (req.file) {
+    let imageUrl = null;
+    if (req.body.imageUrl) {
+      console.log(req.file);
       // If image added, save the image URL 
-      image = `./uploads/${req.file.filename}`; 
+      imageUrl= req.body.imageUrl;
+      // imageUrl = req.file.secure_url;
     }
 
     const newPost = new Post({
       message: req.body.message,
-      image: image,
+      image: imageUrl,
       createdBy: req.user_id,
     });
     await newPost.save();
