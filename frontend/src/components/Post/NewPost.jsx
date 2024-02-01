@@ -32,9 +32,17 @@ const NewPost = ({ onNewPost }) => {
 
   return (
     <form onSubmit={handleSubmit} data-testid="new-post-form">
+            {/* Display the selected image, if available */}
+            {image && (
+        <img
+          src={image}
+          alt="Selected"
+          style={{ maxWidth: '100%', maxHeight: '400px' }}
+        />
+      )}
       <textarea
-        value={postMessage} // linked to postMessage state
-        onChange={(message) => setPostMessage(message.target.value)} // Update state on user input
+        value={postMessage} 
+        onChange={(message) => setPostMessage(message.target.value)} 
         placeholder="Enter text here..."
       ></textarea>
 

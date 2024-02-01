@@ -29,7 +29,7 @@ const createPost = async (req, res) => {
     }
 
     const newPost = new Post({
-      message: req.body.message,
+      message: req.body.message || '',
       image: imageUrl,
       createdBy: req.user_id,
     });
