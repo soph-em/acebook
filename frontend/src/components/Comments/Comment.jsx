@@ -18,6 +18,8 @@ const Comments = ({ postId, token, allowComments }) => {
       .catch((error) => console.error(error));
   }, [postId]);
 
+  // Async function to handle comment submission. Prevents default form submission
+  // and checks if the comment is not empty or just whitespace.
   const handleCommentSubmit = async (event) => {
     event.preventDefault();
     if (!newComment.trim()) return;
@@ -48,7 +50,9 @@ const Comments = ({ postId, token, allowComments }) => {
   return (
     <div>
       {comments.map((comment) => (
-        <div key={comment._id}>{comment.message}</div>
+        <div key={comment._id} style={{ fontSize: "smaller" }}>
+          {comment.message}
+        </div>
       ))}{" "}
       <br />
       {allowComments && (
