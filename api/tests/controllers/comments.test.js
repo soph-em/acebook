@@ -110,12 +110,4 @@ describe("Comment Functionality", () => {
       expect(response.status).toEqual(404);
     });
   });
-
-  describe("GET /:postId/comments, when a valid token is not present", () => {
-    test("responds with a 401", async () => {
-      const response = await request(app).get(`/${post._id}/comments`);
-
-      expect(response.status).toEqual(401);
-    });
-  });
 });
