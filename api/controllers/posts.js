@@ -15,7 +15,7 @@ const getAllPosts = async (req, res) => {
 const createPost = async (req, res) => {
   try {
     // Ensure 'message' field is present
-    if (!req.body.message) {
+    if (!req.body.message && !req.body.imageUrl) {
       return res.status(400).json({ error: "Message is required" });
     }
 
