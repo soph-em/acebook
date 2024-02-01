@@ -7,6 +7,7 @@ const { Schema, Types } = mongoose;
 const PostSchema = new mongoose.Schema(
   {
     message: String,
+    image: String,
     createdBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   },
   {
