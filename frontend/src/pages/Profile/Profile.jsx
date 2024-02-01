@@ -1,33 +1,22 @@
 import Navbar from "../Navbar/Navbar";
 import { useState, useEffect } from "react";
-import { getUser } from '../../services/posts';
+import { getUser } from "../../services/users";
 
 
 export const Profile = () => {
   const [username, setUsername] = useState('');
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/api/profile', {
-          method: 'GET',
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch user profile');
-        }
-
-        const user = await response.json();
-        const fetchedUsername = await getUser(user._id);
-        setUsername(fetchedUsername);
-        console.log(fetchedUsername);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData(); // Call the function directly
-  }, []);
+    getUser()
+    .then((data) => {
+        console.log(data)
+        setUsername(data.username);
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+}, []);
+    console.log(username);
 
   return (
     <>

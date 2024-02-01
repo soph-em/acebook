@@ -12,7 +12,10 @@ const checkUsernameUniqueness = async (username) => {
 
 const getUser = async (req, res) => {
   try {
-    const userId = req.user._id;
+    console.log(req.body);
+    // console.log("test1");
+    userId = 123;
+    // const userId = req.user.id;
     if (!userId) {
       console.log("Log in required");
       return res

@@ -8,7 +8,7 @@ const Post = (props) => {
   return (
     <article key={props.post._id}>
       <p>{props.post.message}</p>
-      <p>Posted by: {username}</p> {/* Updated this line */}
+      <p>Posted by: {username}</p> 
       <p>Posted on: {formattedDate}</p>
     </article>
   );
