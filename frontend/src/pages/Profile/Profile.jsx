@@ -5,9 +5,11 @@ import { getUser } from "../../services/users";
 
 export const Profile = () => {
   const [username, setUsername] = useState('');
+  const [token, setToken] = useState(window.localStorage.getItem('token'));
+
 
   useEffect(() => {
-    getUser()
+    getUser(token)
     .then((data) => {
         console.log(data)
         setUsername(data.username);
@@ -15,7 +17,7 @@ export const Profile = () => {
     .catch((err) => {
         console.log(err);
     })
-}, []);
+}, [token]);
     console.log(username);
 
   return (

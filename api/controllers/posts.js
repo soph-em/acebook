@@ -18,10 +18,6 @@ const createPost = async (req, res) => {
       return res.status(400).json({ error: "Message is required" });
     }
 
-    // // Create and save the post
-    // const post = new Post(req.body);
-    // await post.save();
-
     const newPost = new Post({
       message: req.body.message,
       createdBy: req.user_id,
