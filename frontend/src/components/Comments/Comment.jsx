@@ -51,9 +51,9 @@ const Comments = ({ postId, token, allowComments }) => {
     <div>
       {comments.map((comment) => (
         <div key={comment._id} style={{ fontSize: "smaller" }}>
-          {comment.message}
+          <strong>{comment.createdBy.username}:</strong> {comment.message}
         </div>
-      ))}{" "}
+      ))}
       <br />
       {allowComments && (
         <form onSubmit={handleCommentSubmit}>
