@@ -49,7 +49,6 @@ export const signup = async (username, email, password) => {
   };
 
   let response = await fetch(`${BACKEND_URL}/users`, requestOptions);
-
   if (response.status === 201) {
     return;
   } else if (response.status === 409) {
