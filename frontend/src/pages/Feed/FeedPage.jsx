@@ -24,7 +24,7 @@ export const FeedPage = () => {
   }, []); // Empty dependency array ensures this runs only once on component mount
 
   const handleNewPost = async (message, imageUrl) => {
-    console.log(message)
+    console.log(message);
     if (!token) {
       console.error("No token provided");
       return; // Exit if no token is present
@@ -41,7 +41,8 @@ export const FeedPage = () => {
   return (
     <>
       {/* <Navbar /> */}
-      <h2>Posts</h2>
+      <h2 className="text-blue-500 font-bold">Posts</h2>
+      <br />
       {/* Only render the new post component if there is a token present */}
       {token && <NewPost onNewPost={handleNewPost} />}
 
