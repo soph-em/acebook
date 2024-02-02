@@ -26,7 +26,7 @@ describe("Home Page", () => {
       </BrowserRouter>
     );
 
-    const loginLink = screen.getByText("Log In");
+    const loginLink = screen.getByText("Login");
     expect(loginLink.getAttribute("href")).toEqual("/login");
   });
 });

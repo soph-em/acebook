@@ -6,6 +6,21 @@ import { FeedPage } from '../../src/pages/Feed/FeedPage';
 import { getPosts } from '../../src/services/posts';
 import { useNavigate } from 'react-router-dom';
 
+// Mocking the cloudinary library
+vi.mock('cloudinary', () => {
+  const createUploadWidgetMock = vi.fn().mockReturnValue({
+    open: vi.fn(),
+    close: vi.fn(),
+    // Add other methods as needed for your test
+  });
+
+  const cloudinaryMock = {
+    createUploadWidget: createUploadWidgetMock,
+  };
+
+  return cloudinaryMock;
+});
+
 // Mocking the getPosts service
 vi.mock('../../src/services/posts', () => {
   const getPostsMock = vi.fn();
@@ -20,6 +35,7 @@ vi.mock('react-router-dom', () => {
 
   return { useNavigate: useNavigateMock };
 });
+
 
 describe('Feed Page', () => {
   beforeEach(() => {
