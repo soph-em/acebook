@@ -1,7 +1,7 @@
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import { useState, useEffect } from "react";
 
-const Comments = ({ postId, token, allowComments }) => {
+const Comments = ({ postId, token, allowComments, username }) => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
 
@@ -40,20 +40,26 @@ const Comments = ({ postId, token, allowComments }) => {
     const data = await response.json();
 
     if (response.ok) {
-      setComments([...comments, data.comment]);
-      setNewComment("");
+      // Manually add the username to the new comment object for immediate UI update
+      const newCommentWithUsername = {
+        ...data.comment,
+        createdBy: { username: username },
+      };
+      console.log(newCommentWithUsername);
+      setComments([...comments, newCommentWithUsername]); // Update the comments state
+      setNewComment(""); // Reset the new comment input field
     } else {
       console.error("Failed to post comment");
     }
   };
-
+  console.log("Username prop:", username);
   return (
     <div>
       {comments.map((comment) => (
         <div key={comment._id} style={{ fontSize: "smaller" }}>
           <strong className="text-blue-500">
-            {comment.createdBy.username}:
-          </strong>{" "}
+            {comment.createdBy.username || "Unknown User"}:
+          </strong>
           {comment.message}
         </div>
       ))}
@@ -66,7 +72,13 @@ const Comments = ({ postId, token, allowComments }) => {
             onChange={(e) => setNewComment(e.target.value)}
             placeholder="Write a comment..."
           />
-          <button type="submit">Add Comment</button>
+          <div style={{ marginTop: "10px" }}></div> {/* Add a small gap */}
+          <button
+            type="submit"
+            className="bg-blue-400 text-white py-1 px-4 rounded-md hover:bg-blue-700"
+          >
+            Add Comment
+          </button>
         </form>
       )}
     </div>
