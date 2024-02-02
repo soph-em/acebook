@@ -59,7 +59,7 @@ const Comments = ({ postId, token, allowComments, username }) => {
         <div key={comment._id} style={{ fontSize: "smaller" }}>
           <strong className="text-blue-500">
             {comment.createdBy.username || "Unknown User"}:
-          </strong>
+          </strong>{" "}
           {comment.message}
         </div>
       ))}
