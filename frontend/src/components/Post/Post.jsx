@@ -15,6 +15,7 @@ const Post = (props) => {
       <p>{props.post.message}</p>
       <p>Posted on: {formattedDate}</p>
     </article>
+    {/* Displays Like Button and Counter (With Number Likes.)*/}
     <LikeButton postId={props.post._id} postLikes={likes} setLikes={setLikes}/>
     <LikeCounter likes={likes}/>
     </>

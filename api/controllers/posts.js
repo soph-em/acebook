@@ -27,37 +27,14 @@ const createPost = async (req, res) => {
   }
 };
 
+//Controller Method for Updating Likes
 const updateLikes = async (req, res) => {
   const post = await Post.findById(req.params.id);
   post.likes.push(req.user_id);
   await post.save()
   res.status(200).json({ post, user: req.user_id });
   
-  //add to likes array of post found, updates in db
-  //mongoose db find update - documentation
-  /*try {
-    if (!req.body.userId) {
-      return res.status(400).json({ error: 'Not Liked' });
-    }
-
-    const postToLike = await Post.findById(req.params.postId);
-  
-  if (postToLike.likes.find(x => x.id === request.body.userId))
-  {
-    postToLike.likes = postToLike.likes.filter(x => x.id !== request.body.userId)
-  } else {
-    postToLike.likes = [...postToLike.likes, req.body.userId]
-    
-  }
-  return res.status(203)
-  } catch (error) {
-    // Handle any errors
-    res.status(500).json({ error: error.message });
-  }*/
 }
-// find user
-// put into likes array
-// know which post liking
 
 const PostsController = {
   getAllPosts: getAllPosts,
