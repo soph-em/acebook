@@ -35,3 +35,23 @@ export const createPost = async (message, token) => {
   const data = await response.json();
   return data;
 };
+
+export const likePost = async (userId, postId, token) => {
+  const requestOptions = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ userId }),
+  };
+
+  const response = await fetch(`${BACKEND_URL}/like/${postId}`, requestOptions);
+
+  if (!response.ok) {
+    throw new Error('Unable to create post');
+  }
+
+  const data = await response.json();
+  return data;
+};

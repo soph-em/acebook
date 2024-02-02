@@ -28,8 +28,11 @@ const createPost = async (req, res) => {
 };
 
 const updateLikes = async (req, res) => {
-  const posts = await Post.findById(req.params.postId);
-  res.status(200).json({ posts, user: req.body.userId });
+  const post = await Post.findById(req.params.id);
+  post.likes.push(req.user_id);
+  await post.save()
+  res.status(200).json({ post, user: req.user_id });
+  
   //add to likes array of post found, updates in db
   //mongoose db find update - documentation
   /*try {
