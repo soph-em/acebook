@@ -7,6 +7,7 @@ describe('Post component', () => {
     // Mock post data with a createdAt property
     const mockPost = {
       message: 'test message',
+      createdBy: 'test user',
       createdAt: new Date().toISOString(), // Use a valid date string
     };
 
