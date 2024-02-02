@@ -2,30 +2,59 @@
     box-sizing: border-box;
 }
 
-body {margin: 0;
+body {
+    margin: 0;
 }
 
 .nav {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 0 1rem;
     gap: 2rem;
     background-color: rgb(174, 174, 174);
 }
 
-.nav ul {
+.navLinks {
     list-style: none;
     display: flex;
-    padding: 0;
+    justify-content: space-between;
+    align-items: left;
+    padding: 0.5rem 1rem;
     margin: 0;
-    gap: 1rem
+    gap: 1rem;
 }
 
-.nav a {
+li {
     display: flex;
+    justify-content: flex-start;
+    border-radius: 5px;
 }
 
-.navTitle {
-    font-size: 2rem;
+li:hover {
+    transition: 0.7s;
+    background-color: #999999;
+    color: white;
 }
+
+li a {
+    padding: 0.2rem 0.5rem;
+    color: whitesmoke;
+}
+
+li a:hover{
+    color: whitesmoke;
+
+}
+
+.logout-btn {
+display: flex;
+margin-left: auto;
+margin-right: 1rem;
+align-items: center;
+}
+
+/* Sets the highlighting for the page the user is on */
+.active {
+    background-color: #6f7d94;
+    color: rgb(255, 255, 255);
+    border-radius: 5px;
+    }

@@ -20,14 +20,15 @@ export const FeedPage = () => {
       });
   }, []); // Empty dependency array ensures this runs only once on component mount
 
-  const handleNewPost = async (message) => {
+  const handleNewPost = async (message, imageUrl) => {
+    console.log(message)
     if (!token) {
       console.error('No token provided');
       return; // Exit if no token is present
     }
 
     try {
-      const response = await createPost(message, token);
+      const response = await createPost(message, imageUrl, token);
       setPosts((prevPosts) => [response.post, ...prevPosts]);
     } catch (error) {
       console.error('Error creating post: ', error);

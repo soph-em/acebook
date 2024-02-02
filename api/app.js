@@ -7,6 +7,7 @@ const postsRouter = require("./routes/posts");
 const authenticationRouter = require("./routes/authentication");
 const tokenChecker = require("./middleware/tokenChecker");
 
+
 const app = express();
 
 // Allow requests from any client
@@ -18,9 +19,11 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // API Routes
+
 app.use("/users", usersRouter);
 app.use("/", postsRouter);
 app.use("/tokens", authenticationRouter);
+
 
 // 404 Handler
 app.use((_req, res) => {

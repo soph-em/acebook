@@ -1,13 +1,14 @@
 /* eslint-disable no-unused-vars */
 import "./navbar.css"
 import Logout from "../../components/Logout/Logout";
+
 import { useState } from "react";
 
 
 
 const Navbar = () => {
     const [isLoggedIn, setLoggedIn] = useState(window.localStorage.getItem("token") !== null)
-
+    const currentURL = window.location.pathname
     let content
 
     if (isLoggedIn) {
@@ -15,16 +16,17 @@ const Navbar = () => {
         content = (
             <>
                 <li>
-                    <a href="/">Feed</a>
+                    {/* This line will need to be added for each of the other pages
+                    once they have been made, only need to add the path to make it work */}
+                    <a href="/" className={currentURL === "/" ? "active" : ""}>Feed</a>
                 </li>
+
                 <li>
                     <a href="/friends">Friends</a>
                 </li>
+                
                 <li>
                     <a href="/profile">My Profile</a>
-                </li>
-                <li>
-                    <Logout />
                 </li>
             </>
         );
@@ -34,51 +36,24 @@ const Navbar = () => {
         content = (
             <>
                 <li>
-                    <a href="/login">Login</a>
+                    <a href="/login" className={currentURL === "/login" ? "active" : ""}>Login</a>
                 </li>
                 <li>
-                    <a href="/signup">Sign Up</a>
+                    <a href="/signup" className={currentURL === "/signup" ? "active" : ""}>Sign Up</a>
                 </li>
             </>
         );
     }
-
+    
     return (
         <nav className="nav">
             <ul className="navLinks">
                 {content}
             </ul>
+            <Logout />
         </nav>
     );
 }
 
 export default Navbar;
 
-
-
-
-
-
-
-// const Navbar = () => {
-//     return (
-        
-//         <nav className="nav">
-//             <a className ="navTitle" href ="/">Acebook</a>
-//             <ul className="navLinks">
-//                 <li>
-//                     <a href = "/posts">Home</a>
-//                 </li>
-//                 <li>
-//                     <a href="/posts">Posts</a>
-//                 </li>
-//                 <li>
-//                     {/* will route once we have a profile page */}
-//                     <a href="">Profile</a>
-//                 </li>
-//             </ul>
-//         </nav> 
-//     )
-// }
-
-// export default Navbar
