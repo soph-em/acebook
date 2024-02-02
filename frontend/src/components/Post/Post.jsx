@@ -11,8 +11,10 @@ const Post = (props) => {
       key={props.post._id}
       className="bg-white shadow-lg rounded-lg p-4 my-4"
     >
-      <p className="text-blue-800 text-lg">{props.post.message}</p>
-      <p className="text-sm text-gray-500">Posted by: {username}</p>
+      <p className="text-gray-800 text-lg">{props.post.message}</p>
+      <p className="text-sm">
+        Posted by: <span className="text-blue-500">{username}</span>
+      </p>
       <p className="text-xs text-gray-400">Posted on: {formattedDate}</p>
       <Comments
         postId={props.post._id}

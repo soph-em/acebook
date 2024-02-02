@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { getPosts, createPost } from "../../services/posts";
 import Post from "../../components/Post/Post";
 import NewPost from "../../components/Post/NewPost";
+import "../.././styles.css";
 import Navbar from "../Navbar/Navbar";
 
 export const FeedPage = () => {

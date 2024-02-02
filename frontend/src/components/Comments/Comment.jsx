@@ -51,7 +51,10 @@ const Comments = ({ postId, token, allowComments }) => {
     <div>
       {comments.map((comment) => (
         <div key={comment._id} style={{ fontSize: "smaller" }}>
-          <strong>{comment.createdBy.username}:</strong> {comment.message}
+          <strong className="text-blue-500">
+            {comment.createdBy.username}:
+          </strong>{" "}
+          {comment.message}
         </div>
       ))}
       <br />
