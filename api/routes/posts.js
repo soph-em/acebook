@@ -6,6 +6,5 @@ const PostsController = require('../controllers/posts');
 
 router.get('/', tokenChecker, PostsController.getAllPosts);
 router.post('/', tokenChecker, PostsController.createPost);
-router.put('/like/:postId', tokenChecker, PostsController.updateLikes);
-
+router.put('/:postId/like', tokenChecker, PostsController.updateLikes);
 module.exports = router;

@@ -31,6 +31,7 @@ const updateLikes = async (req, res) => {
   const posts = await Post.findById(req.params.postId);
   res.status(200).json({ posts, user: req.body.userId });
   //add to likes array of post found, updates in db
+  //mongoose db find update - documentation
   /*try {
     if (!req.body.userId) {
       return res.status(400).json({ error: 'Not Liked' });

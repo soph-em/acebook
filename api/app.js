@@ -21,6 +21,9 @@ app.use(bodyParser.json());
 app.use('/users', usersRouter);
 app.use('/', postsRouter);
 app.use('/tokens', authenticationRouter);
+app.use('/like/:id',() => (
+  console.log("BOO")
+) )
 
 
 // 404 Handler
