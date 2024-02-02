@@ -11,7 +11,7 @@ const checkUsernameUniqueness = async (username) => {
 };
 
 const getUser = async (req, res) => {
-  console.log(req.user_id);
+  // console.log(req.user_id);
   try {
     const user = await User.findById(req.user_id);
 
