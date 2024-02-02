@@ -19,7 +19,7 @@ const NewPost = ({ onNewPost }) => {
     event.preventDefault();
     console.log(postMessage);
     console.log(image);
-    // Check if postMessage is not   empty
+    // Check if postMessage is not empty
     if (postMessage || image) {
       // Call the onNewPost function passed from the parent component with the message
       onNewPost(postMessage, image);
