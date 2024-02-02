@@ -43,7 +43,7 @@ const Comments = ({ postId, token, allowComments, username }) => {
       // Manually add the username to the new comment object for immediate UI update
       const newCommentWithUsername = {
         ...data.comment,
-        createdBy: { username: username },
+        createdBy: { username },
       };
       console.log(newCommentWithUsername);
       setComments([...comments, newCommentWithUsername]); // Update the comments state

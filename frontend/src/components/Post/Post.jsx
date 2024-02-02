@@ -34,10 +34,11 @@ const Post = (props) => {
         <div className="text-xs text-gray-400">Posted on: {formattedDate}</div>
       </div>
       <Comments
+        key={currentUsername} // Add a key to force a re-render when the username changes
         postId={props.post._id}
         token={token}
-        allowComments={allowComments}
         username={username}
+        allowComments={allowComments}
       />
     </article>
   );
