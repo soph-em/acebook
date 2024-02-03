@@ -1,69 +1,50 @@
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+// This code defines a React component called "Comments" that displays comments and allows users to add new comments.
+
 import { useState, useEffect } from "react";
+import { fetchComments, postComment } from "../../services/comments";
 
-const Comments = ({ postId, token, allowComments, username }) => {
-  const [comments, setComments] = useState([]);
-  const [newComment, setNewComment] = useState("");
+const Comments = ({ postId, token, allowComments }) => {
+  // Initialize state variables using the useState hook
+  const [comments, setComments] = useState([]); // Stores the fetched comments
+  const [newComment, setNewComment] = useState(""); // Stores the value of the new comment input field
+  const [newCommentAdded, setNewCommentAdded] = useState(null); // Triggers useEffect when a new comment is added
 
+  // Fetch comments from the server when the postId or newCommentAdded value changes
   useEffect(() => {
-    // fetch data from mongodb
-    fetch(`${BACKEND_URL}/${postId}/comments`)
-      .then((response) => response.json())
-      .then((data) => {
-        // Check if the 'comments' array exists in the response
-        if (data && data.comments) {
-          setComments(data.comments);
-        }
-      })
-      .catch((error) => console.error(error));
-  }, [postId]);
+    fetchComments(postId).then(setComments);
+  }, [postId, newCommentAdded]);
 
-  // Async function to handle comment submission. Prevents default form submission
-  // and checks if the comment is not empty or just whitespace.
+  // Handles the submission of a new comment
   const handleCommentSubmit = async (event) => {
     event.preventDefault();
+
+    // If the new comment is empty or contains only whitespace, return without adding the comment
     if (!newComment.trim()) return;
 
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ message: newComment }),
-    };
+    // Send a request to the server to post the new comment
+    const comment = await postComment(postId, newComment, token);
 
-    const response = await fetch(
-      `${BACKEND_URL}/${postId}/comments`,
-      requestOptions
-    );
-    const data = await response.json();
-
-    if (response.ok) {
-      // Manually add the username to the new comment object for immediate UI update
-      const newCommentWithUsername = {
-        ...data.comment,
-        createdBy: { username },
-      };
-      console.log(newCommentWithUsername);
-      setComments([...comments, newCommentWithUsername]); // Update the comments state
-      setNewComment(""); // Reset the new comment input field
-    } else {
-      console.error("Failed to post comment");
+    // If the comment was successfully posted, update the state variables
+    if (comment) {
+      setNewCommentAdded(comment); // Trigger useEffect to fetch updated comments
+      setNewComment(""); // Clear the new comment input field
     }
   };
-  console.log("Username prop:", username);
+
   return (
     <div>
+      {/* Render comments */}
       {comments.map((comment) => (
         <div key={comment._id} style={{ fontSize: "smaller" }}>
           <strong className="text-blue-500">
-            {comment.createdBy.username || "Unknown User"}:
-          </strong>{" "}
+            {comment.createdBy.username}:
+          </strong>
           {comment.message}
         </div>
       ))}
       <br />
+
+      {/* Render comment form if comments are allowed */}
       {allowComments && (
         <form onSubmit={handleCommentSubmit}>
           <input
