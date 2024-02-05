@@ -3,9 +3,13 @@ import { useEffect, useRef } from "react";
 
 const UploadWidget= ( {onImageUpload} ) => {
   const cloudinaryRef = useRef();
+  console.log(cloudinaryRef)
   
   useEffect(() => {
+      console.log(cloudinaryRef.current)
       cloudinaryRef.current = window.cloudinary;
+
+      console.log(cloudinaryRef.current)
 
       // Initialize Cloudinary Widget
       const widget = cloudinaryRef.current.createUploadWidget(
@@ -16,7 +20,7 @@ const UploadWidget= ( {onImageUpload} ) => {
           sources: ["local", "url", "camera", "facebook", "google_drive"],
         },
         (error, result) => {
-          console.log(result);
+          console.log(error);
           if (!error && result && result.event === "success") {
             // Handle successful image upload
             const imageUrl = result.info.secure_url;
