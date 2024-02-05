@@ -1,10 +1,10 @@
 const Post = require("../models/post");
 const { generateToken } = require("../lib/token");
-const cloudinary = require('cloudinary').v2;
+const cloudinary = require("cloudinary").v2;
 
 const getPostsbyId = async (req, res) => {
   try {
-    console.log(req.user_id);
+    //console.log(req.user_id);
     // Populate 'createdBy' with user details, specifically 'username'
     const posts = await Post.find({ createdBy: req.user_id }).populate(
       "createdBy",
@@ -37,13 +37,13 @@ const createPost = async (req, res) => {
     let imageUrl = null;
     if (req.body.imageUrl) {
       console.log(req.file);
-      // If image added, save the image URL 
-      imageUrl= req.body.imageUrl;
+      // If image added, save the image URL
+      imageUrl = req.body.imageUrl;
       // imageUrl = req.file.secure_url;
     }
 
     const newPost = new Post({
-      message: req.body.message || '',
+      message: req.body.message || "",
       image: imageUrl,
       createdBy: req.user_id,
     });
