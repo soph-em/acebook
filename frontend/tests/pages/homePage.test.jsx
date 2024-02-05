@@ -2,12 +2,9 @@ import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { vi } from "vitest";
 
-
-
 import { HomePage } from "../../src/pages/Home/HomePage";
 
 describe("Home Page", () => {
-
   test("Displays a signup link", async () => {
     render(
       <BrowserRouter>
@@ -26,7 +23,7 @@ describe("Home Page", () => {
       </BrowserRouter>
     );
 
-    //const loginLink = screen.getByText("Log In");
-    //expect(loginLink.getAttribute("href")).toEqual("/login");
+    const loginLink = screen.getByText("Login");
+    expect(loginLink.getAttribute("href")).toEqual("/login");
   });
 });

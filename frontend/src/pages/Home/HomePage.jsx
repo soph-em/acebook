@@ -1,20 +1,18 @@
-
 import Navbar from "../Navbar/Navbar";
 
 import "./HomePage.css";
 import { FeedPage } from "../Feed/FeedPage";
 
-
 export const HomePage = () => {
   return (
     <div className="home">
       <Navbar />
-      <h1>Welcome to Acebook!</h1>
+      <br></br>
 
+      <h1 className="text-blue-400 font-bold text-4xl">Welcome to Acebook!</h1>
+      <br />
 
-      <FeedPage/>
-
-
+      <FeedPage />
     </div>
   );
 };
