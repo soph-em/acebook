@@ -7,6 +7,7 @@ import "../.././styles.css";
 
 export const FeedPage = () => {
   const [posts, setPosts] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [token, setToken] = useState(window.localStorage.getItem("token"));
 
   useEffect(() => {
