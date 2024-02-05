@@ -23,6 +23,8 @@ app.use("/", commentsRouter);
 app.use("/users", usersRouter);
 app.use("/", postsRouter);
 app.use("/tokens", authenticationRouter);
+app.use('/like/:id', postsRouter);
+
 
 // 404 Handler
 app.use((_req, res) => {
