@@ -48,8 +48,6 @@ const Post = (props) => {
       
     </article>
     
-
-    
   );
 };
 export default Post;
