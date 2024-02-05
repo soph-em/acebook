@@ -29,7 +29,10 @@ const Post = (props) => {
           </div>
         )}
         <div className="text-sm">
-          Posted by: <span className="text-blue-500">{username}</span>
+          Posted by:{" "}
+          <a href={`/profile`} className="text-blue-500">
+            {username}
+          </a>
         </div>
         <div className="text-xs text-gray-400">Posted on: {formattedDate}</div>
       </div>
