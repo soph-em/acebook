@@ -64,10 +64,30 @@ const createPost = async (req, res) => {
   }
 };
 
+const deletePost = async (req, res) => {
+  try {
+    const postId = req.params.postId;
+    // Check if the post exists and is created by the logged-in user
+    const postToDelete = await Post.findById(postId);
+    if (!postToDelete || postToDelete.createdBy.toString() !== req.user_id) {
+      return res.status(400).json({ error: "Unauthorized" });
+    }
+
+    // delete post with MongoDB syntax
+    await Post.findByIdAndDelete(postId);
+
+    res.status(200).json({ message: "Post deleted successfully." });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
 const PostsController = {
   getAllPosts: getAllPosts,
   createPost: createPost,
   getPostsbyId: getPostsbyId,
+  deletePost: deletePost,
 };
 
 module.exports = PostsController;

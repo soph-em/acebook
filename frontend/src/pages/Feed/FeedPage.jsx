@@ -21,7 +21,6 @@ export const FeedPage = () => {
   }, []); // Empty dependency array ensures this runs only once on component mount
 
   const handleNewPost = async (message, imageUrl) => {
-    console.log(message)
     if (!token) {
       console.error('No token provided');
       return; // Exit if no token is present
@@ -35,6 +34,8 @@ export const FeedPage = () => {
     }
   };
 
+
+
   return (
     <>
       <h2>Posts</h2>
@@ -43,7 +44,12 @@ export const FeedPage = () => {
 
       <div className="feed" role="feed">
         {posts &&
-          posts.map((post) => post && <Post post={post} key={post._id} />)}
+          posts.map((post) => (post && (
+              <div key={post._id}>
+                <Post post={post} />
+              </div>
+            )
+          ))}
       </div>
     </>
   );

@@ -1,3 +1,6 @@
+import React from "react";
+import DeleteButton from "./DeleteButton";
+
 const Post = (props) => {
   // Format the timestamp
   const formattedDate = new Date(props.post.createdAt).toLocaleString("en-GB");
@@ -5,7 +8,9 @@ const Post = (props) => {
   // Extract username from createdBy object
   const username = props.post.createdBy.username;
 
-  console.log('Image URL:', props.post.image);
+  const handlePostDeleted = () => {
+    props.onDelete(props.post._id);
+  }
 
   return (
     <article key={props.post._id}>
@@ -23,6 +28,7 @@ const Post = (props) => {
       <p>Posted by: {username}</p> {/* Updated this line */}
 
       <p>Posted on: {formattedDate}</p>
+      <DeleteButton postId={props.post._id} onDelete={handlePostDeleted} />
     </article>
   );
 };
