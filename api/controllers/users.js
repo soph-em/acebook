@@ -10,6 +10,15 @@ const checkUsernameUniqueness = async (username) => {
   return !existingUsername;
 };
 
+const checkPasswordValidity = async (password) => {
+  let passwordValid = false;
+  if (password.length >= 8) {
+    passwordValid = true;
+    return passwordValid;
+  }
+  return passwordValid;
+}
+
 const getUser = async (req, res) => {
   // console.log(req.user_id);
   try {
@@ -50,6 +59,14 @@ const create = async (req, res) => {
     if (!isEmailUnique) {
       console.log("Auth Error: Email already exists");
       return res.status(409).json({ message: "Email already exists" });
+    }
+
+    const isPasswordValid = await checkPasswordValidity(password);
+    if (!isPasswordValid) {
+      console.log("Auth Error: Password does not meet requirements");
+      return res
+        .status(401)
+        .json({ message: "Password does not meet requirements" });
     }
 
     const user = new User({ username, email, password });

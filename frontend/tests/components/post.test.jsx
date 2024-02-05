@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { render, screen } from '@testing-library/react';
 
 import Post from '../../src/components/Post/Post';
@@ -8,6 +9,7 @@ describe('Post component', () => {
     const mockPost = {
       message: 'test message',
       createdAt: new Date().toISOString(), // Use a valid date string
+      createdBy: {username: 'testUser'}
     };
 
     // Render the Post component with the mock post data
