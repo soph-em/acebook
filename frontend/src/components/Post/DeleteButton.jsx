@@ -1,29 +1,26 @@
-import { deletePost } from "../../../../api/controllers/posts";
-
-
-const DeleteButton = ({ postId }) => {
+const DeleteButton = ({ postId, onDelete }) => {
     const handleDelete = async () => {
-        // try {
+        try {
         console.log("PostId:", `${postId}`);
-        // const response = await fetch(`/posts/${postId}`, {
-        //     method: "DELETE",
-        //     headers: {
-        //     "Content-Type": "application/json",
-        //     },
-        // });
+        const response = await fetch(`/posts/${postId}`, {
+            method: "DELETE",
+            headers: {
+            "Content-Type": "application/json",
+            },
+        });
 
-    //     if (response.ok) {
-            // onDelete(); 
-    //     } else {
-    //         console.error("Error deleting post:", response.statusText);
-    //     }
-    //     } catch (error) {
-    //     console.error("Error deleting post:", error.message);
+        if (response.ok) {
+            onDelete(); 
+        } else {
+            console.error("Error deleting post:", response.statusText);
         }
+        } catch (error) {
+        console.error("Error deleting post:", error.message);
+        }};
     
 
     return (
-        <button onClick={deletePost(postId)}>
+        <button onClick={handleDelete}>
         Delete
         </button>
     );
