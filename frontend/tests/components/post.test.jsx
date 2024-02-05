@@ -5,12 +5,8 @@ describe("Post component", () => {
   it("displays the message and username as an article", () => {
     // Updated mock post data to include createdBy with username
     const mockPost = {
-<<<<<<< HEAD
       message: "test message",
-=======
-      message: 'test message',
-      createdBy: 'test user',
->>>>>>> main
+      createdBy: "test user",
       createdAt: new Date().toISOString(), // Use a valid date string
       createdBy: {
         username: "testuser", // Add a username to match your updated component expectations
