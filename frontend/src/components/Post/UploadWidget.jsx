@@ -15,7 +15,7 @@ const UploadWidget = ({ onImageUpload }) => {
         sources: ["local", "url", "camera", "facebook", "google_drive"],
       },
       (error, result) => {
-        console.log(result);
+        console.log(error);
         if (!error && result && result.event === "success") {
           // Handle successful image upload
           const imageUrl = result.info.secure_url;
@@ -38,12 +38,7 @@ const UploadWidget = ({ onImageUpload }) => {
 
   return (
     <div>
-      <button
-        className="bg-blue-400 text-white py-1 px-4 rounded-md hover:bg-blue-700"
-        id="upload-button"
-      >
-        Upload Image
-      </button>
+      <button id="upload-button">Upload Image</button>
     </div>
   );
 };

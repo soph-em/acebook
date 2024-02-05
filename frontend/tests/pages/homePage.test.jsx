@@ -16,19 +16,14 @@ describe("Home Page", () => {
     //expect(signupLink.getAttribute("href")).toEqual("/signup");
   });
 
-  // Temp disabled test for login link while navbar is being worked on
+  test("Displays a login link", async () => {
+    render(
+      <BrowserRouter>
+        <HomePage />
+      </BrowserRouter>
+    );
 
-  //   test("Displays a login link", async () => {
-  //     render(
-  //       <BrowserRouter>
-  //         <HomePage />
-  //       </BrowserRouter>
-  //     );
-
-  //     const loginLink = screen.getByText("Log In");
-  //     expect(loginLink.getAttribute("href")).toEqual("/login");
-  //   });
-    //const loginLink = screen.getByText("Log In");
-    //expect(loginLink.getAttribute("href")).toEqual("/login");
+    const loginLink = screen.getByText("Login");
+    expect(loginLink.getAttribute("href")).toEqual("/login");
   });
 });

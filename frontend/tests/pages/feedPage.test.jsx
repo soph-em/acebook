@@ -6,6 +6,23 @@ import { FeedPage } from "../../src/pages/Feed/FeedPage";
 import { getPosts } from "../../src/services/posts";
 import { useNavigate } from "react-router-dom";
 
+vi.mock("../../src/components/Post/UploadWidget", () => {
+  return {
+    __esModule: true,
+    default: ({ onImageUpload }) => {
+      // Simulate the behavior of the UploadWidget component
+      return (
+        <button
+          id="upload-button"
+          onClick={() => onImageUpload("mockedImageUrl")}
+        >
+          Upload Image
+        </button>
+      );
+    },
+  };
+});
+
 // Mocking the getPosts service
 vi.mock("../../src/services/posts", () => {
   const getPostsMock = vi.fn();
@@ -33,12 +50,10 @@ describe("Feed Page", () => {
       {
         _id: "12345",
         message: "Test Post 1",
-        createdAt: new Date().toISOString(),
-        createdBy: {
-          username: "testuser",
-        },
+        createdBy: "Kat",
+        date: "2024-01-30",
       },
-    ];
+    ]; // Example date added
 
     getPosts.mockResolvedValue({ posts: mockPosts });
 
