@@ -10,6 +10,9 @@ const Post = (props) => {
   return (
     <article key={props.post._id}>
       <p>{props.post.message}</p>
+
+      <p>Posted by: {username}</p> 
+
       {props.post.image && (
         <img
           src={props.post.image}
@@ -18,6 +21,7 @@ const Post = (props) => {
         />
       )}
       <p>Posted by: {username}</p> {/* Updated this line */}
+
       <p>Posted on: {formattedDate}</p>
     </article>
   );
