@@ -64,10 +64,21 @@ const createPost = async (req, res) => {
   }
 };
 
+//Added Update Likes
+const updateLikes = async (req, res) => {
+  const post = await Post.findById(req.params.id);
+  post.likes.push(req.user_id);
+  await post.save()
+  res.status(200).json({ post, user: req.user_id });
+  
+}
+
 const PostsController = {
   getAllPosts: getAllPosts,
   createPost: createPost,
   getPostsbyId: getPostsbyId,
+  //Added
+  updateLikes: updateLikes,
 };
 
 module.exports = PostsController;
