@@ -1,29 +1,34 @@
-const DeleteButton = ({ postId, onDelete }) => {
-    const handleDelete = async () => {
-        try {
-        console.log("PostId:", `${postId}`);
-        const response = await fetch(`/posts/${postId}`, {
-            method: "DELETE",
-            headers: {
-            "Content-Type": "application/json",
-            },
-        });
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-        if (response.ok) {
-            onDelete(); 
-        } else {
-            console.error("Error deleting post:", response.statusText);
-        }
-        } catch (error) {
-        console.error("Error deleting post:", error.message);
-        }};
-    
+const DeleteButton = ({ postId }) => {
+  const handleDelete = async () => {
+    const token = localStorage.getItem("token");
 
-    return (
-        <button onClick={handleDelete}>
-        Delete
-        </button>
-    );
+    const requestOptions = {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    };
+
+    try {
+      const response = await fetch(`${BACKEND_URL}/${postId}`, requestOptions);
+
+      if (response.status !== 200) {
+        throw new Error("Unable to delete post");
+      }
+
+      const data = await response.json();
+      console.log(data); // Or handle the successful deletion appropriately
+      // Potentially refresh the data or redirect the user
+    } catch (error) {
+      console.error(error.message);
+      // Handle error scenarios, such as showing an alert to the user
+    }
+  };
+
+  return <button onClick={handleDelete}>Delete</button>;
 };
 
 export default DeleteButton;
