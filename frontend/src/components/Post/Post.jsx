@@ -1,6 +1,10 @@
 import Comments from "../Comments/Comment";
+import LikeButton from "../Likes/LikeButton";
+import LikeCounter from "../Likes/LikeCounter";
+import { useState } from "react";
 
 const Post = (props) => {
+  const [likes, setLikes] = useState(props.post.likes); 
   const formattedDate = new Date(props.post.createdAt).toLocaleString("en-GB");
   const username = props.post.createdBy.username;
   const token = props.token; // Token passed as a prop
@@ -39,7 +43,13 @@ const Post = (props) => {
         username={username}
         allowComments={allowComments}
       />
+      <LikeButton postId={props.post._id} postLikes={likes} setLikes={setLikes}/>
+      <LikeCounter likes={likes}/>
+      
     </article>
+    
+
+    
   );
 };
 export default Post;

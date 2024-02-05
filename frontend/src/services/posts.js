@@ -37,6 +37,8 @@ export const getPosts = async () => {
   return data;
 };
 
+
+
 export const createPost = async (message, imageUrl, token) => {
   const requestOptions = {
     method: "POST",
@@ -46,18 +48,48 @@ export const createPost = async (message, imageUrl, token) => {
     },
     body: JSON.stringify({ message, imageUrl }),
   };
-  try{
 
-  const response = await fetch(`${BACKEND_URL}`, requestOptions);
+  try {
+    const response = await fetch(`${BACKEND_URL}`, requestOptions);
 
-  if (!response.ok) {
-    throw new Error("Unable to create post");
+    if (!response.ok) {
+      throw new Error("Unable to create post");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error creating post:', error.message);
+    // You can log the error or handle it in some way, but don't throw it again here
   }
-
-  const data = await response.json();
-  return data;
-} catch (error) {
-  console.error('Error creating post:', error.message);
-  throw error; // rethrow the error for higher-level handling
-}
 };
+
+export const likePost = async (userId, postId, token) => {
+  const requestOptions = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ userId }),
+  };
+
+  try {
+    const response = await fetch(`${BACKEND_URL}/like/${postId}`, requestOptions);
+
+    if (!response.ok) {
+      throw new Error('Unable to like post');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error liking post:', error.message);
+    throw error; // Rethrow the error for higher-level handling if needed
+  }
+};
+
+
+
+
+
