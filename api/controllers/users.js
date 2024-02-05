@@ -10,6 +10,15 @@ const checkUsernameUniqueness = async (username) => {
   return !existingUsername;
 };
 
+const checkPasswordValidity = async (password) => {
+  let passwordValid = false;
+  if (password.length >= 8) {
+    passwordValid = true;
+    return passwordValid;
+  }
+  return passwordValid;
+}
+
 const getUser = async (req, res) => {
   // console.log(req.user_id);
   try {
