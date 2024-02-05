@@ -64,7 +64,7 @@ describe("Login Page", () => {
     const navigateMock = useNavigate();
 
     await completeLoginForm();
-
+    const currentUrl = window.location.pathname;
     expect(navigateMock).toHaveBeenCalledWith("/login");
   });
 });

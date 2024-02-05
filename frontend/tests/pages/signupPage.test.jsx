@@ -29,7 +29,7 @@ const completeSignupForm = async () => {
   const submitButtonEl = screen.getByRole('submit-button');
   await user.type(usernameInputEl, 'username')
   await user.type(emailInputEl, 'test@email.com');
-  await user.type(passwordInputEl, '1234');
+  await user.type(passwordInputEl, '12345678');
   await user.click(submitButtonEl);
 };
 
@@ -43,16 +43,16 @@ describe('Signup Page', () => {
 
     await completeSignupForm();
 
-    expect(signup).toHaveBeenCalledWith('username', 'test@email.com', '1234');
+    expect(signup).toHaveBeenCalledWith('username', 'test@email.com', '12345678');
   });
 
-  test('navigates to /login on successful signup', async () => {
+  test('navigates to / on successful signup', async () => {
     render(<SignupPage />);
 
     const navigateMock = useNavigate();
 
     await completeSignupForm();
 
-    expect(navigateMock).toHaveBeenCalledWith('/login');
+    expect(navigateMock).toHaveBeenCalledWith('/');
   });
 });
