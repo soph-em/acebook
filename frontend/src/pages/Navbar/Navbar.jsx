@@ -15,6 +15,7 @@ const Navbar = () => {
         // If user is logged in, show these buttons
         content = (
             <>
+            
                 <li>
                     {/* This line will need to be added for each of the other pages
                     once they have been made, only need to add the path to make it work */}
@@ -26,8 +27,9 @@ const Navbar = () => {
                 </li>
                 
                 <li>
-                    <a href="/profile">My Profile</a>
+                    <a data-testid="test-profile" href="/profile">My Profile</a>
                 </li>
+                <Logout />
             </>
         );
 
@@ -39,7 +41,7 @@ const Navbar = () => {
                     <a href="/login" className={currentURL === "/login" ? "active" : ""}>Login</a>
                 </li>
                 <li>
-                    <a href="/signup" className={currentURL === "/signup" ? "active" : ""}>Sign Up</a>
+                    <a data-testid="sign-up" href="/signup" className={currentURL === "/signup" ? "active" : ""}>Sign Up</a>
                 </li>
             </>
         );
@@ -50,7 +52,6 @@ const Navbar = () => {
             <ul className="navLinks">
                 {content}
             </ul>
-            <Logout />
         </nav>
     );
 }
