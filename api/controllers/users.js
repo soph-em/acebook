@@ -10,13 +10,21 @@ const checkUsernameUniqueness = async (username) => {
   return !existingUsername;
 };
 
-const checkPasswordValidity = async (password) => {
-  let passwordValid = false;
-  if (password.length >= 8) {
-    passwordValid = true;
-    return passwordValid;
+const getUser = async (req, res) => {
+  // console.log(req.user_id);
+  try {
+    const user = await User.findById(req.user_id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Send back the user profile information you wish to expose
+    res.status(200).json({ username: user.username, email: user.email });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
   }
-  return passwordValid;
 };
 
 const create = async (req, res) => {
@@ -65,6 +73,7 @@ const create = async (req, res) => {
 
 const UsersController = {
   create: create,
+  getUser: getUser,
 };
 
 module.exports = UsersController;
