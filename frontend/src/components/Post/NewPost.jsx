@@ -6,6 +6,7 @@ const NewPost = ({ onNewPost }) => {
   const [postMessage, setPostMessage] = useState('');
   const [image, setImage] = useState(null);
 
+
   const handleImageUpload = (imageUrl) => {
     console.log('Cloudinary Result:', imageUrl);
   // Check if result.info.secure_url contains the image URL
@@ -17,11 +18,10 @@ const NewPost = ({ onNewPost }) => {
     // Prevents the page from refreshing on form submit allowing us
     // to handle the submission process manually within the function.
     event.preventDefault();
-    console.log(postMessage)
-    console.log(image)
-    // Check if postMessage is not   empty
+
+    // Check if postMessage or image is not empty
     if (postMessage || image) {
-      // Call the onNewPost function passed from the parent component with the message
+      // Call the onNewPost function passed from the parent component with the message or image
       onNewPost(postMessage, image);
 
       // Reset the textarea to empty string after submission
