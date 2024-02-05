@@ -2,6 +2,20 @@ const Post = require("../models/post");
 const { generateToken } = require("../lib/token");
 const cloudinary = require('cloudinary').v2;
 
+const getPostsbyId = async (req, res) => {
+  try {
+    console.log(req.user_id);
+    // Populate 'createdBy' with user details, specifically 'username'
+    const posts = await Post.find({ createdBy: req.user_id }).populate(
+      "createdBy",
+      "username"
+    );
+    res.status(200).json({ posts });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const getAllPosts = async (req, res) => {
   try {
     // Populate 'createdBy' with user details, specifically 'username'
@@ -53,6 +67,7 @@ const createPost = async (req, res) => {
 const PostsController = {
   getAllPosts: getAllPosts,
   createPost: createPost,
+  getPostsbyId: getPostsbyId,
 };
 
 module.exports = PostsController;
