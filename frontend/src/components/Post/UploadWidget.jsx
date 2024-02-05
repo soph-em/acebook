@@ -1,33 +1,28 @@
 import { useEffect, useRef } from "react";
 
-
-const UploadWidget= ( {onImageUpload} ) => {
+const UploadWidget = ({ onImageUpload }) => {
   const cloudinaryRef = useRef();
-  console.log(cloudinaryRef)
-  
+
   useEffect(() => {
-      console.log(cloudinaryRef.current)
-      cloudinaryRef.current = window.cloudinary;
+    cloudinaryRef.current = window.cloudinary;
 
-      console.log(cloudinaryRef.current)
-
-      // Initialize Cloudinary Widget
-      const widget = cloudinaryRef.current.createUploadWidget(
-        {
-          cloudName: "dzkvzncgr", // Cloudinary cloud name
-          uploadPreset: "acebook", // Cloudinary upload preset
-          multiple: false,
-          sources: ["local", "url", "camera", "facebook", "google_drive"],
-        },
-        (error, result) => {
-          console.log(error);
-          if (!error && result && result.event === "success") {
-            // Handle successful image upload
-            const imageUrl = result.info.secure_url;
-            onImageUpload(imageUrl);
-          }
+    // Initialize Cloudinary Widget
+    const widget = cloudinaryRef.current.createUploadWidget(
+      {
+        cloudName: "dzkvzncgr", // Cloudinary cloud name
+        uploadPreset: "acebook", // Cloudinary upload preset
+        multiple: false,
+        sources: ["local", "url", "camera", "facebook", "google_drive"],
+      },
+      (error, result) => {
+        console.log(error);
+        if (!error && result && result.event === "success") {
+          // Handle successful image upload
+          const imageUrl = result.info.secure_url;
+          onImageUpload(imageUrl);
         }
-      );
+      }
+    );
 
     // Attach event listener to open the widget when the component mounts
     document.getElementById("upload-button").addEventListener("click", () => {
@@ -41,13 +36,16 @@ const UploadWidget= ( {onImageUpload} ) => {
     };
   }, [onImageUpload]);
 
-
-return (
-  <div>
-      <button id="upload-button">Upload Image</button>
-  </div>
+  return (
+    <div>
+      <button
+        className="bg-blue-400 text-white py-1 px-4 rounded-md hover:bg-blue-700"
+        id="upload-button"
+      >
+        Upload Image
+      </button>
+    </div>
   );
 };
-  
 
 export default UploadWidget;

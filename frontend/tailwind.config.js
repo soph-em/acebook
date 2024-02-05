@@ -1,9 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./src/components/Logout/Logout.jsx"],
+  content: ["./src/**/*.{html,js,cjs,jsx}"],
   theme: {
     extend: {},
   },
   plugins: [],
-}
-
+};
