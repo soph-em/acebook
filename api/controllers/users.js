@@ -17,7 +17,7 @@ const checkPasswordValidity = async (password) => {
     return passwordValid;
   }
   return passwordValid;
-}
+};
 
 const getUser = async (req, res) => {
   // console.log(req.user_id);
@@ -33,6 +33,18 @@ const getUser = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error.message });
+  }
+};
+
+const getUserById = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      return res.status(404).send({ message: "User not found" });
+    }
+    res.json(user);
+  } catch (error) {
+    res.status(500).send({ message: "Error retrieving user" });
   }
 };
 
@@ -83,6 +95,7 @@ const create = async (req, res) => {
 const UsersController = {
   create: create,
   getUser: getUser,
+  getUserById: getUserById,
 };
 
 module.exports = UsersController;

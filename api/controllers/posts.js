@@ -4,14 +4,15 @@ const cloudinary = require("cloudinary").v2;
 
 const getPostsbyId = async (req, res) => {
   try {
-    //console.log(req.user_id);
-    // Populate 'createdBy' with user details, specifically 'username'
-    const posts = await Post.find({ createdBy: req.user_id }).populate(
+    // Accessing userId sent as a query parameter
+    const userId = req.query.userId;
+    const posts = await Post.find({ createdBy: userId }).populate(
       "createdBy",
-      "username"
+      "username _id"
     );
     res.status(200).json({ posts });
   } catch (error) {
+    console.error("Failed to fetch posts by ID:", error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -19,7 +20,7 @@ const getPostsbyId = async (req, res) => {
 const getAllPosts = async (req, res) => {
   try {
     // Populate 'createdBy' with user details, specifically 'username'
-    const posts = await Post.find().populate("createdBy", "username");
+    const posts = await Post.find().populate("createdBy", "username _id");
     res.status(200).json({ posts });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -68,10 +69,9 @@ const createPost = async (req, res) => {
 const updateLikes = async (req, res) => {
   const post = await Post.findById(req.params.id);
   post.likes.push(req.user_id);
-  await post.save()
+  await post.save();
   res.status(200).json({ post, user: req.user_id });
-  
-}
+};
 
 const PostsController = {
   getAllPosts: getAllPosts,
