@@ -1,5 +1,3 @@
-import sendEmail from "../../../api/controllers/sendingEmail";
-
 // docs: https://vitejs.dev/guide/env-and-mode.html
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -53,7 +51,6 @@ export const signup = async (username, email, password) => {
 
   let response = await fetch(`${BACKEND_URL}/users`, requestOptions);
   if (response.status === 201) {
-    sendEmail(email, username);
     return;
   } else if (response.status === 409) {
     let errorData = await response.json();

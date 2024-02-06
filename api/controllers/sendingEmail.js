@@ -1,7 +1,7 @@
-const nodemailer = require('nodemailer');
+const Nodemailer = require("nodemailer");
 
-async function sendEmail(email, username) {
-  const transporter = nodemailer.createTransport({
+const sendEmail = (email, username) => {
+  const transporter = Nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
     secure: true,
@@ -18,9 +18,12 @@ async function sendEmail(email, username) {
     text: "Hello " + username+ ",\nYou are receiving this email to confirm that your account has been successfully created with Acebook!\n\nThe Acebook Team.",
   };
 
-  const info = await transporter.sendMail(mailOptions);
-
-  console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+  transporter.sendMail(mailOptions, (error, info) => {
+    if(error) {
+      return console.log(error);
+    }
+    console.log('Message sent');
+  });
 }
 
-export default sendEmail;
+module.exports = sendEmail;
