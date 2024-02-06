@@ -21,6 +21,7 @@ export const SignupPage = () => {
       console.log('logging in...')
       const token = await login(email, password);
       window.localStorage.setItem("token", token);
+      alert('Signup successful.\nYou are now being logged in.')
       navigate("/");
       console.log('redirecting...');
       // navigate('/login');
