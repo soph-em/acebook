@@ -81,12 +81,22 @@ const deletePost = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+//Added Update Likes
+const updateLikes = async (req, res) => {
+  const post = await Post.findById(req.params.id);
+  post.likes.push(req.user_id);
+  await post.save()
+  res.status(200).json({ post, user: req.user_id });
+  
+}
 
 const PostsController = {
   getAllPosts: getAllPosts,
   createPost: createPost,
   getPostsbyId: getPostsbyId,
   deletePost: deletePost,
+  //Added
+  updateLikes: updateLikes,
 };
 
 module.exports = PostsController;
