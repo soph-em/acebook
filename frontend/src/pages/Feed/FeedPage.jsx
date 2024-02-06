@@ -46,7 +46,6 @@ export const FeedPage = () => {
 
   const handleDeletePost = (postId) => {
     setPosts((prevPosts) => prevPosts.filter((post, ) => post._id !== postId));
-    console.log("Post deleted successfully!");
   };
 
 
