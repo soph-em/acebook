@@ -36,6 +36,19 @@ export const FeedPage = () => {
     }
   };
 
+  const handleUpdatePost = (updatedPost) => {
+    setPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post._id === updatedPost._id ? updatedPost : post
+      )
+    );
+  };
+
+  const handleDeletePost = (postId) => {
+    setPosts((prevPosts) => prevPosts.filter((post, ) => post._id !== postId));
+  };
+
+
   return (
     <>
       {/* <Navbar /> */}
@@ -57,6 +70,8 @@ export const FeedPage = () => {
                   // user is not authenticated or the token is not present),
                   // !!token evaluates to false and comments are not rendered
                   allowComments={!!token}
+                  onUpdatePost={handleUpdatePost}
+                  onDeletePost={handleDeletePost}
                 />
               )
           )}
@@ -64,3 +79,5 @@ export const FeedPage = () => {
     </>
   );
 };
+
+export default FeedPage;
