@@ -7,7 +7,7 @@ async function sendEmail(email, username) {
     secure: true,
     auth: {
       user: 'theacebookteam@gmail.com',
-      pass: '2869', //TesterAccountForAB
+      pass: 'cwla nmqi zzlz tbip', //TesterAccountForAB
     }
   })
 

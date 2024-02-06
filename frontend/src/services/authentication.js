@@ -1,4 +1,4 @@
-import sendEmail from "../../../api/middleware/sendingEmail";
+import sendEmail from "../../../api/controllers/sendingEmail";
 
 // docs: https://vitejs.dev/guide/env-and-mode.html
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
