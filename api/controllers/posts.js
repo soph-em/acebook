@@ -1,6 +1,6 @@
 const Post = require("../models/post");
 const { generateToken } = require("../lib/token");
-const cloudinary = require('cloudinary').v2;
+const cloudinary = require("cloudinary").v2;
 
 const getPostsbyId = async (req, res) => {
   try {
@@ -37,13 +37,12 @@ const createPost = async (req, res) => {
     let imageUrl = null;
     if (req.body.imageUrl) {
       console.log(req.file);
-      // If image added, save the image URL 
-      imageUrl= req.body.imageUrl;
-      // imageUrl = req.file.secure_url;
+      // If image added, save the image URL
+      imageUrl = req.body.imageUrl;
     }
 
     const newPost = new Post({
-      message: req.body.message || '',
+      message: req.body.message || "",
       image: imageUrl,
       createdBy: req.user_id,
     });
@@ -64,6 +63,43 @@ const createPost = async (req, res) => {
   }
 };
 
+const deletePost = async (req, res) => {
+  try {
+    const postId = req.params.postId;
+    // Check if the post exists and is created by the logged-in user
+    const postToDelete = await Post.findById(postId);
+    if (!postToDelete || postToDelete.createdBy.toString() !== req.user_id) {
+      return res.status(400).json({ error: "Unauthorized" });
+    }
+
+    // delete post with MongoDB syntax
+    await Post.findByIdAndDelete(postId);
+
+    res.status(200).json({ message: "Post deleted successfully." });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const updatePost = async (req, res) => {
+  try {
+    const postId = req.params.postId;
+    const {message} = req.body;
+    const postToUpdate = await Post.findById(postId);
+    if (!postToUpdate || postToUpdate.createdBy.toString() !== req.user_id) {
+      return res.status(400).json({ error: "Unauthorized" });
+    }
+
+    // update post with the new message
+    postToUpdate.message = message;
+    await postToUpdate.save();
+
+    res.status(200).json({ message: "Post updated successfully.", post: postToUpdate });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 //Added Update Likes
 const updateLikes = async (req, res) => {
   const post = await Post.findById(req.params.id);
@@ -77,8 +113,9 @@ const PostsController = {
   getAllPosts: getAllPosts,
   createPost: createPost,
   getPostsbyId: getPostsbyId,
-  //Added
+  deletePost: deletePost,
   updateLikes: updateLikes,
+  updatePost: updatePost,
 };
 
 module.exports = PostsController;
