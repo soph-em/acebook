@@ -1,5 +1,3 @@
-// This code defines a React component called "Comments" that displays comments and allows users to add new comments.
-
 import { useState, useEffect } from "react";
 import { fetchComments, postComment } from "../../services/comments";
 import { getUserIdFromToken } from "../../services/decodeToken";
