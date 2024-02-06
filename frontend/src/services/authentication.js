@@ -40,6 +40,7 @@ export const signup = async (username, email, password) => {
     email: email,
     password: password,
   };
+
   const requestOptions = {
     method: 'POST',
     headers: {

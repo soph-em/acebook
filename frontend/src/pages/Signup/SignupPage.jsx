@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signup } from '../../services/authentication';
+import { login } from '../../services/authentication';
 
 export const SignupPage = () => {
   const [email, setEmail] = useState('');
@@ -17,8 +18,13 @@ export const SignupPage = () => {
 
     try {
       await signup(username, email, password);
+      console.log('logging in...')
+      const token = await login(email, password);
+      window.localStorage.setItem("token", token);
+      alert('Signup successful.\nYou are now being logged in.')
+      navigate("/");
       console.log('redirecting...');
-      navigate('/login');
+      // navigate('/login');
     } catch (err) {
       console.error(err);
       if (err.message.includes('Email already exists')) {
