@@ -13,7 +13,8 @@
   "dependencies": {
     "autoprefixer": "^10.4.17",
     "cloudinary": "^2.0.0",
-    "nodemailer": "^6.9.9",
+    "nodemailer": "^6.7.2",
+    "nodemailer-smtp-transport": "^2.7.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.14.2",
