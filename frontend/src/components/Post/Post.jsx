@@ -1,3 +1,4 @@
+import FeedPage from "../../pages/Feed/FeedPage"
 import DeleteButton from "./DeleteButton";
 import EditPostForm from "./EditPostForm";
 import Comments from "../Comments/Comment";
@@ -8,17 +9,17 @@ import { useState } from "react";
 const Post = (props) => {
   const [likes, setLikes] = useState(props.post.likes); 
   const formattedDate = new Date(props.post.createdAt).toLocaleString("en-GB");
-  const username = props.post.createdBy.username;
+  const username = props.post.createdBy?.username;
   const token = props.token; // Token passed as a prop
   const allowComments = props.allowComments;
   const [isEditing, setIsEditing] = useState(false);
 
-  const handleUpdate = () => {
+  const handleUpdate = (updatedPost) => {
     console.log("Post updated successfully");
     setIsEditing(false); // Switch back to view mode after updating
+    props.onUpdatePost(updatedPost); 
   };
 
-  console.log("Image URL:", props.post.image);
 
   return (
     <article

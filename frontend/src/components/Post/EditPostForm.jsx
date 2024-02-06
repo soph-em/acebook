@@ -7,7 +7,8 @@ const EditPostForm = ({postId, initialMessage, onUpdate}) =>{
     const handleUpdatePost = async () => {
         try {
             await updatePostById(postId, { message });
-            onUpdate();
+            // Pass updated post data to parent
+            onUpdate({ _id: postId, message });
 
         } catch (error) {
             console.error("Error updating post:", error.message);
@@ -19,7 +20,7 @@ const EditPostForm = ({postId, initialMessage, onUpdate}) =>{
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             ></textarea>
-            <button onClick={handleUpdatePost}>Update Post</button>
+            <button onClick={handleUpdatePost}>Save</button>
         </div>
         );
     };
