@@ -21,6 +21,7 @@ export const SignupPage = () => {
       console.log('logging in...')
       const token = await login(email, password);
       window.localStorage.setItem("token", token);
+      alert('Signup successful.\nYou are now being logged in.')
       navigate("/");
       console.log('redirecting...');
       // navigate('/login');
@@ -84,6 +85,7 @@ export const SignupPage = () => {
         {passwordError && <p>{passwordError}</p>}
         <input role="submit-button" id="submit" type="submit" value="Submit" />
         {errorMessage && <p>{errorMessage}</p>}
+        <p>You will automatically be logged in on successful signup.</p>
       </form>
     </>
   );
