@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { getPosts, createPost } from "../../services/posts";
+import { getPosts, createPost, deletePostById } from "../../services/posts";
 import Post from "../../components/Post/Post";
 import NewPost from "../../components/Post/NewPost";
 import "../.././styles.css";
@@ -44,6 +44,10 @@ export const FeedPage = () => {
     );
   };
 
+  const handleDeletePost = (postId) => {
+    setPosts((prevPosts) => prevPosts.filter((post, ) => post._id !== postId));
+    console.log("Post deleted successfully!");
+  };
 
 
   return (
@@ -68,6 +72,7 @@ export const FeedPage = () => {
                   // !!token evaluates to false and comments are not rendered
                   allowComments={!!token}
                   onUpdatePost={handleUpdatePost}
+                  onDeletePost={handleDeletePost}
                 />
               )
           )}

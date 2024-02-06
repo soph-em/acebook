@@ -1,4 +1,3 @@
-import FeedPage from "../../pages/Feed/FeedPage"
 import DeleteButton from "./DeleteButton";
 import EditPostForm from "./EditPostForm";
 import Comments from "../Comments/Comment";
@@ -19,7 +18,6 @@ const Post = (props) => {
     setIsEditing(false); // Switch back to view mode after updating
     props.onUpdatePost(updatedPost); 
   };
-
 
   return (
     <article
@@ -61,7 +59,7 @@ const Post = (props) => {
           <LikeCounter likes={likes}/>
           <div>
             <button onClick={() => setIsEditing(true)}>Edit</button>
-            <DeleteButton postId={props.post._id} />
+            <DeleteButton postId={props.post._id} onDeletePost={props.onDeletePost} />
           </div>
         </>
       )}
