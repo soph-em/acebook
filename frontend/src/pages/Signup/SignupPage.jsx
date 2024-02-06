@@ -85,7 +85,6 @@ export const SignupPage = () => {
         {passwordError && <p>{passwordError}</p>}
         <input role="submit-button" id="submit" type="submit" value="Submit" />
         {errorMessage && <p>{errorMessage}</p>}
-        <p>You will automatically be logged in on successful signup.</p>
       </form>
     </>
   );
