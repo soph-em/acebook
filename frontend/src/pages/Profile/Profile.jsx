@@ -40,9 +40,12 @@ export const Profile = () => {
       <Navbar />
       <h2>Profile</h2>
       <p>Username: {username}</p>
+      <div className="flex justify-center">
+        <img className="h-12" src={image} alt="Profile Image" />
+      </div>
+      <p>Upload a new profile photo</p>
       <UploadWidget onImageUpload={handleUpload}/>
-      <img src={image}/>
-      <p>My Posts:</p>
+      <p >My Posts:</p>
       <div>
         {posts &&
           posts.map((post) => post && <Post post={post} key={post._id} />)}
