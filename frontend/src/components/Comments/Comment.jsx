@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { fetchComments, postComment } from "../../services/comments";
-import { getUserIdFromToken } from "../../services/decodeToken";
 import { Link } from "react-router-dom";
 
 const Comments = ({ postId, token, allowComments }) => {
