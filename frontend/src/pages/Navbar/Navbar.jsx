@@ -26,7 +26,9 @@ const Navbar = () => {
         </li>
 
         <li>
-          <a href="/friends">Friends</a>
+          <a href="/friends" data-testid="test-profile">
+            Friends
+          </a>
         </li>
 
         <li>
