@@ -39,7 +39,6 @@ const createPost = async (req, res) => {
       console.log(req.file);
       // If image added, save the image URL
       imageUrl = req.body.imageUrl;
-      // imageUrl = req.file.secure_url;
     }
 
     const newPost = new Post({
@@ -90,13 +89,44 @@ const deletePost = async (req, res) => {
   }
 };
 
+const updatePost = async (req, res) => {
+  try {
+    const postId = req.params.postId;
+    const {message} = req.body;
+    const postToUpdate = await Post.findById(postId);
+    if (!postToUpdate || postToUpdate.createdBy.toString() !== req.user_id) {
+      return res.status(400).json({ error: "Unauthorized" });
+    }
+
+    // update post with the new message
+    postToUpdate.message = message;
+    await postToUpdate.save();
+
+    res.status(200).json({ message: "Post updated successfully.", post: postToUpdate });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+//Added Update Likes
+const updateLikes = async (req, res) => {
+  const post = await Post.findById(req.params.id);
+  post.likes.push(req.user_id);
+  await post.save()
+  res.status(200).json({ post, user: req.user_id });
+  
+}
+
 const PostsController = {
   getAllPosts: getAllPosts,
   createPost: createPost,
   getPostsbyId: getPostsbyId,
+<<<<<<<<< Temporary merge branch 1
+  deletePost: deletePost,
+=========
   //Added
   updateLikes: updateLikes,
-  deletePost: deletePost,
+  updatePost: updatePost,
 };
 
 module.exports = PostsController;

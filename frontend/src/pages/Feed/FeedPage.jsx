@@ -22,6 +22,10 @@ export const FeedPage = () => {
   }, []); // Empty dependency array ensures this runs only once on component mount
 
   const handleNewPost = async (message, imageUrl) => {
+<<<<<<<<< Temporary merge branch 1
+=========
+    console.log(message);
+>>>>>>>>> Temporary merge branch 2
     if (!token) {
       console.error("No token provided");
       return; // Exit if no token is present
@@ -34,6 +38,8 @@ export const FeedPage = () => {
       console.error("Error creating post: ", error);
     }
   };
+
+
 
   return (
     <>
@@ -56,6 +62,8 @@ export const FeedPage = () => {
                   // user is not authenticated or the token is not present),
                   // !!token evaluates to false and comments are not rendered
                   allowComments={!!token}
+                  onUpdatePost={handleUpdatePost}
+                  onDeletePost={handleDeletePost}
                 />
               )
           )}
