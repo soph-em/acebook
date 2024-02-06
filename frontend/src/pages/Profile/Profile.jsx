@@ -11,11 +11,8 @@ export const Profile = () => {
   const { userId } = useParams(); // Capture the userId from the URL
 
   useEffect(() => {
-    console.log(`Fetching data for User ID: ${userId}`);
-
     getUser(userId)
       .then((data) => {
-        console.log(`Data received from getUser for User ID ${userId}:`, data);
         setUsername(data.username);
       })
       .catch((err) => {
