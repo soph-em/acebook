@@ -9,7 +9,7 @@ export const FeedPage = () => {
   const [posts, setPosts] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [token, setToken] = useState(window.localStorage.getItem("token"));
-  
+
   useEffect(() => {
     // Fetch posts without needing a token
     getPosts()
@@ -22,7 +22,6 @@ export const FeedPage = () => {
   }, []); // Empty dependency array ensures this runs only once on component mount
 
   const handleNewPost = async (message, imageUrl) => {
-    console.log(message);
     if (!token) {
       console.error("No token provided");
       return; // Exit if no token is present

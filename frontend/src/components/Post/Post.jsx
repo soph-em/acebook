@@ -4,6 +4,8 @@ import LikeCounter from "../Likes/LikeCounter";
 import { useState } from "react";
 import { getUser } from "../../services/users";
 
+import DeleteButton from "./DeleteButton";
+
 const Post = (props) => {
   const [likes, setLikes] = useState(props.post.likes);
   const [username, setUsername] = useState("");

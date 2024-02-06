@@ -5,6 +5,7 @@ const PostsController = require("../controllers/posts");
 
 router.get("/", tokenChecker, PostsController.getAllPosts);
 router.post("/", tokenChecker, PostsController.createPost);
-router.put('/like/:id', tokenChecker, PostsController.updateLikes);
+router.put("/like/:id", tokenChecker, PostsController.updateLikes);
+router.delete("/:postId", tokenChecker, PostsController.deletePost);
 
 module.exports = router;
