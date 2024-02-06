@@ -11,22 +11,26 @@ export const Profile = () => {
   const { userId } = useParams(); // Capture the userId from the URL
 
   useEffect(() => {
-    // Pass userId to getUser; if userId is undefined, getUser defaults to logged-in user
+    console.log(`Fetching data for User ID: ${userId}`); // Log before requests
+
     getUser(userId)
       .then((data) => {
+        console.log(`Data received from getUser for User ID ${userId}:`, data);
         setUsername(data.username);
       })
       .catch((err) => {
-        console.error(err);
+        console.error(`Error fetching user for User ID ${userId}:`, err);
       });
 
-    // Assuming getPostsById is adapted to accept a userId and fetch posts for that user
-    getPostsbyId(userId) // Pass userId to getPostsById
+    getPostsbyId(userId)
       .then((data) => {
-        setPosts(data.posts.reverse());
+        const userPosts = data.posts.filter(
+          (post) => post.createdBy._id === userId
+        );
+        setPosts(userPosts.reverse()); // Apply reverse here
       })
       .catch((err) => {
-        console.error(err);
+        console.error(`Error fetching posts for User ID ${userId}:`, err);
       });
   }, [userId]); // React to changes in userId
 
@@ -37,8 +41,9 @@ export const Profile = () => {
       <p>Username: {username}</p>
       <p>My Posts:</p>
       <div>
-        {posts &&
-          posts.map((post) => post && <Post post={post} key={post._id} />)}
+        {posts.map((post) => (
+          <Post post={post} key={post._id} />
+        ))}
       </div>
     </>
   );

@@ -6,6 +6,7 @@ const getPostsbyId = async (req, res) => {
   try {
     // Accessing userId sent as a query parameter
     const userId = req.query.userId;
+    console.log(userId);
     const posts = await Post.find({ createdBy: userId }).populate(
       "createdBy",
       "username _id"

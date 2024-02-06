@@ -14,7 +14,7 @@ export const getPostsbyId = async (userId) => {
 
   // include the userId in the request
   const response = await fetch(
-    `${BACKEND_URL}/users/posts?userId=${userId}`,
+    `${BACKEND_URL}/?userId=${userId}`,
     requestOptions
   );
 

@@ -12,7 +12,7 @@ const Post = (props) => {
   const token = props.token; // Token passed as a prop
   const allowComments = props.allowComments;
 
-  console.log("Image URL:", props.post.image);
+  // console.log("Image URL:", props.post.image);
 
   return (
     <article
