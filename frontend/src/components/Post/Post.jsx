@@ -2,14 +2,21 @@ import Comments from "../Comments/Comment";
 import LikeButton from "../Likes/LikeButton";
 import LikeCounter from "../Likes/LikeCounter";
 import { useState } from "react";
+import { getUser } from "../../services/users";
 
 const Post = (props) => {
-  const [likes, setLikes] = useState(props.post.likes); 
+  const [likes, setLikes] = useState(props.post.likes);
+  const [username, setUsername] = useState("");
+  const [pfp, setPfp] = useState(null);
+
   const formattedDate = new Date(props.post.createdAt).toLocaleString("en-GB");
-  const username = props.post.createdBy.username;
+  const user = props.post.createdBy.username;
   const token = props.token; // Token passed as a prop
   const allowComments = props.allowComments;
-
+  getUser().then((data) => {
+    setUsername(data.username);
+    setPfp(data.image);
+  });
   console.log("Image URL:", props.post.image);
 
   return (
@@ -27,13 +34,14 @@ const Post = (props) => {
             {/* Centers the image */}
             <img
               src={props.post.image}
-              alt={`Posted by ${username}`}
+              alt={`Posted by ${user}`}
               className="max-w-full max-h-96 object-cover" // Ensures the image covers the area without losing its aspect ratio
             />
           </div>
         )}
-        <div className="text-sm">
-          Posted by: <span className="text-blue-500">{username}</span>
+        <div className="text-sm flex justify-center items-center">
+          Posted by: <span className="text-blue-500">{user}</span>
+          <img className="h-5 ml-2" src={pfp} alt="Profile" />
         </div>
         <div className="text-xs text-gray-400">Posted on: {formattedDate}</div>
       </div>
@@ -43,11 +51,13 @@ const Post = (props) => {
         username={username}
         allowComments={allowComments}
       />
-      <LikeButton postId={props.post._id} postLikes={likes} setLikes={setLikes}/>
-      <LikeCounter likes={likes}/>
-      
+      <LikeButton
+        postId={props.post._id}
+        postLikes={likes}
+        setLikes={setLikes}
+      />
+      <LikeCounter likes={likes} />
     </article>
-    
   );
 };
 export default Post;
