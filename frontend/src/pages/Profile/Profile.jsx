@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom"; // Import useParams hook
+import { useParams } from "react-router-dom";
 import { getUser } from "../../services/users";
-import { getPostsbyId } from "../../services/posts"; // Assuming this function exists and works similarly
+import { getPostsbyId } from "../../services/posts";
 import Post from "../../components/Post/Post";
 import Navbar from "../Navbar/Navbar";
 
@@ -11,7 +11,7 @@ export const Profile = () => {
   const { userId } = useParams(); // Capture the userId from the URL
 
   useEffect(() => {
-    console.log(`Fetching data for User ID: ${userId}`); // Log before requests
+    console.log(`Fetching data for User ID: ${userId}`);
 
     getUser(userId)
       .then((data) => {

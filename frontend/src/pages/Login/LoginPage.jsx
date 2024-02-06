@@ -6,8 +6,8 @@ import { login } from "../../services/authentication";
 export const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState('');
-  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState("");
+  const [emailError, setEmailError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -16,25 +16,24 @@ export const LoginPage = () => {
       const token = await login(email, password);
       window.localStorage.setItem("token", token);
       navigate("/");
-
     } catch (err) {
       console.error(err);
-      if (err.message.includes('Password is incorrect.')) {
-        setPasswordError('The password you have entered is incorrect.')
-      } else if (err.message.includes('User not found')) {
-        setEmailError('The email address you entered does not exist.')
+      if (err.message.includes("Password is incorrect.")) {
+        setPasswordError("The password you have entered is incorrect.");
+      } else if (err.message.includes("User not found")) {
+        setEmailError("The email address you entered does not exist.");
       }
     }
   };
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
-    setEmailError('');
+    setEmailError("");
   };
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
-    setPasswordError('');
+    setPasswordError("");
   };
 
   return (
