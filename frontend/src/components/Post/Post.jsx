@@ -3,7 +3,8 @@ import EditPostForm from "./EditPostForm";
 import Comments from "../Comments/Comment";
 import LikeButton from "../Likes/LikeButton";
 import LikeCounter from "../Likes/LikeCounter";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import { getUser } from "../../services/users";
 import DropdownMenu from "./DropDownMenu";
 import { CommentButton } from "../Comments/CommentButton";
@@ -12,6 +13,7 @@ const Post = (props) => {
   const [likes, setLikes] = useState(props.post.likes);
   const [username, setUsername] = useState("");
   const [pfp, setPfp] = useState(null);
+  const user = props.post.createdBy?.username;
   const [showComments, setShowComments] = useState(false);
 
   const toggleComments = () => {
@@ -19,20 +21,29 @@ const Post = (props) => {
   };
 
   const formattedDate = new Date(props.post.createdAt).toLocaleString("en-GB");
-  const user = props.post.createdBy?.username;
+  const formattedUpdatedDate = new Date(props.post.updatedAt).toLocaleString(
+    "en-GB"
+  );
+  const postUsername = props.post.createdBy?.username;
+  const userId = props.post.createdBy?._id;
   const token = props.token; // Token passed as a prop
-  getUser().then((data) => {
-    setUsername(data.username);
-    setPfp(data.image);
-  });
   const allowComments = props.allowComments;
-  const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    getUser().then((data) => {
+      setUsername(data.username);
+      setPfp(data.image);
+    });
+  }, []);
 
   const handleUpdate = (updatedPost) => {
     console.log("Post updated successfully");
     setIsEditing(false); // Switch back to view mode after updating
     props.onUpdatePost(updatedPost);
   };
+
+  // Determine whether to display updatedAt section (if dates are the same, post is new post and updatedAt does not need to display)
+  const shouldDisplayUpdatedAt = props.post.createdAt !== props.post.updatedAt;
 
   return (
     <article
@@ -70,7 +81,20 @@ const Post = (props) => {
             />
           </div>
         )}
+        <div className="text-sm flex justify-center items-center">
+          Posted by:{" "}
+          <Link to={`/profile/${userId}`} className="text-blue-500">
+            {postUsername}
+          </Link>
+          <img className="h-5 ml-2" src={pfp} alt="Profile" />
+        </div>
+        <div className="text-xs text-gray-400">Posted on: {formattedDate}</div>
       </div>
+      {shouldDisplayUpdatedAt && (
+        <div className="text-xs text-gray-400">
+          Updated on: {formattedUpdatedDate}
+        </div>
+      )}
 
       {isEditing ? (
         <EditPostForm
@@ -122,4 +146,5 @@ const Post = (props) => {
     // </div>
   );
 };
+
 export default Post;

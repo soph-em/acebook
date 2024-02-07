@@ -1,7 +1,6 @@
-// This code defines a React component called "Comments" that displays comments and allows users to add new comments.
-
 import { useState, useEffect } from "react";
 import { fetchComments, postComment } from "../../services/comments";
+import { Link } from "react-router-dom";
 
 const Comments = ({ postId, token, allowComments }) => {
   // Initialize state variables using the useState hook

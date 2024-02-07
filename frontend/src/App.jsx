@@ -21,10 +21,9 @@ const router = createBrowserRouter([
     element: <SignupPage />,
   },
   {
-    path: "/profile",
-    element: <Profile/>
-  }
-
+    path: "/profile/:userId",
+    element: <Profile />,
+  },
 ]);
 
 const App = () => {
