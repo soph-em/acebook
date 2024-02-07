@@ -19,12 +19,11 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // API Routes
-app.use("/", commentsRouter);
-app.use("/users", usersRouter);
-app.use("/", postsRouter);
-app.use("/tokens", authenticationRouter);
-app.use('/like/:id', postsRouter);
-
+app.use("/api/", commentsRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/", postsRouter);
+app.use("/api/tokens", authenticationRouter);
+app.use("/api/like/:id", postsRouter);
 
 // 404 Handler
 app.use((_req, res) => {
