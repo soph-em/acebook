@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { updatePostById } from '../../services/posts'
+import { updatePostById } from "../../services/posts";
 
-const EditPostForm = ({postId, initialMessage, onUpdate}) =>{
-    const [message, setMessage] = useState(initialMessage);
+const EditPostForm = ({ postId, initialMessage, onUpdate }) => {
+  const [message, setMessage] = useState(initialMessage);
 
     const handleUpdatePost = async () => {
         try {
@@ -11,20 +11,20 @@ const EditPostForm = ({postId, initialMessage, onUpdate}) =>{
             const { createdAt, updatedAt } = response.post;
             // Pass updated post data to parent
             onUpdate({ _id: postId, message, createdAt, updatedAt });
-
-        } catch (error) {
+            } catch (error) {
             console.error("Error updating post:", error.message);
-        }
+            }
         };
-    return (
-        <div>
-            <textarea
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            ></textarea>
-            <button onClick={handleUpdatePost}>Save</button>
-        </div>
-        );
-    };
+        
+  return (
+    <div>
+      <textarea
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+      ></textarea>
+      <button onClick={handleUpdatePost}>Save</button>
+    </div>
+  );
+};
 
 export default EditPostForm;

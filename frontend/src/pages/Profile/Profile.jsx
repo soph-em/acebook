@@ -17,11 +17,6 @@ export const Profile = () => {
   const { userId } = useParams(); // Capture the userId from the URL
   const [image, setImage] = useState(null);
 
-  console.log(
-    `Logged in user id: ${loggedInUserId}, type: ${typeof loggedInUserId}`
-  ); // Log loggedInUserId
-  console.log(`User id from URL: ${userId}, type: ${typeof userId}`); // Log userId
-
   const handleUpload = (imageUrl) => {
     putUser(imageUrl);
     setImage(imageUrl);
