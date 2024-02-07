@@ -32,6 +32,10 @@ const Post = (props) => {
     props.onUpdatePost(updatedPost);
   };
 
+  // Determine whether to display updatedAt section (if dates are the same, post is new post and updatedAt does not need to display)
+  const shouldDisplayUpdatedAt = props.post.createdAt !== props.post.updatedAt;
+
+
   return (
     <article
       key={props.post._id}
@@ -57,7 +61,7 @@ const Post = (props) => {
         </div>
         <div className="text-xs text-gray-400">Posted on: {formattedDate}</div>
       </div>
-        <div className="text-xs text-gray-400">Updated on: {formattedUpdatedDate}</div> 
+      {shouldDisplayUpdatedAt && <div className="text-xs text-gray-400">Updated on: {formattedUpdatedDate}</div>} 
 
       {isEditing ? (
         <EditPostForm
