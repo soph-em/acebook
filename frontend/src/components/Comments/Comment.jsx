@@ -44,7 +44,9 @@ const Comments = ({ postId, token, allowComments }) => {
             {comments.map((comment) => (
               <div key={comment._id} className="pt-2 text-left pl-3">
                 <strong className="text-blue-500 pr-2">
-                  {comment.createdBy.username}:
+                  <Link to={`/profile/${comment.createdBy._id}`}>
+                    {comment.createdBy.username}:
+                  </Link>
                 </strong>
                 {comment.message}
               </div>
