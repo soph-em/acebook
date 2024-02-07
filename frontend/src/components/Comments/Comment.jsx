@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { fetchComments, postComment } from "../../services/comments";
+import { CommentButton } from "./CommentButton";
 
 const Comments = ({ postId, token, allowComments }) => {
   // Initialize state variables using the useState hook
@@ -40,36 +41,38 @@ const Comments = ({ postId, token, allowComments }) => {
       {/* Render comment form if comments are allowed */}
       {allowComments && (
         <>
-          <div className="w-1/2 border-2 p-2 bg-white">
-            <form onSubmit={handleCommentSubmit}>
-              <button
-                onClick={toggleComments}
-                type="submit"
-                // className="bg-blue-400 text-white py-1 px-4 rounded-md hover:bg-blue-700"
-              >
-                Comment
-              </button>
-            </form>
-          </div>
+          <CommentButton toggleComments={toggleComments} />
           {showComments && (
-            <div className="pt-3">
-              <input
-                type="text"
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-                placeholder="Write a comment..."
-              />
-            </div>
+            <>
+              <div>
+                <form onSubmit={handleCommentSubmit}>
+                  <button
+                    type="submit"
+                    // className="bg-blue-400 text-white py-1 px-4 rounded-md hover:bg-blue-700"
+                  >
+                    Comment
+                  </button>
+                </form>
+              </div>
+              <div className="pt-3">
+                <input
+                  type="text"
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                  placeholder="Write a comment..."
+                />
+              </div>
+              {/* Render comments */}
+              {comments.map((comment) => (
+                <div key={comment._id} style={{ fontSize: "smaller" }}>
+                  <strong className="text-blue-500">
+                    {comment.createdBy.username}:
+                  </strong>
+                  {comment.message}
+                </div>
+              ))}
+            </>
           )}
-          {/* Render comments */}
-          {comments.map((comment) => (
-            <div key={comment._id} style={{ fontSize: "smaller" }}>
-              <strong className="text-blue-500">
-                {comment.createdBy.username}:
-              </strong>
-              {comment.message}
-            </div>
-          ))}
         </>
       )}
     </div>
