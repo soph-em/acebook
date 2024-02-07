@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import "./navbar.css";
+import "./Navbar.css";
 import Logout from "../../components/Logout/Logout";
 import { getUserIdFromToken } from "../../services/decodeToken";
 import { useState } from "react";
@@ -31,9 +31,7 @@ const Navbar = () => {
           </a>
         </li>
 
-        <li>
-          {user_id && <Link to={`/profile/${user_id}`}>My Profile</Link>}
-        </li>
+        <li>{user_id && <Link to={`/profile/${user_id}`}>My Profile</Link>}</li>
         <Logout />
       </>
     );
