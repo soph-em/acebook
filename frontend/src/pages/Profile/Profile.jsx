@@ -7,8 +7,8 @@ import Post from "../../components/Post/Post";
 import Navbar from "../Navbar/Navbar";
 // import Comments from "../../components/Comments/Comment";
 import UploadWidget from "./UploadWidget";
-import Followers from "../../components/Followers/Followers";
-import Following from "../../components/Followers/Following";
+//import Followers from "../../components/Followers/Followers";
+//import Following from "../../components/Followers/Following";
 
 export const Profile = () => {
   const [username, setUsername] = useState("");
@@ -77,8 +77,8 @@ export const Profile = () => {
           <UploadWidget onImageUpload={handleUpload} />
         </>
       )}
-      <Followers userId={userId} /> {/* Display Followers component */}
-      <Following userId={userId} /> {/* Display Following component */}
+      {/* <Followers userId={userId} /> {/* Display Followers component */}
+      {/* <Following userId={userId} /> Display Following component */}
       <p>My Posts:</p>
       <div>
         {posts.map((post) => (
