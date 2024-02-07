@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
-const LikeCounter = ({likes}) => {
+const LikeCounter = ({ likes }) => {
   return (
-    <div>
-      <p>{likes.length}</p>
+    <div className="flex text-sm pt-3">
+      <p>Liked by {likes.length} people</p>
     </div>
-  )
-}
+  );
+};
 
-export default LikeCounter 
+export default LikeCounter;

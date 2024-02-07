@@ -65,6 +65,18 @@ const getUser = async (req, res) => {
   }
 };
 
+const getUserById = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      return res.status(404).send({ message: "User not found" });
+    }
+    res.json(user);
+  } catch (error) {
+    res.status(500).send({ message: "Error retrieving user" });
+  }
+};
+
 const create = async (req, res) => {
   try {
     const username = req.body.username;
@@ -116,6 +128,7 @@ const UsersController = {
   create: create,
   getUser: getUser,
   putUser: putUser,
+  getUserById: getUserById,
 };
 
 module.exports = UsersController;
