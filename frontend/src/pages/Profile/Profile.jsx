@@ -8,6 +8,7 @@ import Navbar from "../Navbar/Navbar";
 // import Comments from "../../components/Comments/Comment";
 import UploadWidget from "./UploadWidget";
 
+
 export const Profile = () => {
   const [username, setUsername] = useState("");
   const [posts, setPosts] = useState([]);
@@ -46,6 +47,8 @@ export const Profile = () => {
         console.error(`Error fetching posts for User ID ${userId}:`, err);
       });
   }, [userId]); // React to changes in userId
+
+
 
   // console.log(username);
   // if (image == null ){
