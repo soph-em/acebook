@@ -8,10 +8,8 @@ const Following = ({ userId }) => {
     const fetchFollowing = async () => {
       try {
         const data = await getFollowing(userId);
-        console.log("Data received:", data); // Log the received data
         // Check if data.following is defined and not empty before setting the state
         if (data && Array.isArray(data) && data.length > 0) {
-          console.log("Following:", data); // Log the following array
           setFollowing(data);
         } else {
           console.log("No following data found");
@@ -25,12 +23,18 @@ const Following = ({ userId }) => {
   }, [userId]);
 
   return (
-    <div>
-      <h2>Following</h2>
-      <ul>
-        {following &&
-          following.map((user) => <li key={user._id}>{user.username}</li>)}
-      </ul>
+    <div className="flex">
+      <div className="w-1/2 p-2">
+        <h2 className="text-s text-blue-500 font-semibold">Following</h2>
+        <ul>
+          {following &&
+            following.map((user) => (
+              <li key={user._id} className="mb-2 text-blue-500">
+                {user.username}
+              </li>
+            ))}
+        </ul>
+      </div>
     </div>
   );
 };
