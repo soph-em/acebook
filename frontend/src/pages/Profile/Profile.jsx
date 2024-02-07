@@ -8,7 +8,6 @@ import Navbar from "../Navbar/Navbar";
 // import Comments from "../../components/Comments/Comment";
 import UploadWidget from "./UploadWidget";
 
-
 export const Profile = () => {
   const [username, setUsername] = useState("");
   const [posts, setPosts] = useState([]);
@@ -43,7 +42,20 @@ export const Profile = () => {
       });
   }, [userId]); // React to changes in userId
 
+  const updatePostInState = (updatedPost) => {
+    const updatedPosts = posts.map((post) => {
+      if (post._id === updatedPost._id) {
+        return updatedPost; // Replace with the updated post
+      }
+      return post; // Return untouched post
+    });
+    setPosts(updatedPosts); // Update state with the new posts array
+  };
 
+  const deletePostFromState = (postId) => {
+    const updatedPosts = posts.filter((post) => post._id !== postId);
+    setPosts(updatedPosts); // Update state with the filtered posts array
+  };
 
   // console.log(username);
   // if (image == null ){
@@ -71,6 +83,8 @@ export const Profile = () => {
             post={post}
             token={token}
             allowComments={!!token}
+            onUpdatePost={updatePostInState}
+            onDeletePost={deletePostFromState}
           />
         ))}
       </div>
