@@ -24,3 +24,27 @@ export const getUser = async (userId) => {
   const data = await response.json();
   return data;
 };
+
+export const putUser = async (image) => {
+  const token = localStorage.getItem("token");
+  const requestOptions = {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ image }),
+  };
+  const response = await fetch(`${BACKEND_URL}/users`, requestOptions);
+
+  if (response.status !== 200) {
+    throw new Error("Unable to put user");
+  }
+
+  if (response.status == 200) {
+    console.log("200");
+  }
+
+  const data = await response.json();
+  return data;
+};

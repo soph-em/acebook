@@ -66,6 +66,58 @@ export const createPost = async (message, imageUrl, token) => {
   }
 };
 
+export const deletePostById = async (postId) => {
+  const token = localStorage.getItem("token");
+
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  try {
+    const response = await fetch(`${BACKEND_URL}/${postId}`, requestOptions);
+
+    if (response.status !== 200) {
+      throw new Error("Unable to delete post");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error.message);
+    throw error;
+  }
+};
+
+export const updatePostById = async (postId, updatedPostData) => {
+  const token = localStorage.getItem("token");
+
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updatedPostData),
+  };
+  try {
+    const response = await fetch(`${BACKEND_URL}/${postId}`, requestOptions);
+
+    if (response.status !== 200) {
+      throw new Error("Unable to update post");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error.message);
+    throw error;
+  }
+};
+
+
 export const likePost = async (userId, postId, token) => {
   const requestOptions = {
     method: "PUT",

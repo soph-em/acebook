@@ -19,6 +19,32 @@ const checkPasswordValidity = async (password) => {
   return passwordValid;
 };
 
+const putUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.user_id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    let imageUrl = null;
+    if (req.body.image) {
+      console.log(req.file);
+      // If image added, save the image URL
+      imageUrl = req.body.image;
+      // imageUrl = req.file.secure_url;
+    } else {
+      res.status("500 - image missing");
+    }
+    user.image = imageUrl;
+    user.save();
+    res
+      .status(200)
+      .json({ username: user.username, email: user.email, image: user.image });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const getUser = async (req, res) => {
   // console.log(req.user_id);
   try {
@@ -29,7 +55,9 @@ const getUser = async (req, res) => {
     }
 
     // Send back the user profile information you wish to expose
-    res.status(200).json({ username: user.username, email: user.email });
+    res
+      .status(200)
+      .json({ username: user.username, email: user.email, image: user.image });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error.message });
@@ -95,6 +123,7 @@ const create = async (req, res) => {
 const UsersController = {
   create: create,
   getUser: getUser,
+  putUser: putUser,
   getUserById: getUserById,
 };
 
