@@ -15,7 +15,7 @@ const Post = (props) => {
   const [pfp, setPfp] = useState(null);
   const user = props.post.createdBy?.username;
   const [showComments, setShowComments] = useState(false);
-
+  const [isEditing, setIsEditing] = useState(false);
   const toggleComments = () => {
     setShowComments((prevState) => !prevState);
   };
@@ -53,9 +53,16 @@ const Post = (props) => {
       <div className="flex justify-between items-center">
         <div className="text-sm flex items-center">
           <img className="h-9 ml-2" src={pfp} alt="Profile" />
-          <div className="ml-1">
-            <p className="text-blue-500 text-left">{user}</p>
+          <div className="ml-1 text-left">
+            <Link to={`/profile/${userId}`} className="text-blue-500 text-left">
+              {postUsername}
+            </Link>
             <p className="text-xs text-gray-400">Posted on: {formattedDate}</p>
+            {shouldDisplayUpdatedAt && (
+              <div className="text-xs text-gray-400">
+                Updated on: {formattedUpdatedDate}
+              </div>
+            )}
           </div>
         </div>
         <DropdownMenu
@@ -81,20 +88,7 @@ const Post = (props) => {
             />
           </div>
         )}
-        <div className="text-sm flex justify-center items-center">
-          Posted by:{" "}
-          <Link to={`/profile/${userId}`} className="text-blue-500">
-            {postUsername}
-          </Link>
-          <img className="h-5 ml-2" src={pfp} alt="Profile" />
-        </div>
-        <div className="text-xs text-gray-400">Posted on: {formattedDate}</div>
       </div>
-      {shouldDisplayUpdatedAt && (
-        <div className="text-xs text-gray-400">
-          Updated on: {formattedUpdatedDate}
-        </div>
-      )}
 
       {isEditing ? (
         <EditPostForm
