@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { Schema, Types } = mongoose;
 
 const UserSchema = new mongoose.Schema({
   username: {
@@ -28,31 +29,19 @@ const UserSchema = new mongoose.Schema({
   followers: [
     {
       type: Schema.Types.ObjectID,
-      ref: "UserId",
+      ref: "User",
     },
   ],
   following: [
     {
       type: Schema.Types.ObjectID,
-      ref: "UserId",
+      ref: "User",
     },
   ],
   posts: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Post",
-    },
-  ],
-  followers: [
-    {
-      type: Schema.Types.ObjectID,
-      ref: "User",
-    },
-  ],
-  following: [
-    {
-      type: Schema.Types.ObjectID,
-      ref: "User",
     },
   ],
 });
