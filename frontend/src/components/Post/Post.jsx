@@ -13,8 +13,9 @@ const Post = (props) => {
   const [pfp, setPfp] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const formattedDate = new Date(props.post.createdAt).toLocaleString("en-GB");
-  const postUsername = props.post.createdBy.username;
-  const userId = props.post.createdBy._id;
+  const formattedUpdatedDate = new Date(props.post.updatedAt).toLocaleString("en-GB"); 
+  const postUsername = props.post.createdBy?.username;
+  const userId = props.post.createdBy?._id;
   const token = props.token; // Token passed as a prop
   const allowComments = props.allowComments;
 
@@ -56,6 +57,7 @@ const Post = (props) => {
         </div>
         <div className="text-xs text-gray-400">Posted on: {formattedDate}</div>
       </div>
+        <div className="text-xs text-gray-400">Updated on: {formattedUpdatedDate}</div> 
 
       {isEditing ? (
         <EditPostForm

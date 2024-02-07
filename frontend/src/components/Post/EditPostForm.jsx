@@ -6,9 +6,11 @@ const EditPostForm = ({postId, initialMessage, onUpdate}) =>{
 
     const handleUpdatePost = async () => {
         try {
-            await updatePostById(postId, { message });
+            const response = await updatePostById(postId, { message }, );
+            // Extract createdAt and updatedAt from the response data
+            const { createdAt, updatedAt } = response.post;
             // Pass updated post data to parent
-            onUpdate({ _id: postId, message });
+            onUpdate({ _id: postId, message, createdAt, updatedAt });
 
         } catch (error) {
             console.error("Error updating post:", error.message);
