@@ -12,8 +12,8 @@ const Post = (props) => {
   const [username, setUsername] = useState("");
   const [pfp, setPfp] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const postUsername = props.post.createdBy.username;
   const formattedDate = new Date(props.post.createdAt).toLocaleString("en-GB");
+  const postUsername = props.post.createdBy.username;
   const userId = props.post.createdBy._id;
   const token = props.token; // Token passed as a prop
   const allowComments = props.allowComments;
@@ -50,7 +50,7 @@ const Post = (props) => {
         <div className="text-sm flex justify-center items-center">
           Posted by:{" "}
           <Link to={`/profile/${userId}`} className="text-blue-500">
-            {username}
+            {postUsername}
           </Link>
           <img className="h-5 ml-2" src={pfp} alt="Profile" />
         </div>

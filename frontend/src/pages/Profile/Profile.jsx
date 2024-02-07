@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getUser, putUser } from "../../services/users";
 import { getPostsbyId } from "../../services/posts";
+import { getUserIdFromToken } from "../../services/decodeToken";
 import Post from "../../components/Post/Post";
 import Navbar from "../Navbar/Navbar";
 // import Comments from "../../components/Comments/Comment";
@@ -11,8 +12,14 @@ export const Profile = () => {
   const [username, setUsername] = useState("");
   const [posts, setPosts] = useState([]);
   const [token, setToken] = useState(window.localStorage.getItem("token"));
+  const loggedInUserId = getUserIdFromToken(); // Use the function to get the logged-in user's ID
   const { userId } = useParams(); // Capture the userId from the URL
   const [image, setImage] = useState(null);
+
+  console.log(
+    `Logged in user id: ${loggedInUserId}, type: ${typeof loggedInUserId}`
+  ); // Log loggedInUserId
+  console.log(`User id from URL: ${userId}, type: ${typeof userId}`); // Log userId
 
   const handleUpload = (imageUrl) => {
     putUser(imageUrl);
@@ -52,8 +59,12 @@ export const Profile = () => {
       <div className="flex justify-center">
         <img className="h-12" src={image} alt="Profile" />
       </div>
-      <p>Upload a new profile photo</p>
-      <UploadWidget onImageUpload={handleUpload} />
+      {loggedInUserId === userId && (
+        <>
+          <p>Upload a new profile photo</p>
+          <UploadWidget onImageUpload={handleUpload} />
+        </>
+      )}
       <p>My Posts:</p>
       <div>
         {posts.map((post) => (
