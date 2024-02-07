@@ -13,8 +13,8 @@ const Post = (props) => {
   const [pfp, setPfp] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const formattedDate = new Date(props.post.createdAt).toLocaleString("en-GB");
-  const postUsername = props.post.createdBy.username;
-  const userId = props.post.createdBy._id;
+  const postUsername = props.post.createdBy?.username;
+  const userId = props.post.createdBy?._id;
   const token = props.token; // Token passed as a prop
   const allowComments = props.allowComments;
 
@@ -42,7 +42,7 @@ const Post = (props) => {
           <div className="w-full flex justify-center">
             <img
               src={props.post.image}
-              alt={`Posted by ${postUsername}`}
+              alt={`Posted by ${username}`}
               className="max-w-full max-h-96 object-cover"
             />
           </div>
