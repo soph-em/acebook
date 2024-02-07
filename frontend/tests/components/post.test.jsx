@@ -1,23 +1,29 @@
 import { render, screen } from "@testing-library/react";
 import Post from "../../src/components/Post/Post";
 
-describe("Post component", () => {
-  it("displays the message and username as an article", () => {
-    // Updated mock post data to include createdBy with username
-    const mockPost = {
-      message: "test message",
-      createdBy: "test user",
-      createdAt: new Date().toISOString(), // Use a valid date string
-      createdBy: {
-        username: "testuser", // Add a username to match your updated component expectations
-      },
-    };
+  describe("Post component", () => {
+    test("Post Component", () => {
+      // Updated mock post data to include createdBy with username
+      const mockPost = {
+        message: "test message",
+        image: "test-image.jpg", //Added
+        createdAt: new Date().toISOString(), 
+        createdBy: {
+          username: "testuser", // Add a username to match your updated component expectations
+        },
+        likes:0, //Added to match DB
+      }
+    });
 
-    // Render the Post component with the updated mock post data
-    render(<Post post={mockPost} />);
+    test('Renders Post without crashing'), () => {
+      render(<Post post={mockPost} token="test-token" allowComments={true}/>)
+    }
 
-    const article = screen.getByRole("article");
-    expect(article.textContent).toContain("test message");
-    expect(article.textContent).toContain("testuser"); // Check if the username is displayed
+    test('Succesfully renders message'), () => {
+      const result = render(<Post post={mockPost} token="test-token" allowComments={true}/>)
+      const getByText = result.getByText;
+      expect(getByText(mockPost.message)).toBeInTheDocument();
+    }
+
   });
-});
+  

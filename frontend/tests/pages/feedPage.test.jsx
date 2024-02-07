@@ -46,14 +46,19 @@ describe("Feed Page", () => {
   it("It displays posts from the backend", async () => {
     window.localStorage.setItem("token", "testToken");
 
+    //Updated backend data
     const mockPosts = [
       {
         _id: "12345",
         message: "Test Post 1",
-        createdBy: "Kat",
-        date: "2024-01-30",
+        image: "test-image.jpg",
+        createdAt: new Date().toISOString(),
+        createdBy: {
+          username: "testuser", 
+        },
+        likes:0,
       },
-    ]; // Example date added
+    ]; 
 
     getPosts.mockResolvedValue({ posts: mockPosts });
 
