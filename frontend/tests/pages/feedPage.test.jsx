@@ -54,6 +54,22 @@ describe("Feed Page", () => {
   it("It displays posts from the backend", async () => {
     window.localStorage.setItem("token", "testToken");
 
+    //Updated backend data
+    const mockPosts = [
+      {
+        _id: "12345",
+        message: "Test Post 1",
+        image: "test-image.jpg",
+        createdAt: new Date().toISOString(),
+        createdBy: {
+          username: "testuser",
+        },
+        likes: 0,
+      },
+    ];
+
+    getPosts.mockResolvedValue({ posts: mockPosts });
+
     render(<FeedPage />);
 
     const post = await screen.findByRole("article");
