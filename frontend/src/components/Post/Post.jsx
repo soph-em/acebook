@@ -12,14 +12,14 @@ const Post = (props) => {
   const [pfp, setPfp] = useState(null);
 
   const formattedDate = new Date(props.post.createdAt).toLocaleString("en-GB");
-   const user = props.post.createdBy.username;
+  const user = props.post.createdBy?.username;
   const token = props.token; // Token passed as a prop
   const allowComments = props.allowComments;
   getUser().then((data) => {
     setUsername(data.username);
     setPfp(data.image);
   });
-  const allowComments = props.allowComments;
+  //const allowComments = props.allowComments;
   const [isEditing, setIsEditing] = useState(false);
 
   const handleUpdate = (updatedPost) => {
