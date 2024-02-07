@@ -5,6 +5,7 @@ import LikeButton from "../Likes/LikeButton";
 import LikeCounter from "../Likes/LikeCounter";
 import { useState } from "react";
 import { getUser } from "../../services/users";
+import DropdownMenu from "./DropDownMenu";
 
 const Post = (props) => {
   const [likes, setLikes] = useState(props.post.likes);
@@ -12,9 +13,8 @@ const Post = (props) => {
   const [pfp, setPfp] = useState(null);
 
   const formattedDate = new Date(props.post.createdAt).toLocaleString("en-GB");
-   const user = props.post.createdBy.username;
+  const user = props.post.createdBy?.username;
   const token = props.token; // Token passed as a prop
-  const allowComments = props.allowComments;
   getUser().then((data) => {
     setUsername(data.username);
     setPfp(data.image);
@@ -25,35 +25,43 @@ const Post = (props) => {
   const handleUpdate = (updatedPost) => {
     console.log("Post updated successfully");
     setIsEditing(false); // Switch back to view mode after updating
-    props.onUpdatePost(updatedPost); 
+    props.onUpdatePost(updatedPost);
   };
 
   return (
+    // <div className="bg-slate-100 shadow-lg rounded-lg p-4 my-4 overflow-hidden flex relative">
     <article
       key={props.post._id}
       className="bg-slate-100 shadow-lg rounded-lg p-4 my-4 overflow-hidden"
     >
-      <div className="space-y-4">
-        <p className="text-gray-800 text-lg">{props.post.message}</p>
+      <DropdownMenu
+        option1={
+          <DeleteButton
+            postId={props.post._id}
+            onDeletePost={props.onDeletePost}
+          />
+        }
+      />
+      <div className="text-sm flex items-center">
+        <img className="h-9 ml-2" src={pfp} alt="Profile" />
+        <div className="ml-1">
+          <p className="text-blue-500 text-left">{user}</p>
+          <p className="text-xs text-gray-400">Posted on: {formattedDate}</p>
+        </div>
+      </div>
+      <div className="space-y-4 mt-3">
+        <p className="text-gray-800 text-lg text-left">{props.post.message}</p>
         {props.post.image && (
           <div className="w-full flex justify-center">
             <img
               src={props.post.image}
-
               alt={`Posted by ${user}`}
               className="max-w-full max-h-96 object-cover" // Ensures the image covers the area without losing its aspect ratio
-
             />
           </div>
         )}
-        <div className="text-sm flex justify-center items-center">
-          Posted by: <span className="text-blue-500">{user}</span>
-          <img className="h-5 ml-2" src={pfp} alt="Profile" />
-        </div>
-        <div className="text-xs text-gray-400">Posted on: {formattedDate}</div>
       </div>
 
-      
       {isEditing ? (
         <EditPostForm
           postId={props.post._id}
@@ -62,22 +70,37 @@ const Post = (props) => {
         />
       ) : (
         <>
-          <Comments
-            postId={props.post._id}
-            token={token}
-            username={username}
-            allowComments={allowComments}
-          />
-          <LikeButton postId={props.post._id} postLikes={likes} setLikes={setLikes}/>
-          <LikeCounter likes={likes}/>
+          <div className="text-left">
+            <LikeCounter likes={likes} />
+          </div>
+          <div className="flex flex-row justify-center align-middle items-center">
+            <div>
+              <LikeButton
+                postId={props.post._id}
+                postLikes={likes}
+                setLikes={setLikes}
+              />
+            </div>
+            <div>
+              <Comments
+                postId={props.post._id}
+                token={token}
+                username={username}
+                allowComments={allowComments}
+              />
+            </div>
+          </div>
           <div>
             <button onClick={() => setIsEditing(true)}>Edit</button>
-            <DeleteButton postId={props.post._id} onDeletePost={props.onDeletePost} />
+            <DeleteButton
+              postId={props.post._id}
+              onDeletePost={props.onDeletePost}
+            />
           </div>
         </>
       )}
-
     </article>
+    // </div>
   );
 };
 export default Post;
