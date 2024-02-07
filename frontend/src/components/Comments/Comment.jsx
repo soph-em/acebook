@@ -1,7 +1,6 @@
-// This code defines a React component called "Comments" that displays comments and allows users to add new comments.
-
 import { useState, useEffect } from "react";
 import { fetchComments, postComment } from "../../services/comments";
+import { Link } from "react-router-dom";
 
 const Comments = ({ postId, token, allowComments }) => {
   // Initialize state variables using the useState hook
@@ -37,7 +36,9 @@ const Comments = ({ postId, token, allowComments }) => {
       {comments.map((comment) => (
         <div key={comment._id} style={{ fontSize: "smaller" }}>
           <strong className="text-blue-500">
-            {comment.createdBy.username}:
+            <Link to={`/profile/${comment.createdBy._id}`}>
+              {comment.createdBy.username}:
+            </Link>
           </strong>
           {comment.message}
         </div>

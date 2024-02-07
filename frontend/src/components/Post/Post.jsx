@@ -3,30 +3,39 @@ import EditPostForm from "./EditPostForm";
 import Comments from "../Comments/Comment";
 import LikeButton from "../Likes/LikeButton";
 import LikeCounter from "../Likes/LikeCounter";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import { getUser } from "../../services/users";
 
 const Post = (props) => {
   const [likes, setLikes] = useState(props.post.likes);
   const [username, setUsername] = useState("");
   const [pfp, setPfp] = useState(null);
-
+  const [isEditing, setIsEditing] = useState(false);
   const formattedDate = new Date(props.post.createdAt).toLocaleString("en-GB");
-   const user = props.post.createdBy.username;
+  const formattedUpdatedDate = new Date(props.post.updatedAt).toLocaleString(
+    "en-GB"
+  );
+  const postUsername = props.post.createdBy?.username;
+  const userId = props.post.createdBy?._id;
   const token = props.token; // Token passed as a prop
   const allowComments = props.allowComments;
-  getUser().then((data) => {
-    setUsername(data.username);
-    setPfp(data.image);
-  });
-  const allowComments = props.allowComments;
-  const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    getUser().then((data) => {
+      setUsername(data.username);
+      setPfp(data.image);
+    });
+  }, []);
 
   const handleUpdate = (updatedPost) => {
     console.log("Post updated successfully");
     setIsEditing(false); // Switch back to view mode after updating
-    props.onUpdatePost(updatedPost); 
+    props.onUpdatePost(updatedPost);
   };
+
+  // Determine whether to display updatedAt section (if dates are the same, post is new post and updatedAt does not need to display)
+  const shouldDisplayUpdatedAt = props.post.createdAt !== props.post.updatedAt;
 
   return (
     <article
@@ -39,21 +48,26 @@ const Post = (props) => {
           <div className="w-full flex justify-center">
             <img
               src={props.post.image}
-
-              alt={`Posted by ${user}`}
-              className="max-w-full max-h-96 object-cover" // Ensures the image covers the area without losing its aspect ratio
-
+              alt={`Posted by ${username}`}
+              className="max-w-full max-h-96 object-cover"
             />
           </div>
         )}
         <div className="text-sm flex justify-center items-center">
-          Posted by: <span className="text-blue-500">{user}</span>
+          Posted by:{" "}
+          <Link to={`/profile/${userId}`} className="text-blue-500">
+            {postUsername}
+          </Link>
           <img className="h-5 ml-2" src={pfp} alt="Profile" />
         </div>
         <div className="text-xs text-gray-400">Posted on: {formattedDate}</div>
       </div>
+      {shouldDisplayUpdatedAt && (
+        <div className="text-xs text-gray-400">
+          Updated on: {formattedUpdatedDate}
+        </div>
+      )}
 
-      
       {isEditing ? (
         <EditPostForm
           postId={props.post._id}
@@ -68,16 +82,23 @@ const Post = (props) => {
             username={username}
             allowComments={allowComments}
           />
-          <LikeButton postId={props.post._id} postLikes={likes} setLikes={setLikes}/>
-          <LikeCounter likes={likes}/>
+          <LikeButton
+            postId={props.post._id}
+            postLikes={likes}
+            setLikes={setLikes}
+          />
+          <LikeCounter likes={likes} />
           <div>
             <button onClick={() => setIsEditing(true)}>Edit</button>
-            <DeleteButton postId={props.post._id} onDeletePost={props.onDeletePost} />
+            <DeleteButton
+              postId={props.post._id}
+              onDeletePost={props.onDeletePost}
+            />
           </div>
         </>
       )}
-
     </article>
   );
 };
+
 export default Post;
