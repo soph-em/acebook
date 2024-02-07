@@ -15,7 +15,7 @@ const Post = (props) => {
   const [pfp, setPfp] = useState(null);
   const user = props.post.createdBy?.username;
   const [showComments, setShowComments] = useState(false);
-
+  const [isEditing, setIsEditing] = useState(false);
   const toggleComments = () => {
     setShowComments((prevState) => !prevState);
   };
