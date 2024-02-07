@@ -58,6 +58,11 @@ const Post = (props) => {
               {postUsername}
             </Link>
             <p className="text-xs text-gray-400">Posted on: {formattedDate}</p>
+            {shouldDisplayUpdatedAt && (
+              <div className="text-xs text-gray-400">
+                Updated on: {formattedUpdatedDate}
+              </div>
+            )}
           </div>
         </div>
         <DropdownMenu
@@ -84,11 +89,6 @@ const Post = (props) => {
           </div>
         )}
       </div>
-      {shouldDisplayUpdatedAt && (
-        <div className="text-xs text-gray-400">
-          Updated on: {formattedUpdatedDate}
-        </div>
-      )}
 
       {isEditing ? (
         <EditPostForm
