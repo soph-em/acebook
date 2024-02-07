@@ -1,15 +1,19 @@
 {
-  "Note": "This is a dummy package.json file to prevent accidental installation or running of packages in the wrong file",
+  "name": "acebook",
+  "version": "1.0.0",
+  "description": "",
+  "main": "api/server.js",
   "scripts": {
-    "dev": "echo 'You are in the wrong directory. cd to api or frontend folder to run this command'",
-    "start": "echo 'You are in the wrong directory. cd to api or frontend folder to run this command'",
-    "build": "echo 'You are in the wrong directory. cd to api or frontend folder to run this command'",
-    "lint": "echo 'You are in the wrong directory. cd to api or frontend folder to run this command'",
-    "preview": "echo 'You are in the wrong directory. cd to api or frontend folder to run this command'",
-    "test": "echo 'You are in the wrong directory. cd to api or frontend folder to run this command'",
-    "preinstall": "echo \"You are in the wrong directory. cd to api or frontend folder to run this command\" && exit 1"
+    "start": "node api/server.js",
+    "develop": "concurrently \"cd api && npm run watch\" \"cd frontend && npm run dev\"",
+    "install": "cd api && npm i && cd ../frontend && npm i --production=false",
+    "build": "cd frontend && npm run build",
+    "render-build": "npm install && npm run build"
   },
-  "engines": {
-    "npm": "YOU ARE IN THE WRONG DIRECTORY! cd to api or frontend folder to run this command"
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.0"
   }
 }
