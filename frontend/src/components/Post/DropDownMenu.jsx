@@ -8,11 +8,8 @@ function DropdownMenu({ option1, option2 }) {
   };
 
   return (
-    <div>
-      {/* Dropdown Menu 1 */}
-
-      {/* Dropdown Button 1 */}
-      <div className="relative inline-block text-left">
+    <div style={{ position: "relative", zIndex: 9999 }}>
+      <div className="relative inline-block text-right">
         <div>
           <button
             type="button"
@@ -78,17 +75,18 @@ function DropdownMenu({ option1, option2 }) {
         </div>
       </div>
       <div
-        className={`z-10 ${
+        className={`absolute z-10 ${
           isOpen ? "block" : "hidden"
-        } bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700`}
+        } bg-white divide-y divide-gray-100 rounded-lg shadow w-28 dark:bg-gray-700`}
+        style={{ left: "-175%" }}
       >
         <ul
-          className="py-2 text-sm text-gray-700 dark:text-gray-200"
+          className="py-2 text-sm p-2 text-gray-700 text-right dark:text-gray-200"
           aria-labelledby="dropdownDefaultButton"
         >
           {/* Dropdown items */}
-          <li>{option1}</li>
-          <li>{option2}</li>
+          <li className="py-1">{option1}</li>
+          <li className="py-1">{option2}</li>
         </ul>
       </div>
     </div>

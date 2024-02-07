@@ -20,11 +20,13 @@ const LikeButton = ({ postId, postLikes, setLikes }) => {
   };
 
   return (
-    <div className="w-1/2 border-2 p-2 bg-white">
-      <button className="pt-0" onClick={handleLikeClick} disabled={isLiked}>
-        {isLiked ? "Liked!" : "Like"}
-      </button>
-    </div>
+    <button
+      className="w-full border-2 p-2 bg-white"
+      onClick={handleLikeClick}
+      disabled={isLiked}
+    >
+      {isLiked ? "Liked!" : "Like Post"}
+    </button>
   );
 };
 

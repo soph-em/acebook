@@ -2,18 +2,17 @@
 
 import { useState, useEffect } from "react";
 import { fetchComments, postComment } from "../../services/comments";
-import { CommentButton } from "./CommentButton";
 
 const Comments = ({ postId, token, allowComments }) => {
   // Initialize state variables using the useState hook
   const [comments, setComments] = useState([]); // Stores the fetched comments
   const [newComment, setNewComment] = useState(""); // Stores the value of the new comment input field
   const [newCommentAdded, setNewCommentAdded] = useState(null); // Triggers useEffect when a new comment is added
-  const [showComments, setShowComments] = useState(false);
+  // const [showComments, setShowComments] = useState(false);
 
-  const toggleComments = () => {
-    setShowComments((prevState) => !prevState);
-  };
+  // const toggleComments = () => {
+  //   setShowComments((prevState) => !prevState);
+  // };
   // Fetch comments from the server when the postId or newCommentAdded value changes
   useEffect(() => {
     fetchComments(postId).then(setComments);
@@ -41,38 +40,34 @@ const Comments = ({ postId, token, allowComments }) => {
       {/* Render comment form if comments are allowed */}
       {allowComments && (
         <>
-          <CommentButton toggleComments={toggleComments} />
-          {showComments && (
-            <>
+          <>
+            {/* Render comments */}
+            {comments.map((comment) => (
+              <div key={comment._id} className="pt-2 text-left pl-3">
+                <strong className="text-blue-500 pr-2">
+                  {comment.createdBy.username}:
+                </strong>
+                {comment.message}
+              </div>
+            ))}
+            <div className="flex flex-row w-full m-2">
+              <input
+                type="text"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                placeholder="Write a comment..."
+                className="w-3/4"
+              />
               <div>
                 <form onSubmit={handleCommentSubmit}>
-                  <button
-                    type="submit"
-                    // className="bg-blue-400 text-white py-1 px-4 rounded-md hover:bg-blue-700"
-                  >
-                    Comment
+                  <button className="border-2 p-1 bg-white" type="submit">
+                    Post Comment
                   </button>
                 </form>
               </div>
-              <div className="pt-3">
-                <input
-                  type="text"
-                  value={newComment}
-                  onChange={(e) => setNewComment(e.target.value)}
-                  placeholder="Write a comment..."
-                />
-              </div>
-              {/* Render comments */}
-              {comments.map((comment) => (
-                <div key={comment._id} style={{ fontSize: "smaller" }}>
-                  <strong className="text-blue-500">
-                    {comment.createdBy.username}:
-                  </strong>
-                  {comment.message}
-                </div>
-              ))}
-            </>
-          )}
+            </div>
+          </>
+          {/* )} */}
         </>
       )}
     </div>
