@@ -120,11 +120,55 @@ const create = async (req, res) => {
   }
 };
 
+const followUser = async (req, res) => {
+  try {
+    // Follow a user
+    const userToFollow = await User.findById(req.params.userId);
+    if (!userToFollow) {
+      return res.status(404).json({ message: "User to follow not found" });
+    }
+    const currentUser = await User.findById(req.user_id);
+    if (!currentUser) {
+      return res.status(404).json({ message: "Current user not found" });
+    }
+    currentUser.following.push(userToFollow._id);
+    await currentUser.save();
+    res.status(200).json({ message: "Successfully followed user" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const unfollowUser = async (req, res) => {
+  try {
+    // Unfollow a user
+    const userToUnfollow = await User.findById(req.params.userId);
+    if (!userToUnfollow) {
+      return res.status(404).json({ message: "User to unfollow not found" });
+    }
+    const currentUser = await User.findById(req.user_id);
+    if (!currentUser) {
+      return res.status(404).json({ message: "Current user not found" });
+    }
+    currentUser.following = currentUser.following.filter(
+      (userId) => userId !== userToUnfollow._id
+    );
+    await currentUser.save();
+    res.status(200).json({ message: "Successfully unfollowed user" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 const UsersController = {
   create: create,
   getUser: getUser,
   putUser: putUser,
   getUserById: getUserById,
+  followUser: followUser,
+  unfollowUser: unfollowUser,
 };
 
 module.exports = UsersController;
