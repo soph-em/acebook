@@ -52,7 +52,7 @@ export const createPost = async (message, imageUrl, token) => {
   };
 
   try {
-    const response = await fetch(`${BACKEND_URL}/${posts}`, requestOptions);
+    const response = await fetch(`${BACKEND_URL}/posts`, requestOptions);
 
     if (!response.ok) {
       throw new Error("Unable to create post");
