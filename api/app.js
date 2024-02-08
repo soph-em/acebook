@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === "production") {
 app.use(bodyParser.json());
 
 // API Routes
-app.use("api/", commentsRouter);
+app.use("/", commentsRouter);
 app.use("/users", usersRouter);
 app.use("/", postsRouter);
 app.use("/tokens", authenticationRouter);
