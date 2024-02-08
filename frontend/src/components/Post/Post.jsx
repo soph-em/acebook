@@ -8,6 +8,15 @@ import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import { getUser } from "../../services/users";
 import DropdownMenu from "./DropDownMenu";
 import { CommentButton } from "../Comments/CommentButton";
+import { getUserIdFromToken } from "../../services/decodeToken";
+import {
+  followUser,
+  getFollowers,
+  unfollowUser,
+} from "../../services/followers";
+
+import followIcon from "../../assets/add-friend.png";
+import unFollowIcon from "../../assets/delete-user.png";
 
 const Post = (props) => {
   const [likes, setLikes] = useState(props.post.likes);
@@ -16,6 +25,8 @@ const Post = (props) => {
   const user = props.post.createdBy?.username;
   const [showComments, setShowComments] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(false);
+
   const toggleComments = () => {
     setShowComments((prevState) => !prevState);
   };
@@ -28,6 +39,8 @@ const Post = (props) => {
   const userId = props.post.createdBy?._id;
   const token = props.token; // Token passed as a prop
   const allowComments = props.allowComments;
+
+  const currentUser = getUserIdFromToken();
 
   useEffect(() => {
     getUser().then((data) => {
@@ -45,6 +58,30 @@ const Post = (props) => {
   // Determine whether to display updatedAt section (if dates are the same, post is new post and updatedAt does not need to display)
   const shouldDisplayUpdatedAt = props.post.createdAt !== props.post.updatedAt;
 
+  useEffect(() => {
+    const checkIfFollowing = async () => {
+      const followers = await getFollowers(props.post.createdBy?._id);
+      const isAlreadyFollowing = followers.some(
+        (follower) => follower._id === currentUser
+      );
+      setIsFollowing(isAlreadyFollowing);
+    };
+
+    if (currentUser) {
+      checkIfFollowing();
+    }
+  }, [props.post.createdBy?._id, currentUser]);
+
+  const handleFollowClick = async () => {
+    if (isFollowing) {
+      await unfollowUser(props.post.createdBy?._id);
+      setIsFollowing(false);
+    } else {
+      await followUser(props.post.createdBy?._id);
+      setIsFollowing(true);
+    }
+  };
+
   return (
     <article
       key={props.post._id}
@@ -54,7 +91,10 @@ const Post = (props) => {
         <div className="text-sm flex items-center">
           <img className="h-9 ml-2" src={pfp} alt="Profile" />
           <div className="ml-1 text-left">
-            <Link to={`/profile/${userId}`} className="text-blue-500 text-left">
+            <Link
+              to={`/profile/${userId}`}
+              className="text-blue-500 text-left"
+            >
               {postUsername}
             </Link>
             <p className="text-xs text-gray-400">Posted on: {formattedDate}</p>
@@ -65,17 +105,29 @@ const Post = (props) => {
             )}
           </div>
         </div>
-        <DropdownMenu
-          option1={
-            <DeleteButton
-              postId={props.post._id}
-              onDeletePost={props.onDeletePost}
+        <div className="flex items-center">
+          {postUsername === username && (
+            <DropdownMenu
+              option1={
+                <DeleteButton
+                  postId={props.post._id}
+                  onDeletePost={props.onDeletePost}
+                />
+              }
+              option2={
+                <button onClick={() => setIsEditing(true)}>Edit Post</button>
+              }
             />
-          }
-          option2={
-            <button onClick={() => setIsEditing(true)}>Edit Post</button>
-          }
-        />
+          )}
+          {currentUser !== userId && (
+            <img
+              src={isFollowing ? unFollowIcon : followIcon}
+              alt={isFollowing ? "Unfollow" : "Follow"}
+              className="ml-4 cursor-pointer w-6 h-6"
+              onClick={handleFollowClick}
+            />
+          )}
+        </div>
       </div>
       <div className="space-y-4 mt-3">
         <p className="text-gray-800 text-lg text-left">{props.post.message}</p>
@@ -127,18 +179,22 @@ const Post = (props) => {
               </div>
             )}
           </div>
-          {/* <div>
-            <button onClick={() => setIsEditing(true)}>Edit</button>
-            <DeleteButton
-              postId={props.post._id}
-              onDeletePost={props.onDeletePost}
-            />
-          </div> */}
         </>
       )}
     </article>
+
     // </div>
   );
 };
 
 export default Post;
+
+{
+  /* <div>
+            <button onClick={() => setIsEditing(true)}>Edit</button>
+            <DeleteButton
+              postId={props.post._id}
+              onDeletePost={props.onDeletePost}
+            />
+          </div> */
+}

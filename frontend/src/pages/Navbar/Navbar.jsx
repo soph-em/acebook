@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getFollowers } from "../../services/followers";
 import { getFollowing } from "../../services/following";
+import FriendsDropdown from "../Navbar/FriendDropdown";
 
 const Navbar = () => {
   const user_id = getUserIdFromToken();
@@ -60,25 +61,12 @@ const Navbar = () => {
         </li>
 
         <li>
-          {/* Render Friends button with onClick handler to toggle dropdown */}
-          <button onClick={toggleDropdown} className="friend-dropdown-btn">
-            Friends
-          </button>
-          {/* Render the friends dropdown menu */}
-          {showDropdown && (
-            <div className="friend-dropdown-content">
-              <ul>
-                <li key="followers">Followers:</li>
-                {followers.map((follower) => (
-                  <li key={follower._id}>{follower.username}</li> // Use _id as the key
-                ))}
-                <li key="following">Following:</li>
-                {following.map((user) => (
-                  <li key={user._id}>{user.username}</li> // Use _id as the key
-                ))}
-              </ul>
-            </div>
-          )}
+          <FriendsDropdown
+            userId={user_id}
+            getFollowers={getFollowers}
+            getFollowing={getFollowing}
+            toggleDropdown={toggleDropdown}
+          />
         </li>
 
         <li>

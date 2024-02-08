@@ -123,21 +123,33 @@ const create = async (req, res) => {
 const followUser = async (req, res) => {
   try {
     // Follow a user
-    const userToFollow = await User.findById(req.params.userId);
+    const userToFollowId = req.params.userId;
+
+    // Find the current user
+    const currentUser = await User.findById(req.user_id);
+
     // Check if the user to follow exists
+    const userToFollow = await User.findById(userToFollowId);
     if (!userToFollow) {
       return res.status(404).json({ message: "User to follow not found" });
     }
-    // Find the current user
-    const currentUser = await User.findById(req.user_id);
+
     // Check if the current user exists
     if (!currentUser) {
       return res.status(404).json({ message: "Current user not found" });
     }
-    // Add the user to follow to the following array of the current user
-    currentUser.following.push(userToFollow._id);
+
+    // Check if the user is already being followed
+    if (currentUser.followers.includes(userToFollowId)) {
+      return res.status(400).json({ message: "User already being followed" });
+    }
+
+    // Add the user to follow to the followers array of the current user
+    currentUser.followers.push(userToFollowId);
+
     // Save the changes to the current user
     await currentUser.save();
+
     // Respond with a success message
     res.status(200).json({ message: "Successfully followed user" });
   } catch (error) {
@@ -150,23 +162,35 @@ const followUser = async (req, res) => {
 const unfollowUser = async (req, res) => {
   try {
     // Unfollow a user
-    const userToUnfollow = await User.findById(req.params.userId);
+    const userToUnfollowId = req.params.userId;
+
+    // Find the current user
+    const currentUser = await User.findById(req.user_id);
+
     // Check if the user to unfollow exists
+    const userToUnfollow = await User.findById(userToUnfollowId);
     if (!userToUnfollow) {
       return res.status(404).json({ message: "User to unfollow not found" });
     }
-    // Find the current user
-    const currentUser = await User.findById(req.user_id);
+
     // Check if the current user exists
     if (!currentUser) {
       return res.status(404).json({ message: "Current user not found" });
     }
-    // Remove the user to unfollow from the following array of the current user
-    currentUser.following = currentUser.following.filter(
-      (userId) => userId !== userToUnfollow._id
+
+    // Check if the user is in the followers array
+    if (!currentUser.followers.includes(userToUnfollowId)) {
+      return res.status(400).json({ message: "User is not being followed" });
+    }
+
+    // Remove the user to unfollow from the followers array of the current user
+    currentUser.followers = currentUser.followers.filter(
+      (userId) => userId !== userToUnfollowId
     );
+
     // Save the changes to the current user
     await currentUser.save();
+
     // Respond with a success message
     res.status(200).json({ message: "Successfully unfollowed user" });
   } catch (error) {
