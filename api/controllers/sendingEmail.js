@@ -12,10 +12,11 @@ const sendEmail = (email, username) => {
   })
 
   const mailOptions = {
-    from: "theacebookteam@gmail.com",
+    from: "Acebook Team <theacebookteam@gmail.com>",
     to: email,
     subject: "Account Creation",
-    text: "Hello " + username+ ",\nYou are receiving this email to confirm that your account has been successfully created with Acebook!\n\nThe Acebook Team.",
+    html: '<h1>Welcome To Acebook!</h1><p>Hello '+username+',</p><p>Congratulations, you have successfully signed up for acebook! We are thrilled you have joined our community.</p><p>With your acebook account, you can now connect with friends, family, and others who share your interests. Build your profile, share updates, photos, videos, and more.</p><p> On behalf of the entire acebook team, welcome! We can’t wait to see you around. Let us know if you have any other questions as you get started.</p><p>Best Regards,</p><p>The Acebook Team</p>',
+    //text: "Hello " + username+ ",\n\nYou are receiving this email to confirm that your account has been successfully created with Acebook!\n\nThe Acebook Team.",
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
