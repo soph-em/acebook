@@ -1,4 +1,6 @@
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+const DEFAULT_PFP = "https://res.cloudinary.com/dzkvzncgr/image/upload/v1707228333/ph2p8wvxud1qbsqqfxqk.png"
+
 
 export const getUser = async (userId) => {
   const token = localStorage.getItem("token");
@@ -22,6 +24,12 @@ export const getUser = async (userId) => {
   }
 
   const data = await response.json();
+
+    if (!data.image) {
+    // If user has no profile picture, assign the default picture URL
+    data.image = DEFAULT_PFP;
+  }
+
   return data;
 };
 
