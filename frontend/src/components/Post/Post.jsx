@@ -20,7 +20,9 @@ const Post = (props) => {
     setShowComments((prevState) => !prevState);
   };
 
-  const formattedDate = new Date(props.post.createdAt).toLocaleString("en-GB");
+  const formattedDate = new Date(props.post.createdAt).toLocaleString(
+    "en-GB"
+  );
   const formattedUpdatedDate = new Date(props.post.updatedAt).toLocaleString(
     "en-GB"
   );
