@@ -19,7 +19,7 @@ const Post = (props) => {
     setUsername(data.username);
     setPfp(data.image);
   });
-  const allowComments = props.allowComments;
+  //const allowComments = props.allowComments;
   const [isEditing, setIsEditing] = useState(false);
 
   const handleUpdate = (updatedPost) => {

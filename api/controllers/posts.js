@@ -100,14 +100,51 @@ const updatePost = async (req, res) => {
   }
 };
 
+
 //Added Update Likes
-const updateLikes = async (req, res) => {
+/*const updateLikes = async (req, res) => {
   const post = await Post.findById(req.params.id);
   post.likes.push(req.user_id);
   await post.save()
   res.status(200).json({ post, user: req.user_id });
   
+}*/
+
+
+const updateLikes = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    
+    
+    // Check if Post Already Been Liked
+    if (post.likes.some(like => like == req.user_id)) {
+    
+
+      //If already liked return a 400
+      return res.status(400).json({ msg: 'Post already liked' });
+    }
+
+    //add users id to likes array and save db
+    post.likes.push(req.user_id);
+    console.log(post)
+    await post.save();
+
+    // Get the updated post after saving
+    const updatedPost = await Post.findById(req.params.id);
+    console.log(updatedPost)
+
+    //respond with 200 n updated likes array
+    res.status(200).json(updatedPost.likes);
+  } catch (err) {
+    //errors
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
 }
+
+
+
+
 
 const PostsController = {
   getAllPosts: getAllPosts,
@@ -119,3 +156,8 @@ const PostsController = {
 };
 
 module.exports = PostsController;
+
+//Like a Post
+//Create Put Request (Routes Post) - router.put('/like/:id', tokenChecker, PostsController.updateLikes);
+//Create a Method - Update Like, Check not already Liked.
+//Pass into PostsController
