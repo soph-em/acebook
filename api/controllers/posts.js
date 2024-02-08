@@ -128,6 +128,32 @@ const updateLikes = async (req, res) => {
   }
 }
 
+//Added
+const removeLike = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    //Finds index of User ID
+    const index = post.likes.indexOf(req.user_id);
+    //Checks User ID Present (-1 Backwards)
+    if (index === -1) {
+      return res.status(400).json({ msg: 'Post already liked' });
+    }
+    //REMOVE USER ID FROM ARRAY LIKES
+    console.log("Before splice:", post.likes);
+    removeIndex = post.likes.splice(removeIndex, 1);
+    console.log("After splice:", post.likes);
+    await post.save();
+    // Get the updated post after saving
+  
+    //respond with 200 and updated likes array
+    res.status(200).json({msg: 'Like removed'});
+  } catch (err) {
+    //errors
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+}
+
 const PostsController = {
   getAllPosts: getAllPosts,
   createPost: createPost,
@@ -135,6 +161,7 @@ const PostsController = {
   deletePost: deletePost,
   updateLikes: updateLikes,
   updatePost: updatePost,
+  removeLike: removeLike,
 };
 
 module.exports = PostsController;
