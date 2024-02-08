@@ -33,6 +33,7 @@ const UploadWidget = ({ onImageUpload }) => {
     return () => {
       // Cleanup the widget when the component unmounts
       widget.destroy();
+      document.getElementsByTagName("body")[0].style = "";
     };
   }, [onImageUpload]);
 
@@ -41,6 +42,7 @@ const UploadWidget = ({ onImageUpload }) => {
       <button
         className="bg-blue-400 text-white py-1 px-4 rounded-md hover:bg-blue-700"
         id="upload-button"
+        type="button"
       >
         Upload Image
       </button>
