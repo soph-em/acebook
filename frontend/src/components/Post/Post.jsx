@@ -30,11 +30,15 @@ const Post = (props) => {
   const allowComments = props.allowComments;
 
   useEffect(() => {
-    getUser().then((data) => {
-      setUsername(data.username);
-      setPfp(data.image);
-    });
-  }, []);
+    getUser(props.post.createdBy._id)
+      .then((data) => {
+        setUsername(data.username);
+        setPfp(data.image);
+      })
+      .catch((error) => {
+        console.error("Error fetching user:", error);
+      });
+  }, [props.post.createdBy._id]);
 
   const handleUpdate = (updatedPost) => {
     console.log("Post updated successfully");
