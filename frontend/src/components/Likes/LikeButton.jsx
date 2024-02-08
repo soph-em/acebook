@@ -33,12 +33,6 @@ const LikeButton = ({postId, postLikes, setLikes}) => {
     console.error('Error liking the post', error.message)
   }
 };
-    /*const data  = await response.json()
-    setLikes([...postLikes, data.user_id])
-    console.log(postLikes)
-    
-  }*/
-
   return (
     <button onClick={handleLikeClick} disabled={isLiked}>
         {isLiked ? 'Liked!' : 'Like'}
