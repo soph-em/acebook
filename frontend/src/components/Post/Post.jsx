@@ -28,7 +28,7 @@ const Post = (props) => {
   const userId = props.post.createdBy?._id;
   const token = props.token; // Token passed as a prop
   const allowComments = props.allowComments;
-
+  
   useEffect(() => {
     getUser().then((data) => {
       setUsername(data.username);
