@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function FriendsDropdown({ userId, getFollowers, getFollowing }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,44 +28,58 @@ function FriendsDropdown({ userId, getFollowers, getFollowing }) {
   };
 
   return (
-    // Creating a div element with a relative position and a high zIndex to ensure it appears on top of other elements
-    <div style={{ position: "relative", zIndex: 9999 }}>
-      <div className="relative inline-block text-right">
-        <button
-          onClick={toggleDropdown}
-          className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+    <ul>
+      <li style={{ position: "relative", zIndex: 9999 }}>
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault(); // Prevent default anchor behavior
+            toggleDropdown(); // Function to toggle the visibility of the dropdown menu
+          }}
+          style={{ cursor: "pointer" }}
         >
+          {/* Ensures cursor changes to pointer on hover */}
           Friends
-        </button>
-      </div>
-      {isOpen && (
-        <div
-          className="absolute z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-48 dark:bg-gray-700"
-          style={{ left: "-175%", top: "100%" }}
-        >
-          <ul className="py-1 text-sm text-gray-700 dark:text-gray-200">
-            <li key="followers" className="font-semibold">
-              Followers
-            </li>
-            {followers.map((follower, index) => (
-              <li key={`follower_${index}`} className="py-1">
-                {follower.username}
+        </a>
+        {isOpen && (
+          <div
+            className="absolute z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-48"
+            style={{ left: "0", top: "100%" }}
+          >
+            <ul className="py-1 text-sm text-gray-700">
+              <li key="followers" className="font-bold">
+                Followers
               </li>
-            ))}
-          </ul>
-          <ul className="py-1 text-sm text-gray-700 dark:text-gray-200">
-            <li key="following" className="font-semibold">
-              Following
-            </li>
-            {following.map((user, index) => (
-              <li key={`following_${index}`} className="py-1">
-                {user.username}
+              {followers.map((follower) => (
+                <li key={follower._id} className="py-1">
+                  <Link
+                    to={`/profile/${follower._id}`}
+                    className="text-blue-500 text-sm"
+                  >
+                    {follower.username}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <ul className="py-1 text-sm text-gray-700">
+              <li key="following" className="font-bold">
+                Following
               </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
+              {following.map((user) => (
+                <li key={user._id} className="py-1">
+                  <Link
+                    to={`/profile/${user._id}`}
+                    className="text-blue-500 text-sm"
+                  >
+                    {user.username}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </li>
+    </ul>
   );
 }
 
