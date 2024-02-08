@@ -4,14 +4,16 @@ const cloudinary = require("cloudinary").v2;
 
 const getPostsbyId = async (req, res) => {
   try {
-    console.log(req.user_id);
-    // Populate 'createdBy' with user details, specifically 'username'
-    const posts = await Post.find({ createdBy: req.user_id }).populate(
+    // Accessing userId sent as a query parameter
+    const userId = req.query.userId;
+    console.log(userId);
+    const posts = await Post.find({ createdBy: userId }).populate(
       "createdBy",
-      "username"
+      "username _id"
     );
     res.status(200).json({ posts });
   } catch (error) {
+    console.error("Failed to fetch posts by ID:", error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -19,7 +21,7 @@ const getPostsbyId = async (req, res) => {
 const getAllPosts = async (req, res) => {
   try {
     // Populate 'createdBy' with user details, specifically 'username'
-    const posts = await Post.find().populate("createdBy", "username");
+    const posts = await Post.find().populate("createdBy", "username _id");
     res.status(200).json({ posts });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -84,7 +86,7 @@ const deletePost = async (req, res) => {
 const updatePost = async (req, res) => {
   try {
     const postId = req.params.postId;
-    const {message} = req.body;
+    const { message } = req.body;
     const postToUpdate = await Post.findById(postId);
     if (!postToUpdate || postToUpdate.createdBy.toString() !== req.user_id) {
       return res.status(400).json({ error: "Unauthorized" });
@@ -94,7 +96,9 @@ const updatePost = async (req, res) => {
     postToUpdate.message = message;
     await postToUpdate.save();
 
-    res.status(200).json({ message: "Post updated successfully.", post: postToUpdate });
+    res
+      .status(200)
+      .json({ message: "Post updated successfully.", post: postToUpdate });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

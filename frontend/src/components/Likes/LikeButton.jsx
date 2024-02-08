@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -14,9 +14,10 @@ const LikeButton = ({postId, postLikes, setLikes}) => {
         method: "PUT", 
         headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
+        Authorization: `Bearer ${window.localStorage.getItem("token")}`,
       },
     });
+
     //If request is succesful..
     //updates status to show post as been liked
     //add postID to the likes array and updates frontend
@@ -33,11 +34,16 @@ const LikeButton = ({postId, postLikes, setLikes}) => {
     console.error('Error liking the post', error.message)
   }
 };
-  return (
-    <button onClick={handleLikeClick} disabled={isLiked}>
-        {isLiked ? 'Liked!' : 'Like'}
-    </button>
-  )
-}
 
-export default LikeButton
+  return (
+    <button
+      className="w-full border-2 p-2 bg-white"
+      onClick={handleLikeClick}
+      disabled={isLiked}
+    >
+      {isLiked ? "Liked!" : "Like Post"}
+    </button>
+  );
+};
+
+export default LikeButton;
