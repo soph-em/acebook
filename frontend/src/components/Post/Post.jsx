@@ -48,7 +48,7 @@ const Post = (props) => {
   return (
     <article
       key={props.post._id}
-      className="bg-slate-100 shadow-lg rounded-lg p-4 my-4 overflow-hidden"
+      className="bg-slate-100 shadow-lg rounded-lg p-4 my-4 "
     >
       <div className="flex justify-between items-center">
         <div className="text-sm flex items-center">
