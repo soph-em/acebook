@@ -64,6 +64,7 @@ const Post = (props) => {
             )}
           </div>
         </div>
+        {postUsername === username && (
         <DropdownMenu
           option1={
             <DeleteButton
@@ -75,6 +76,7 @@ const Post = (props) => {
             <button onClick={() => setIsEditing(true)}>Edit Post</button>
           }
         />
+        )}
       </div>
       <div className="space-y-4 mt-3">
         <p className="text-gray-800 text-lg text-left">{props.post.message}</p>
