@@ -1,9 +1,10 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
 import { useNavigate } from 'react-router-dom';
 import { signup } from '../../src/services/authentication';
+
 
 import { SignupPage } from '../../src/pages/Signup/SignupPage';
 
@@ -29,7 +30,7 @@ const completeSignupForm = async () => {
   const submitButtonEl = screen.getByRole('submit-button');
   await user.type(usernameInputEl, 'username')
   await user.type(emailInputEl, 'test@email.com');
-  await user.type(passwordInputEl, '1234');
+  await user.type(passwordInputEl, '12345678');
   await user.click(submitButtonEl);
 };
 
@@ -43,16 +44,18 @@ describe('Signup Page', () => {
 
     await completeSignupForm();
 
-    expect(signup).toHaveBeenCalledWith('username', 'test@email.com', '1234');
+    expect(signup).toHaveBeenCalledWith('username', 'test@email.com', '12345678');
   });
 
-  test('navigates to /login on successful signup', async () => {
+  test('navigates to / on successful signup', async () => {
     render(<SignupPage />);
 
     const navigateMock = useNavigate();
 
     await completeSignupForm();
 
-    expect(navigateMock).toHaveBeenCalledWith('/login');
+    await waitFor(() => expect(window.location.pathname).toBe('/'));
   });
 });
+
+

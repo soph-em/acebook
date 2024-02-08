@@ -1,17 +1,19 @@
 const Post = require("../models/post");
 const { generateToken } = require("../lib/token");
-const cloudinary = require('cloudinary').v2;
+const cloudinary = require("cloudinary").v2;
 
 const getPostsbyId = async (req, res) => {
   try {
-    console.log(req.user_id);
-    // Populate 'createdBy' with user details, specifically 'username'
-    const posts = await Post.find({ createdBy: req.user_id }).populate(
+    // Accessing userId sent as a query parameter
+    const userId = req.query.userId;
+    console.log(userId);
+    const posts = await Post.find({ createdBy: userId }).populate(
       "createdBy",
-      "username"
+      "username _id"
     );
     res.status(200).json({ posts });
   } catch (error) {
+    console.error("Failed to fetch posts by ID:", error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -19,7 +21,7 @@ const getPostsbyId = async (req, res) => {
 const getAllPosts = async (req, res) => {
   try {
     // Populate 'createdBy' with user details, specifically 'username'
-    const posts = await Post.find().populate("createdBy", "username");
+    const posts = await Post.find().populate("createdBy", "username _id");
     res.status(200).json({ posts });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -37,13 +39,12 @@ const createPost = async (req, res) => {
     let imageUrl = null;
     if (req.body.imageUrl) {
       console.log(req.file);
-      // If image added, save the image URL 
-      imageUrl= req.body.imageUrl;
-      // imageUrl = req.file.secure_url;
+      // If image added, save the image URL
+      imageUrl = req.body.imageUrl;
     }
 
     const newPost = new Post({
-      message: req.body.message || '',
+      message: req.body.message || "",
       image: imageUrl,
       createdBy: req.user_id,
     });
@@ -64,10 +65,77 @@ const createPost = async (req, res) => {
   }
 };
 
+const deletePost = async (req, res) => {
+  try {
+    const postId = req.params.postId;
+    // Check if the post exists and is created by the logged-in user
+    const postToDelete = await Post.findById(postId);
+    if (!postToDelete || postToDelete.createdBy.toString() !== req.user_id) {
+      return res.status(400).json({ error: "Unauthorized" });
+    }
+
+    // delete post with MongoDB syntax
+    await Post.findByIdAndDelete(postId);
+
+    res.status(200).json({ message: "Post deleted successfully." });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const updatePost = async (req, res) => {
+  try {
+    const postId = req.params.postId;
+    const { message } = req.body;
+    const postToUpdate = await Post.findById(postId);
+    if (!postToUpdate || postToUpdate.createdBy.toString() !== req.user_id) {
+      return res.status(400).json({ error: "Unauthorized" });
+    }
+
+    // update post with the new message
+    postToUpdate.message = message;
+    await postToUpdate.save();
+
+    res
+      .status(200)
+      .json({ message: "Post updated successfully.", post: postToUpdate });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const updateLikes = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    // Check if Post Already Been Liked
+    if (post.likes.some(like => like == req.user_id)) {
+      //If already liked return a 400
+      return res.status(400).json({ msg: 'Post already liked' });
+    }
+    //add users id to likes array and save db
+    post.likes.push(req.user_id);
+    console.log(post)
+    await post.save();
+    // Get the updated post after saving
+    const updatedPost = await Post.findById(req.params.id);
+    console.log(updatedPost)
+    //respond with 200 and updated likes array
+    res.status(200).json(updatedPost.likes);
+  } catch (err) {
+    //errors
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+}
+
 const PostsController = {
   getAllPosts: getAllPosts,
   createPost: createPost,
   getPostsbyId: getPostsbyId,
+  deletePost: deletePost,
+  updateLikes: updateLikes,
+  updatePost: updatePost,
 };
 
 module.exports = PostsController;
+

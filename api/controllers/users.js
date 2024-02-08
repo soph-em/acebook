@@ -1,5 +1,6 @@
 const { generateHash } = require("../encryption/passwords");
 const User = require("../models/user");
+const sendEmail = require('./sendingEmail')
 
 const checkEmailUniqueness = async (email) => {
   const existingEmail = await User.findOne({ email });
@@ -18,7 +19,33 @@ const checkPasswordValidity = async (password) => {
     return passwordValid;
   }
   return passwordValid;
-}
+};
+
+const putUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.user_id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    let imageUrl = null;
+    if (req.body.image) {
+      console.log(req.file);
+      // If image added, save the image URL
+      imageUrl = req.body.image;
+      // imageUrl = req.file.secure_url;
+    } else {
+      res.status("500 - image missing");
+    }
+    user.image = imageUrl;
+    user.save();
+    res
+      .status(200)
+      .json({ username: user.username, email: user.email, image: user.image });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+};
 
 const getUser = async (req, res) => {
   // console.log(req.user_id);
@@ -30,10 +57,24 @@ const getUser = async (req, res) => {
     }
 
     // Send back the user profile information you wish to expose
-    res.status(200).json({ username: user.username, email: user.email });
+    res
+      .status(200)
+      .json({ username: user.username, email: user.email, image: user.image });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error.message });
+  }
+};
+
+const getUserById = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      return res.status(404).send({ message: "User not found" });
+    }
+    res.json(user);
+  } catch (error) {
+    res.status(500).send({ message: "Error retrieving user" });
   }
 };
 
@@ -83,6 +124,9 @@ const create = async (req, res) => {
 
     console.log("User created, id:", user._id.toString());
     res.status(201).json({ message: "OK" });
+    if (res.status(201)) {
+      sendEmail(email, username);
+    }
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: "Something went wrong" });
@@ -92,6 +136,8 @@ const create = async (req, res) => {
 const UsersController = {
   create: create,
   getUser: getUser,
+  putUser: putUser,
+  getUserById: getUserById,
 };
 
 module.exports = UsersController;

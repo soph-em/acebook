@@ -47,7 +47,7 @@ li a:hover{
 
 .logout-btn {
 display: flex;
-margin-left: auto;
+margin-left: 10rem;
 margin-right: 1rem;
 align-items: center;
 }

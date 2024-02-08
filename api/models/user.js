@@ -12,7 +12,7 @@ const UserSchema = new mongoose.Schema({
     unique: true,
     required: true,
     trim: true, // Removes leading/trailing whitespace
-    lowercase: true, 
+    lowercase: true,
     match: [
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/, // Basic email format validation
       "Please enter a valid email address",
@@ -23,10 +23,15 @@ const UserSchema = new mongoose.Schema({
     required: true,
     minlength: [8, "Password must be at least 8 characters long"],
   },
-  posts: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Post'
-  }]
+  image: {
+    type: String,
+  },
+  posts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Post",
+    },
+  ],
 });
 
 const User = mongoose.model("User", UserSchema);

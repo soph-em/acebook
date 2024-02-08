@@ -2,12 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { login } from "../../services/authentication";
+import Navbar from "../Navbar/Navbar";
 
 export const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState('');
-  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState("");
+  const [emailError, setEmailError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -16,49 +17,65 @@ export const LoginPage = () => {
       const token = await login(email, password);
       window.localStorage.setItem("token", token);
       navigate("/");
-
     } catch (err) {
       console.error(err);
-      if (err.message.includes('Password is incorrect.')) {
-        setPasswordError('The password you have entered is incorrect.')
-      } else if (err.message.includes('User not found')) {
-        setEmailError('The email address you entered does not exist.')
+      if (err.message.includes("Password is incorrect.")) {
+        setPasswordError("The password you have entered is incorrect.");
+      } else if (err.message.includes("User not found")) {
+        setEmailError("The email address you entered does not exist.");
       }
     }
   };
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
-    setEmailError('');
+    setEmailError("");
   };
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
-    setPasswordError('');
+    setPasswordError("");
   };
 
   return (
     <>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email:</label>
-        <input
-          id="email"
-          type="text"
-          value={email}
-          onChange={handleEmailChange}
-        />
-        <label htmlFor="password">Password:</label>
-        <input
-          id="password"
-          type="password"
-          value={password}
-          onChange={handlePasswordChange}
-        />
-        {emailError && <p>{emailError}</p>}
-        {passwordError && <p>{passwordError}</p>}
-        <input role="submit-button" id="submit" type="submit" value="Submit" />
-      </form>
+      <div className="bg-grey-lighter min-h-screen flex flex-col">
+        <Navbar />
+        <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
+          <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
+            <h2 className="mb-8 text-3xl text-center">Login to Acebook</h2>
+            <form onSubmit={handleSubmit}>
+              <label htmlFor="email">Email:</label>
+              <input
+                id="email"
+                type="text"
+                placeholder="Email"
+                value={email}
+                onChange={handleEmailChange}
+                className="block border border-grey-light w-full p-3 rounded mb-4"
+              />
+              <label htmlFor="password">Password:</label>
+              <input
+                id="password"
+                placeholder="Password"
+                type="password"
+                value={password}
+                onChange={handlePasswordChange}
+                className="block border border-grey-light w-full p-3 rounded mb-4"
+              />
+              {emailError && <p>{emailError}</p>}
+              {passwordError && <p>{passwordError}</p>}
+              <input
+                role="submit-button"
+                id="submit"
+                type="submit"
+                value="Submit"
+                className="w-full text-center py-3 rounded bg-slate-700 text-white hover:bg-green-dark focus:outline-none my-1"
+              />
+            </form>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
