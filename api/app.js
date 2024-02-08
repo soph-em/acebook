@@ -15,15 +15,25 @@ const app = express();
 // docs: https://expressjs.com/en/resources/middleware/cors.html
 app.use(cors());
 
+//render/deployment handling
+if (process.env.NODE_ENV === "production") {
+  //*Set static folder up in production
+  app.use(express.static("frontend/dist"));
+
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "index.html"))
+  );
+}
+
 // Parse JSON request bodies, made available on `req.body`
 app.use(bodyParser.json());
 
 // API Routes
-app.use("/api/", commentsRouter);
-app.use("/api/users", usersRouter);
-app.use("/api/", postsRouter);
-app.use("/api/tokens", authenticationRouter);
-app.use("/api/like/:id", postsRouter);
+app.use("api/", commentsRouter);
+app.use("/users", usersRouter);
+app.use("/", postsRouter);
+app.use("/tokens", authenticationRouter);
+app.use("/like/:id", postsRouter);
 
 // 404 Handler
 app.use((_req, res) => {
@@ -33,6 +43,7 @@ app.use((_req, res) => {
 // Error handler
 app.use((err, _req, res, _next) => {
   console.error(err);
+
   if (process.env.NODE_ENV === "development") {
     res.status(500).send(err.message);
   } else {
