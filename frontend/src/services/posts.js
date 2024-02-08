@@ -31,7 +31,7 @@ export const getPosts = async () => {
     method: "GET",
   };
 
-  const response = await fetch(`${BACKEND_URL}`, requestOptions);
+  const response = await fetch(`${BACKEND_URL}/posts`, requestOptions);
 
   if (response.status !== 200) {
     throw new Error("Unable to fetch posts");
@@ -52,7 +52,7 @@ export const createPost = async (message, imageUrl, token) => {
   };
 
   try {
-    const response = await fetch(`${BACKEND_URL}`, requestOptions);
+    const response = await fetch(`${BACKEND_URL}/${posts}`, requestOptions);
 
     if (!response.ok) {
       throw new Error("Unable to create post");
@@ -116,7 +116,6 @@ export const updatePostById = async (postId, updatedPostData) => {
     throw error;
   }
 };
-
 
 export const likePost = async (userId, postId, token) => {
   const requestOptions = {
