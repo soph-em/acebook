@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 function FriendsDropdown({ userId, getFollowers, getFollowing }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,13 +9,13 @@ function FriendsDropdown({ userId, getFollowers, getFollowing }) {
     const fetchFriendsData = async () => {
       try {
         const followersData = await getFollowers(userId);
-        console.log("Followers data:", followersData);
+        // console.log("Followers data:", followersData);
         setFollowers(followersData);
         const followingData = await getFollowing(userId);
-        console.log("Following data:", followingData);
+        // console.log("Following data:", followingData);
         setFollowing(followingData);
       } catch (error) {
-        console.error("Error fetching friends data:", error);
+        // console.error("Error fetching friends data:", error);
       }
     };
 
@@ -27,6 +27,7 @@ function FriendsDropdown({ userId, getFollowers, getFollowing }) {
   };
 
   return (
+    // Creating a div element with a relative position and a high zIndex to ensure it appears on top of other elements
     <div style={{ position: "relative", zIndex: 9999 }}>
       <div className="relative inline-block text-right">
         <button

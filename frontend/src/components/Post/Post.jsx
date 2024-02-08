@@ -119,12 +119,12 @@ const Post = (props) => {
               }
             />
           )}
-          {currentUser !== userId && (
+          {currentUser !== userId && ( // Check if the current user is not the owner of the post
             <img
-              src={isFollowing ? unFollowIcon : followIcon}
-              alt={isFollowing ? "Unfollow" : "Follow"}
+              src={isFollowing ? unFollowIcon : followIcon} // Set the image based on follow status
+              alt={isFollowing ? "Unfollow" : "Follow"} // Set the alt text based on follow status
               className="ml-4 cursor-pointer w-6 h-6"
-              onClick={handleFollowClick}
+              onClick={handleFollowClick} // click event handler to toggle follow/unfollow when clicked
             />
           )}
         </div>
