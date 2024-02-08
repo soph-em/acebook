@@ -1,3 +1,4 @@
+const { generateHash } = require("../encryption/passwords");
 const User = require("../models/user");
 
 const checkEmailUniqueness = async (email) => {
@@ -41,6 +42,9 @@ const create = async (req, res) => {
     const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
+    
+
+
 
     if (!email || !password || !username) {
       console.log("Auth Error: Email and password are required");
@@ -69,7 +73,12 @@ const create = async (req, res) => {
         .json({ message: "Password does not meet requirements" });
     }
 
-    const user = new User({ username, email, password });
+    // Hashing the password before saving the user to the database
+    const hashedPassword = generateHash(password)
+    
+    // Changing the password value to take the value from hashedPassword
+    const user = new User({ username, email, password:hashedPassword });
+    
     await user.save();
 
     console.log("User created, id:", user._id.toString());
