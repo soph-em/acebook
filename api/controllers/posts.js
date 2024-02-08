@@ -108,25 +108,25 @@ const updateLikes = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     // Check if Post Already Been Liked
-    if (post.likes.some(like => like == req.user_id)) {
+    if (post.likes.some((like) => like == req.user_id)) {
       //If already liked return a 400
-      return res.status(400).json({ msg: 'Post already liked' });
+      return res.status(400).json({ msg: "Post already liked" });
     }
     //add users id to likes array and save db
     post.likes.push(req.user_id);
-    console.log(post)
+    console.log(post);
     await post.save();
     // Get the updated post after saving
     const updatedPost = await Post.findById(req.params.id);
-    console.log(updatedPost)
+    console.log(updatedPost);
     //respond with 200 and updated likes array
     res.status(200).json(updatedPost.likes);
   } catch (err) {
     //errors
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
-}
+};
 
 //Added
 const removeLike = async (req, res) => {
@@ -136,23 +136,21 @@ const removeLike = async (req, res) => {
     const index = post.likes.indexOf(req.user_id);
     //Checks User ID Present (-1 Backwards)
     if (index === -1) {
-      return res.status(400).json({ msg: 'Post already liked' });
+      return res.status(400).json({ msg: "Post not liked yet" });
     }
     //REMOVE USER ID FROM ARRAY LIKES
     console.log("Before splice:", post.likes);
-    removeIndex = post.likes.splice(removeIndex, 1);
+    post.likes.splice(index, 1); // index - not removeindex
     console.log("After splice:", post.likes);
     await post.save();
-    // Get the updated post after saving
-  
     //respond with 200 and updated likes array
-    res.status(200).json({msg: 'Like removed'});
+    res.status(200).json({ msg: "Like removed" });
   } catch (err) {
     //errors
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
-}
+};
 
 const PostsController = {
   getAllPosts: getAllPosts,
@@ -165,4 +163,3 @@ const PostsController = {
 };
 
 module.exports = PostsController;
-
