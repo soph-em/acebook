@@ -26,6 +26,7 @@ const Post = (props) => {
   const [showComments, setShowComments] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [forceUpdateCounter, setForceUpdateCounter] = useState(0);
 
   const toggleComments = () => {
     setShowComments((prevState) => !prevState);
@@ -43,34 +44,44 @@ const Post = (props) => {
   const currentUser = getUserIdFromToken();
 
   useEffect(() => {
-    getUser().then((data) => {
-      setUsername(data.username);
-      setPfp(data.image);
-    });
-  }, []);
+    getUser(props.post.createdBy?._id)
+      .then((data) => {
+        setUsername(data.username);
+        setPfp(data.image);
+      })
+      .catch((error) => {
+        console.error("Error fetching user:", error);
+      });
+  }, [props.post.createdBy?._id]);
+
+  const forceUpdate = () => {
+    setForceUpdateCounter((prevCounter) => prevCounter + 1);
+  };
 
   const handleUpdate = (updatedPost) => {
     console.log("Post updated successfully");
     setIsEditing(false); // Switch back to view mode after updating
     props.onUpdatePost(updatedPost);
+    forceUpdate(); // Toggle forceUpdate state to trigger a re-render
   };
-
   // Determine whether to display updatedAt section (if dates are the same, post is new post and updatedAt does not need to display)
   const shouldDisplayUpdatedAt = props.post.createdAt !== props.post.updatedAt;
 
   useEffect(() => {
     const checkIfFollowing = async () => {
-      const followers = await getFollowers(props.post.createdBy?._id);
-      const isAlreadyFollowing = followers.some(
-        (follower) => follower._id === currentUser
-      );
-      setIsFollowing(isAlreadyFollowing);
+      if (props.post.createdBy?._id) {
+        const followers = await getFollowers(props.post.createdBy._id);
+        const isAlreadyFollowing = followers.some(
+          (follower) => follower._id === currentUser
+        );
+        setIsFollowing(isAlreadyFollowing);
+      }
     };
 
     if (currentUser) {
       checkIfFollowing();
     }
-  }, [props.post.createdBy?._id, currentUser]);
+  }, [props.post.createdBy?._id, currentUser, setForceUpdateCounter]);
 
   const handleFollowClick = async () => {
     if (isFollowing) {
@@ -106,7 +117,7 @@ const Post = (props) => {
           </div>
         </div>
         <div className="flex items-center">
-          {postUsername === username && (
+          {currentUser === userId ? (
             <DropdownMenu
               option1={
                 <DeleteButton
@@ -118,13 +129,12 @@ const Post = (props) => {
                 <button onClick={() => setIsEditing(true)}>Edit Post</button>
               }
             />
-          )}
-          {currentUser !== userId && ( // Check if the current user is not the owner of the post
+          ) : (
             <img
-              src={isFollowing ? unFollowIcon : followIcon} // Set the image based on follow status
-              alt={isFollowing ? "Unfollow" : "Follow"} // Set the alt text based on follow status
+              src={isFollowing ? unFollowIcon : followIcon}
+              alt={isFollowing ? "Unfollow" : "Follow"}
               className="ml-4 cursor-pointer w-6 h-6"
-              onClick={handleFollowClick} // click event handler to toggle follow/unfollow when clicked
+              onClick={handleFollowClick}
             />
           )}
         </div>

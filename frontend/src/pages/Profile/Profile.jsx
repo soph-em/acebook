@@ -59,10 +59,7 @@ export const Profile = () => {
     setPosts(updatedPosts); // Update state with the filtered posts array
   };
 
-  // console.log(username);
-  // if (image == null ){
-  //   setImage("https://www.shutterstock.com/image-vector/default-profile-picture-avatar-photo-260nw-1681253560.jpg")
-  // }
+  
   return (
     <>
       <Navbar />

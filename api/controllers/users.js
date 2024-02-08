@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const sendEmail = require('./sendingEmail')
 
 const checkEmailUniqueness = async (email) => {
   const existingEmail = await User.findOne({ email });
@@ -114,6 +115,9 @@ const create = async (req, res) => {
 
     console.log("User created, id:", user._id.toString());
     res.status(201).json({ message: "OK" });
+    if (res.status(201)) {
+      sendEmail(email, username);
+    }
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: "Something went wrong" });
