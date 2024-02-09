@@ -45,17 +45,16 @@ export const FeedPage = () => {
   };
 
   const handleDeletePost = (postId) => {
-    setPosts((prevPosts) => prevPosts.filter((post, ) => post._id !== postId));
+    setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
   };
-
 
   return (
     <>
       {/* <Navbar /> */}
-      <h2 className="text-blue-500 font-bold">Posts</h2>
       <br />
       {/* Only render the new post component if there is a token present */}
       {token && <NewPost onNewPost={handleNewPost} />}
+      <h2 className="text-blue-500 font-bold">Posts</h2>
 
       <div className="feed" role="feed">
         {posts &&
