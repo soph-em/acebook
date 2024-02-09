@@ -7,6 +7,8 @@ import Post from "../../components/Post/Post";
 import Navbar from "../Navbar/Navbar";
 // import Comments from "../../components/Comments/Comment";
 import UploadWidget from "./UploadWidget";
+//import Followers from "../../components/Followers/Followers";
+//import Following from "../../components/Followers/Following";
 
 export const Profile = () => {
   const [username, setUsername] = useState("");
@@ -77,7 +79,9 @@ export const Profile = () => {
           </div>
         )}
       </div>
+
       <p className="pt-3">My Posts:</p>
+
       <div>
         {posts.map((post) => (
           <Post
