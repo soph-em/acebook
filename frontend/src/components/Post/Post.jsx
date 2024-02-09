@@ -96,16 +96,15 @@ const Post = (props) => {
   return (
     <article
       key={props.post._id}
+
       className="bg-slate-100 shadow-lg rounded-lg p-4 my-4 overflow-hidden max-w-2xl"
+
     >
       <div className="flex justify-between items-center">
         <div className="text-sm flex items-center">
           <img className="h-9 ml-2" src={pfp} alt="Profile" />
           <div className="ml-1 text-left">
-            <Link
-              to={`/profile/${userId}`}
-              className="text-blue-500 text-left"
-            >
+            <Link to={`/profile/${userId}`} className="text-blue-500 text-left">
               {postUsername}
             </Link>
             <p className="text-xs text-gray-400">Posted on: {formattedDate}</p>

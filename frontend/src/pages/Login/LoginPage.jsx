@@ -63,8 +63,14 @@ export const LoginPage = () => {
                 onChange={handlePasswordChange}
                 className="block border border-grey-light w-full p-3 rounded mb-4"
               />
-              {emailError && <p>{emailError}</p>}
-              {passwordError && <p>{passwordError}</p>}
+              <div className="max-w-48 text-center pb-2 pl-5">
+                {emailError && (
+                  <p className="max-w-44 text-center">{emailError}</p>
+                )}
+                {passwordError && (
+                  <p className="max-w-44 text-center">{passwordError}</p>
+                )}
+              </div>
               <input
                 role="submit-button"
                 id="submit"
