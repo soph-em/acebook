@@ -33,7 +33,7 @@ describe('NewPost component', () => {
       <NewPost onNewPost={mockOnNewPost} />
     );
 
-    fireEvent.change(getByPlaceholderText(/Enter text here/i), {
+    fireEvent.change(getByPlaceholderText(/brilliance/i), {
       target: { value: 'Test post' },
     });
 
@@ -55,7 +55,7 @@ describe('NewPost component', () => {
       <NewPost onNewPost={mockOnNewPost} />
     );
 
-    const textarea = getByPlaceholderText(/enter text here/i);
+    const textarea = getByPlaceholderText(/brilliance/i);
     fireEvent.change(textarea, { target: { value: 'Test post' } });
     fireEvent.click(getByRole('button', { name: /post/i }));
 
