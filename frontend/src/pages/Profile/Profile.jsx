@@ -57,22 +57,27 @@ export const Profile = () => {
     setPosts(updatedPosts); // Update state with the filtered posts array
   };
 
-  
   return (
     <>
       <Navbar />
-      <h2>Profile</h2>
-      <p>Username: {username}</p>
+      <h2 className="text-2xl pt-3 pb-5">Profile</h2>
+      <p className="text-xl pb-3">
+        Username: <p className="text-blue-500">{username}</p>
+      </p>
       <div className="flex justify-center">
-        <img className="h-12" src={image} alt="Profile" />
+        <div className="flex flex-col justify-center pb-5">
+          <img className="h-14 w-max pt-2" src={image} alt="Profile" />
+        </div>
+        {loggedInUserId === userId && (
+          <div className="flex flex-col p-3 pl-3 pb-5">
+            <>
+              <p>Upload a new profile photo:</p>
+              <UploadWidget onImageUpload={handleUpload} />
+            </>
+          </div>
+        )}
       </div>
-      {loggedInUserId === userId && (
-        <>
-          <p>Upload a new profile photo</p>
-          <UploadWidget onImageUpload={handleUpload} />
-        </>
-      )}
-      <p>My Posts:</p>
+      <p className="pt-3">My Posts:</p>
       <div>
         {posts.map((post) => (
           <Post
