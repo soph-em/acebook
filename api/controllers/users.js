@@ -1,6 +1,9 @@
 const { generateHash } = require("../encryption/passwords");
 const User = require("../models/user");
 const sendEmail = require('./sendingEmail')
+const DEFAULT_PFP = "https://res.cloudinary.com/dzkvzncgr/image/upload/v1707228333/ph2p8wvxud1qbsqqfxqk.png"
+
+
 
 const checkEmailUniqueness = async (email) => {
   const existingEmail = await User.findOne({ email });
@@ -83,8 +86,8 @@ const create = async (req, res) => {
     const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
-    
 
+    const image = DEFAULT_PFP;
 
 
     if (!email || !password || !username) {
@@ -114,11 +117,12 @@ const create = async (req, res) => {
         .json({ message: "Password does not meet requirements" });
     }
 
+
     // Hashing the password before saving the user to the database
     const hashedPassword = generateHash(password)
     
     // Changing the password value to take the value from hashedPassword
-    const user = new User({ username, email, password:hashedPassword });
+    const user = new User({ username, email, password:hashedPassword, image });
     
     await user.save();
 

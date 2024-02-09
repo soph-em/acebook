@@ -20,9 +20,7 @@ const Post = (props) => {
     setShowComments((prevState) => !prevState);
   };
 
-  const formattedDate = new Date(props.post.createdAt).toLocaleString(
-    "en-GB"
-  );
+  const formattedDate = new Date(props.post.createdAt).toLocaleString("en-GB");
   const formattedUpdatedDate = new Date(props.post.updatedAt).toLocaleString(
     "en-GB"
   );
@@ -30,13 +28,17 @@ const Post = (props) => {
   const userId = props.post.createdBy?._id;
   const token = props.token; // Token passed as a prop
   const allowComments = props.allowComments;
-  
+
   useEffect(() => {
-    getUser().then((data) => {
-      setUsername(data.username);
-      setPfp(data.image);
-    });
-  }, []);
+    getUser(props.post.createdBy._id)
+      .then((data) => {
+        setUsername(data.username);
+        setPfp(data.image);
+      })
+      .catch((error) => {
+        console.error("Error fetching user:", error);
+      });
+  }, [props.post.createdBy._id]);
 
   const handleUpdate = (updatedPost) => {
     console.log("Post updated successfully");
@@ -56,7 +58,10 @@ const Post = (props) => {
         <div className="text-sm flex items-center">
           <img className="h-9 ml-2" src={pfp} alt="Profile" />
           <div className="ml-1 text-left">
-            <Link to={`/profile/${userId}`} className="text-blue-500 text-left">
+            <Link
+              to={`/profile/${userId}`}
+              className="text-blue-500 text-left"
+            >
               {postUsername}
             </Link>
             <p className="text-xs text-gray-400">Posted on: {formattedDate}</p>
@@ -68,17 +73,17 @@ const Post = (props) => {
           </div>
         </div>
         {postUsername === username && (
-        <DropdownMenu
-          option1={
-            <DeleteButton
-              postId={props.post._id}
-              onDeletePost={props.onDeletePost}
-            />
-          }
-          option2={
-            <button onClick={() => setIsEditing(true)}>Edit Post</button>
-          }
-        />
+          <DropdownMenu
+            option1={
+              <DeleteButton
+                postId={props.post._id}
+                onDeletePost={props.onDeletePost}
+              />
+            }
+            option2={
+              <button onClick={() => setIsEditing(true)}>Edit Post</button>
+            }
+          />
         )}
       </div>
       <div className="space-y-4 mt-3">
