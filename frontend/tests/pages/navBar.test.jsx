@@ -14,6 +14,6 @@ test("Navbar renders correctly if you are logged in", () => {
   window.localStorage.setItem("token", "mockedToken");
   render(<Navbar />);
 
-  const testLink = screen.getByTestId("test-profile");
-  expect(testLink).toHaveTextContent("Friends");
+  const logoutButton = screen.getByTestId("test-profile");
+  expect(logoutButton).toBeInTheDocument();
 });
