@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs")
+const { Schema, Types } = mongoose;
+const bcrypt = require("bcryptjs");
 
 const UserSchema = new mongoose.Schema({
   username: {
@@ -26,6 +27,18 @@ const UserSchema = new mongoose.Schema({
   image: {
     type: String,
   },
+  followers: [
+    {
+      type: Schema.Types.ObjectID,
+      ref: "User",
+    },
+  ],
+  following: [
+    {
+      type: Schema.Types.ObjectID,
+      ref: "User",
+    },
+  ],
   posts: [
     {
       type: mongoose.Schema.Types.ObjectId,
