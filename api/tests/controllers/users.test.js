@@ -72,17 +72,19 @@ describe("/users", () => {
 
   describe("GET /users/:userId/followers", () => {
     test("returns 200 and an array of followers", async () => {
+      const hashedPassword = await bcrypt.hash("12345678", 10);
       const user = new User({
         username: "Poppy",
         email: "poppy@email.com",
-        password: "12345678",
+        password: hashedPassword,
       });
+
       await user.save();
 
       // Log in the user and get the token
       const loginResponse = await request(app)
         .post("/tokens")
-        .send({ email: "poppy@email.com", password: "12345678" });
+        .send({ email: user.email, password: "12345678" });
 
       // Check if the token is received
       console.log(loginResponse.body.token);
@@ -103,12 +105,15 @@ describe("/users", () => {
 
   // test getFollowing
 
+  const bcrypt = require("bcryptjs");
+
   describe("GET /users/:userId/following", () => {
     test("returns 200 and an array of following", async () => {
+      const hashedPassword = await bcrypt.hash("12345678", 10);
       const user = new User({
         username: "Poppy",
         email: "poppy@email.com",
-        password: "12345678",
+        password: hashedPassword,
       });
 
       await user.save();
@@ -136,16 +141,18 @@ describe("/users", () => {
 
   describe("followUser", () => {
     test("returns 200 and an array of following", async () => {
+      const hashedPassword1 = await bcrypt.hash("12345678", 10);
       const user1 = new User({
         username: "Poppy",
         email: "poppy@email.com",
-        password: "12345678",
+        password: hashedPassword1,
       });
 
+      const hashedPassword2 = await bcrypt.hash("12345678", 10);
       const user2 = new User({
         username: "Scar",
         email: "scar@email.com",
-        password: "12345678",
+        password: hashedPassword2,
       });
 
       await user1.save();
@@ -186,16 +193,18 @@ describe("/users", () => {
 
   describe("unfollowUser", () => {
     test("returns 200 and an array of following", async () => {
+      const hashedPassword1 = await bcrypt.hash("12345678", 10);
       const user1 = new User({
         username: "Poppy",
         email: "poppy@email.com",
-        password: "12345678",
+        password: hashedPassword1,
       });
 
+      const hashedPassword2 = await bcrypt.hash("12345678", 10);
       const user2 = new User({
         username: "Scar",
         email: "scar@email.com",
-        password: "12345678",
+        password: hashedPassword2,
       });
 
       await user1.save();

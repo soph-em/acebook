@@ -22,22 +22,41 @@ describe("/tokens", () => {
     await User.deleteMany({});
   });
 
-  test("returns a token when credentials are valid", async () => {
-    const testApp = supertest(app);
-    const response = await testApp
-      .post("/tokens")
-      .send({ username: "username", email: "auth-test@test.com", password: "12345678" });
+  const bcrypt = require("bcryptjs");
 
-    expect(response.status).toEqual(201);
-    expect(response.body.token).not.toEqual(undefined);
-    expect(response.body.message).toEqual("OK");
+  describe("Authentication tests", () => {
+    beforeEach(async () => {
+      await User.deleteMany({});
+    });
+
+    test("returns a token when credentials are valid", async () => {
+      const hashedPassword = await bcrypt.hash("12345678", 10);
+      const user = new User({
+        username: "username",
+        email: "auth-test@test.com",
+        password: hashedPassword,
+      });
+
+      await user.save();
+
+      const testApp = supertest(app);
+      const response = await testApp
+        .post("/tokens")
+        .send({ email: "auth-test@test.com", password: "12345678" });
+
+      expect(response.status).toEqual(201);
+      expect(response.body.token).not.toEqual(undefined);
+      expect(response.body.message).toEqual("OK");
+    });
   });
 
   test("doesn't return a token when the user doesn't exist", async () => {
     const testApp = supertest(app);
-    const response = await testApp
-      .post("/tokens")
-      .send({ username: "username", email: "non-existent@test.com", password: "1234" });
+    const response = await testApp.post("/tokens").send({
+      username: "username",
+      email: "non-existent@test.com",
+      password: "1234",
+    });
 
     expect(response.status).toEqual(401);
     expect(response.body.token).toEqual(undefined);
