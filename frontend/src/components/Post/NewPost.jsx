@@ -38,7 +38,7 @@ const NewPost = ({ onNewPost }) => {
           <img
             src={image}
             alt="Selected"
-            style={{ maxWidth: "100%", maxHeight: "400px" }}
+            style={{ maxWidth: "640px", maxHeight: "400px" }}
           />
         )}
         <textarea

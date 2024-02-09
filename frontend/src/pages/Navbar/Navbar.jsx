@@ -31,7 +31,10 @@ const Navbar = () => {
           </a>
         </li>
 
-        <li>{user_id && <Link to={`/profile/${user_id}`}>My Profile</Link>}</li>
+        <li>
+          <Link to={`/profile/${user_id}`}
+          className={location.pathname === `/profile/${user_id}` ? "active" : ""}>My Profile</Link> 
+        </li>
         <Logout />
       </>
     );
