@@ -136,12 +136,109 @@ const create = async (req, res) => {
     res.status(400).json({ message: "Something went wrong" });
   }
 };
+const followUser = async (req, res) => {
+  try {
+    const userToFollowId = req.params.userId;
+    const currentUser = await User.findById(req.user_id);
+
+    const userToFollow = await User.findById(userToFollowId);
+    if (!userToFollow || !currentUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if the user is already being followed
+    if (currentUser.following.includes(userToFollowId)) {
+      return res.status(400).json({ message: "User already being followed" });
+    }
+
+    // Correctly update following and followers arrays
+    currentUser.following.push(userToFollowId);
+    userToFollow.followers.push(currentUser._id);
+
+    await currentUser.save();
+    await userToFollow.save();
+
+    res.status(200).json({ message: "Successfully followed user" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const unfollowUser = async (req, res) => {
+  try {
+    const userToUnfollowId = req.params.userId;
+    const currentUser = await User.findById(req.user_id);
+
+    const userToUnfollow = await User.findById(userToUnfollowId);
+    if (!userToUnfollow || !currentUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if the user is actually being followed
+    if (!currentUser.following.includes(userToUnfollowId)) {
+      return res.status(400).json({ message: "User is not being followed" });
+    }
+
+    // Correctly update following and followers arrays
+    currentUser.following = currentUser.following.filter(
+      (id) => id.toString() !== userToUnfollowId
+    );
+    userToUnfollow.followers = userToUnfollow.followers.filter(
+      (id) => id.toString() !== currentUser._id.toString()
+    );
+
+    await currentUser.save();
+    await userToUnfollow.save();
+
+    res.status(200).json({ message: "Successfully unfollowed user" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const getFollowers = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId).populate(
+      "followers",
+      "username"
+    );
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(user.followers);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const getFollowing = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId).populate(
+      "following",
+      "username"
+    );
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(user.following);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
 
 const UsersController = {
   create: create,
   getUser: getUser,
   putUser: putUser,
   getUserById: getUserById,
+  followUser: followUser,
+  unfollowUser: unfollowUser,
+  getFollowers: getFollowers,
+  getFollowing: getFollowing,
 };
 
 module.exports = UsersController;
