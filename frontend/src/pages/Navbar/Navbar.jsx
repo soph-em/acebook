@@ -70,7 +70,8 @@ const Navbar = () => {
         </li>
 
         <li>
-          {user_id && <Link to={`/profile/${user_id}`}>My Profile</Link>}
+          <Link to={`/profile/${user_id}`}
+          className={location.pathname === `/profile/${user_id}` ? "active" : ""}>My Profile</Link> 
         </li>
         <Logout />
       </>

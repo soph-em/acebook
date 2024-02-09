@@ -42,14 +42,21 @@ li a {
 
 li a:hover{
     color: whitesmoke;
-
 }
 
 .logout-btn {
 display: flex;
-margin-left: 10rem;
+margin-left: 20rem;
 margin-right: 1rem;
 align-items: center;
+padding: 0.2rem 0.5rem;
+border-radius: 5px;
+}
+
+.logout-btn:hover {
+    transition: 0.7s;
+    background-color: rgb(200, 0, 0);
+    color: whitesmoke;
 }
 
 /* Sets the highlighting for the page the user is on */
