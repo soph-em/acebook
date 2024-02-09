@@ -144,3 +144,32 @@ export const likePost = async (userId, postId, token) => {
     throw error; // Rethrow the error for higher-level handling if needed
   }
 };
+
+
+export const unlikePost = async (userId, postId, token) => {
+  const requestOptions = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ userId }),
+  };
+
+  try {
+    const response = await fetch(
+      `${BACKEND_URL}/like/${postId}`,
+      requestOptions
+    );
+
+    if (!response.ok) {
+      throw new Error("Unable to like post");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error liking post:", error.message);
+    throw error; // Rethrow the error for higher-level handling if needed
+  }
+};

@@ -8,5 +8,7 @@ router.post("/", tokenChecker, PostsController.createPost);
 router.delete("/:postId", tokenChecker, PostsController.deletePost);
 router.patch("/:postId", tokenChecker, PostsController.updatePost);
 router.put("/like/:id", tokenChecker, PostsController.updateLikes);
+router.put("/unlike/:id", tokenChecker, PostsController.removeLike);
+
 
 module.exports = router;

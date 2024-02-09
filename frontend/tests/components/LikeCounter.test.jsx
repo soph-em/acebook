@@ -1,13 +1,13 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import LikeCounter from '../../src/components/Likes/LikeCounter';
 import { describe, it, expect } from 'vitest';
 
 describe('LikeCounter', () => {
   it('Displays the correct number of Likes on Post', () => {
-    const likes = [1, 2, 3];
-    const result = render(<LikeCounter likes={likes} />);
-    const likesEl = result.getByText(likes.length.toString());
-    expect(likesEl).toBeTruthy();
+    const mockLikes = [1, 2, 3, 4]; //MOCK DATA
+    render(<LikeCounter likes={mockLikes} />)
+    const likeCounter = screen.getByText(`Liked by ${mockLikes.length} people`); //Appears On Screen
+    expect(likeCounter).toBeTruthy();
   });
 });
 

@@ -30,11 +30,15 @@ const Post = (props) => {
   const allowComments = props.allowComments;
 
   useEffect(() => {
-    getUser().then((data) => {
-      setUsername(data.username);
-      setPfp(data.image);
-    });
-  }, []);
+    getUser(props.post.createdBy._id)
+      .then((data) => {
+        setUsername(data.username);
+        setPfp(data.image);
+      })
+      .catch((error) => {
+        console.error("Error fetching user:", error);
+      });
+  }, [props.post.createdBy._id]);
 
   const handleUpdate = (updatedPost) => {
     console.log("Post updated successfully");
@@ -48,7 +52,7 @@ const Post = (props) => {
   return (
     <article
       key={props.post._id}
-      className="bg-slate-100 shadow-lg rounded-lg p-4 my-4 overflow-hidden"
+      className="bg-slate-100 shadow-lg max-w-lg rounded-lg p-4 my-4 overflow-hidden"
     >
       <div className="flex justify-between items-center">
         <div className="text-sm flex items-center">
@@ -65,17 +69,19 @@ const Post = (props) => {
             )}
           </div>
         </div>
-        <DropdownMenu
-          option1={
-            <DeleteButton
-              postId={props.post._id}
-              onDeletePost={props.onDeletePost}
-            />
-          }
-          option2={
-            <button onClick={() => setIsEditing(true)}>Edit Post</button>
-          }
-        />
+        {postUsername === username && (
+          <DropdownMenu
+            option1={
+              <DeleteButton
+                postId={props.post._id}
+                onDeletePost={props.onDeletePost}
+              />
+            }
+            option2={
+              <button onClick={() => setIsEditing(true)}>Edit Post</button>
+            }
+          />
+        )}
       </div>
       <div className="space-y-4 mt-3">
         <p className="text-gray-800 text-lg text-left">{props.post.message}</p>

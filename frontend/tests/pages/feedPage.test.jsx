@@ -64,7 +64,7 @@ describe("Feed Page", () => {
         createdBy: {
           username: "testuser",
         },
-        likes: 0,
+        likes: 1,
       },
     ];
 
