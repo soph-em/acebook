@@ -9,7 +9,8 @@ const LikeButton = ({ postId, postLikes, setLikes }) => {
 
   //Check if the post is liked
   useEffect(() => {
-    if (postLikes.includes(userId)) {
+    // Check if postLikes is an array and userId is valid
+    if (Array.isArray(postLikes) && userId && postLikes.includes(userId)) {
       setIsLiked(true);
     }
   }, [postLikes, userId]);
