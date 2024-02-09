@@ -1,5 +1,8 @@
 const User = require("../models/user");
 const sendEmail = require('./sendingEmail')
+const DEFAULT_PFP = "https://res.cloudinary.com/dzkvzncgr/image/upload/v1707228333/ph2p8wvxud1qbsqqfxqk.png"
+
+
 
 const checkEmailUniqueness = async (email) => {
   const existingEmail = await User.findOne({ email });
@@ -82,6 +85,7 @@ const create = async (req, res) => {
     const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
+    const image = DEFAULT_PFP;
 
     if (!email || !password || !username) {
       console.log("Auth Error: Email and password are required");
@@ -110,7 +114,7 @@ const create = async (req, res) => {
         .json({ message: "Password does not meet requirements" });
     }
 
-    const user = new User({ username, email, password });
+    const user = new User({ username, email, password, image });
     await user.save();
 
     console.log("User created, id:", user._id.toString());
